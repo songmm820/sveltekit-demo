@@ -40,7 +40,10 @@
 		if (format) {
 			value = format(e.currentTarget.value);
 		}
-		oninput && oninput(e.currentTarget.value);
+		if (oninput) {
+			debugger;
+			oninput(value);
+		}
 	};
 </script>
 

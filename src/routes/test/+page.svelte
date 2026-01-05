@@ -11,7 +11,11 @@
 
 	let inputValue = $state<string>('');
 
+	const a = 1;
+	debugger;
+
 	function add() {
+		debugger;
 		counter++;
 	}
 
@@ -49,9 +53,7 @@
 
 	<Button onclick={add}>Add Counter</Button>
 
-
 	<Button disabled onclick={add}>Add Counter</Button>
-
 
 	<Input bind:value={inputValue} placeholder="请输入" format={(v) => v.toLocaleUpperCase()}>
 		{#snippet prefix()}
@@ -63,7 +65,6 @@
 		{/snippet}
 	</Input>
 
-	
 	<Input bind:value={inputValue} placeholder="请输入" format={(v) => v.toLocaleUpperCase()}></Input>
 </main>
 
