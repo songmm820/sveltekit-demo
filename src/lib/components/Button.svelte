@@ -4,7 +4,6 @@
  - 自定义属性
 	 - loading: boolean 加载状态
      - children: Snippet 子元素
-     - other: 其他HTMLButtonElement属性
 -->
 
 <script lang="ts">
@@ -12,10 +11,10 @@
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
 	// 合并HTMLButtonElement的属性和自定义属性
-	interface ButtonProps extends HTMLButtonAttributes {
+	type ButtonProps = HTMLButtonAttributes & {
 		loading?: boolean;
 		children: Snippet;
-	}
+	};
 
 	let { loading = false, children, ...other }: ButtonProps = $props();
 </script>

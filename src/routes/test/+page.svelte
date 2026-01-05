@@ -5,8 +5,11 @@
 	import { fade } from 'svelte/transition';
 	import type { Action } from 'svelte/action';
 	import { onDestroy, onMount } from 'svelte';
+	import Input from '$/lib/components/Input.svelte';
 
 	let counter = $state<number>(0);
+
+	let inputValue = $state<string>('');
 
 	function add() {
 		counter++;
@@ -46,6 +49,15 @@
 
 	<Button onclick={add}>Add Counter</Button>
 
+	<Input bind:value={inputValue} placeholder="请输入" format={(v) => v.toLocaleUpperCase()}>
+		{#snippet prefix()}
+			<span>before</span>
+		{/snippet}
+
+		{#snippet suffix()}
+			<span>after</span>
+		{/snippet}
+	</Input>
 	<br />
 </main>
 

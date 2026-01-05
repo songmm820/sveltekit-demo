@@ -11,7 +11,7 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>Hello world!</title>
+	<title>SvelteKit Demo</title>
 	<meta name="description" content="This is where the description goes for SEO" />
 </svelte:head>
 
