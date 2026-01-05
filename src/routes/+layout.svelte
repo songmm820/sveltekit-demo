@@ -6,7 +6,6 @@
 	let { children } = $props();
 
 	createThemeContext(ThemeMode.LIGHT);
-
 </script>
 
 <svelte:head>

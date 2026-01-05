@@ -35,7 +35,9 @@ export type ThemeContext = {
  * @param defaultMode 默认主题模式
  * @returns 主题上下文
  */
-export default function createThemeContext(defaultMode: ThemeModeEnum = ThemeMode.LIGHT): ThemeContext {
+export default function createThemeContext(
+	defaultMode: ThemeModeEnum = ThemeMode.LIGHT
+): ThemeContext {
 	const mode = writable<ThemeModeEnum>(defaultMode);
 
 	/**
