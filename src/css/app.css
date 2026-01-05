@@ -21,7 +21,7 @@ html[data-theme='light'] {
 :root {
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 	--space: 4px;
-	--primary: #07a065;
+	--primary: #0062ff;
 	--danger: #ef4444;
 	--success: #10b981;
 	--text-size: 14px;

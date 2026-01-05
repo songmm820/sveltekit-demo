@@ -8,26 +8,40 @@
 
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { ClassValue } from 'svelte/elements';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 
 	// 合并HTMLButtonElement的属性和自定义属性
 	type ButtonProps = HTMLButtonAttributes & {
+		class?: ClassValue;
 		loading?: boolean;
 		children: Snippet;
 	};
 
-	let { loading = false, children, ...other }: ButtonProps = $props();
+	let {
+		loading = false,
+		children,
+		disabled = false,
+		class: className = '',
+		...other
+	}: ButtonProps = $props();
 </script>
 
-<div>
-	<button class="my-button" {...other}>
-		{@render children()}
-	</button>
-</div>
+<button
+	{disabled}
+	{...other}
+	class={[
+		'my-button',
+		className,
+		disabled ? 'bg-primary/80 cursor-not-allowed' : 'bg-primary hover:bg-primary/96'
+	]}
+>
+	{@render children()}
+</button>
 
 <style lang="css">
 	@reference '#app.css';
 	.my-button {
-		@apply bg-primary text-white px-4 py-2 rounded-md;
+		@apply text-white px-4 py-2 rounded-md inline-flex items-center justify-center;
 	}
 </style>

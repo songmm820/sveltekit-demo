@@ -46,22 +46,22 @@
 
 <div class="my-input-container">
 	{#if prefix}
-		<div class="px-1">{@render prefix()}</div>
+		<div class="px-2">{@render prefix()}</div>
 	{/if}
 	<input {id} class="my-input" bind:value {...other} oninput={handleInput} />
 	{#if suffix}
-		<div class="px-1">{@render suffix()}</div>
+		<div class="px-2">{@render suffix()}</div>
 	{/if}
 </div>
 
 <style lang="css">
 	@reference '#app.css';
 	.my-input-container {
-		@apply inline-flex items-center px-3 py-2 border border-gray-300 rounded-md 
+		@apply inline-flex items-center px-4 py-2 border border-gray-300 rounded-md 
 		focus-within:border-primary
-		transition-all duration-200 ease-in-out;
+		transition-all duration-100 ease-in-out;
 	}
 	.my-input {
-		@apply border-none outline-none caret-primary;
+		@apply flex-1 border-none outline-none caret-primary;
 	}
 </style>

@@ -38,7 +38,7 @@
 	});
 </script>
 
-<main transition:fade class="p-6" use:myAction={'hello, world'}>
+<main transition:fade class="p-6 flex flex-col gap-12" use:myAction={'hello, world'}>
 	<h1 class="text-3xl font-bold text-center text-gray-800">Welcome to SvelteKit</h1>
 	<p>
 		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
@@ -49,6 +49,10 @@
 
 	<Button onclick={add}>Add Counter</Button>
 
+
+	<Button disabled onclick={add}>Add Counter</Button>
+
+
 	<Input bind:value={inputValue} placeholder="请输入" format={(v) => v.toLocaleUpperCase()}>
 		{#snippet prefix()}
 			<span>before</span>
@@ -58,7 +62,9 @@
 			<span>after</span>
 		{/snippet}
 	</Input>
-	<br />
+
+	
+	<Input bind:value={inputValue} placeholder="请输入" format={(v) => v.toLocaleUpperCase()}></Input>
 </main>
 
 <style lang="css">
