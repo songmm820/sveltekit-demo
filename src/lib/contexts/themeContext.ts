@@ -46,7 +46,6 @@ export default function createThemeContext(
 	 * @param newMode 主题模式
 	 */
 	function setTheme(newMode: ThemeModeEnum) {
-		debugger;
 		mode.set(newMode);
 	}
 

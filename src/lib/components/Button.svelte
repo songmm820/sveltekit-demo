@@ -19,7 +19,7 @@
 	};
 
 	let {
-		loading = false,
+		// loading = false,
 		children,
 		disabled = false,
 		class: className = '',
