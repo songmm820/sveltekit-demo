@@ -6,7 +6,7 @@
 	 - prefix: Snippet 前缀元素
 	 - suffix: Snippet 后缀元素
 	 - oninput: (value: string) => void 输入框值变化时触发的回调函数
-	 - on-format: (value: string) => string 输入框值格式化函数
+	 - onformat: (value: string) => string 输入框值格式化函数
 
 -->
 <script lang="ts">
@@ -23,7 +23,7 @@
 		prefix?: Snippet;
 		suffix?: Snippet;
 		oninput?: (value: string) => void;
-		'on-format'?: (value: string) => string;
+		onformat?: (value: string) => string;
 	};
 
 	let {
@@ -32,13 +32,13 @@
 		prefix,
 		suffix,
 		oninput,
-		'on-format': onFormat,
+		onformat,
 		...other
 	}: InputProps = $props();
 
 	const handleInput: FormEventHandler<HTMLInputElement> = (e) => {
-		if (onFormat) {
-			value = onFormat(e.currentTarget.value);
+		if (onformat) {
+			value = onformat(e.currentTarget.value);
 		}
 		if (oninput) {
 			oninput(value);
@@ -59,8 +59,11 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-input-container {
-		@apply inline-flex items-center px-4 py-2 border border-gray-300 rounded-md
-        focus-within:border-primary
+		@apply inline-flex items-center rounded-md w-full h-11 px-6 
+		text-md text-(--color-text) 
+		bg-(--color-bg-sec) focus-within:bg-(--color-bg)
+		border border-transparent focus-within:border-primary 
+		placeholder:text-(--color-text) placeholder:opacity-50
         transition-all duration-100 ease-in-out;
 	}
 
