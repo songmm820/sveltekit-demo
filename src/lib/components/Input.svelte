@@ -26,9 +26,11 @@
 		onformat?: (value: string) => string;
 	};
 
+	const _id = $props.id();
+
 	let {
 		value = $bindable<string>(''),
-		id = crypto.randomUUID(),
+		id = _id,
 		prefix,
 		suffix,
 		oninput,
@@ -36,21 +38,44 @@
 		...other
 	}: InputProps = $props();
 
+	let inputEl: HTMLInputElement;
+
 	const handleInput: FormEventHandler<HTMLInputElement> = (e) => {
-		if (onformat) {
-			value = onformat(e.currentTarget.value);
-		}
-		if (oninput) {
-			oninput(value);
-		}
+		oninput?.(e.currentTarget.value);
 	};
+
+	function onFormatValue(value: string) {
+		if (onformat) {
+			return onformat(value);
+		}
+		return value;
+	}
+
+	export function onFocus() {
+		inputEl.focus();
+	}
+
+	export function onBlur() {
+		inputEl.blur();
+	}
+
+	export function onClear() {
+		value = '';
+	}
 </script>
 
 <div class="my-input-container">
 	{#if prefix}
 		<div class="px-2">{@render prefix()}</div>
 	{/if}
-	<input {id} class="my-input" bind:value {...other} oninput={handleInput} />
+	<input
+		bind:this={inputEl}
+		{id}
+		class="my-input"
+		bind:value={() => value, (v) => (value = onFormatValue(v))}
+		{...other}
+		oninput={handleInput}
+	/>
 	{#if suffix}
 		<div class="px-2">{@render suffix()}</div>
 	{/if}

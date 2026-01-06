@@ -2,13 +2,15 @@
 	import { fade } from 'svelte/transition';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import Modal from '$/lib/components/Modal.svelte';
+	import Modal from '$lib/components/Modal.svelte';
 
 	let counter = $state<number>(0);
 
-	let inputValue = $state<string>('');
+	let inputValue = $state<string>('123');
 
 	let open = $state<boolean>(false);
+
+	let inputEl: Input;
 
 	function add() {
 		counter++;
@@ -28,7 +30,14 @@
 
 	<Button disabled onclick={add}>Add Counter</Button>
 
-	<Input bind:value={inputValue} placeholder="请输入" onformat={(v) => v.toLocaleUpperCase()}>
+	<Button onclick={() => inputEl.onFocus()}>Focus Input</Button>
+
+	<Input
+		bind:this={inputEl}
+		bind:value={inputValue}
+		placeholder="请输入"
+		onformat={(v) => v.toLocaleUpperCase()}
+	>
 		{#snippet prefix()}
 			<span>before</span>
 		{/snippet}

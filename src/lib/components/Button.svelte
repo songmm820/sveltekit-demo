@@ -18,16 +18,20 @@
 		children: Snippet;
 	};
 
+	const _id = $props.id();
+
 	let {
 		// loading = false,
 		children,
 		disabled = false,
+		id = _id,
 		class: className = '',
 		...other
 	}: ButtonProps = $props();
 </script>
 
 <button
+	{id}
 	{disabled}
 	{...other}
 	class={[
