@@ -35,6 +35,11 @@
 		{/snippet}
 	</Input>
 
-	<Input bind:value={inputValue} placeholder="请输入" on-format={(v) => v.toLocaleUpperCase()}
-	></Input>
+	<Input bind:value={inputValue} placeholder="请输入" on-format={(v) => v.toLocaleUpperCase()} />
+
+	<enhanced:img
+		src="$lib/assets/favicon.svg"
+		alt="An alt text"
+		onerror={() => console.log('error')}
+	/>
 </main>
