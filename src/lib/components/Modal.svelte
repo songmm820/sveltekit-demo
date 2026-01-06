@@ -3,6 +3,7 @@
  - 弹窗组件
  - 自定义属性
 	 - open: boolean 是否打开弹窗
+	 - children: Snippet 弹窗内容
 	 - onclose: () => void 关闭弹窗时触发的回调函数
 
 -->
@@ -11,41 +12,62 @@
 
 	type ModalProps = {
 		open: boolean;
-		onclose?: () => void;
+		title?: Snippet | string;
 		children: Snippet;
+		onclose?: () => void;
 	};
 
-	let { open = $bindable(false), children, onclose }: ModalProps = $props();
+	let dialogEl: HTMLDialogElement | undefined = $state();
+
+	let { open = $bindable(false), title, children, onclose }: ModalProps = $props();
 
 	function handleClose() {
 		open = false;
 		onclose?.();
 	}
+
+	const onClickModal = (e: MouseEvent) => {
+		if (e.target === dialogEl) dialogEl.close();
+	};
+
+	$effect(() => {
+		if (open && dialogEl) {
+			dialogEl.showModal();
+		}
+	});
 </script>
 
-{#if open}
-	<div class="my-modal-mask">
-		<div class="my-modal-wrapper" aria-label="Modal" tabIndex={-1}>
+<dialog bind:this={dialogEl} class="my-dialog" onclose={handleClose} onclick={onClickModal}>
+	<div class="my-modal-wrapper" aria-label="Modal">
+		{#if title}
 			<div class="my-modal-header">
-				<h2 class="text-2xl font-bold">Modal Title</h2>
+				{#if typeof title === 'string'}
+					<h2 class="text-2xl font-bold">{title}</h2>
+				{:else}
+					{@render title()}
+				{/if}
 			</div>
-			<div class="my-modal-body">
-				{@render children()}
-			</div>
-			<div class="my-modal-footer" aria-hidden="true" onclick={handleClose}>Footer</div>
+		{/if}
+		<div class="my-modal-body">
+			{@render children()}
 		</div>
+		<div class="my-modal-footer" aria-hidden="true" onclick={handleClose}>Footer</div>
 	</div>
-{/if}
+</dialog>
 
 <style lang="css">
 	@reference '#app.css';
-	.my-modal-mask {
-		@apply fixed inset-0 z-10 bg-black/30 backdrop-blur-sm;
+	.my-dialog {
+		@apply w-150 h-150 rounded-2xl m-auto;
+	}
+	.my-dialog[open] {
+		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+	.my-dialog::backdrop {
+		@apply bg-[rgba(0,0,0,0.3)];
 	}
 	.my-modal-wrapper {
-		@apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
-        w-120 h-120 bg-white rounded-xl
-        flex flex-col;
+		@apply w-full h-full flex flex-col;
 	}
 	.my-modal-header {
 		@apply flex justify-between items-center h-12 px-4;
@@ -55,5 +77,25 @@
 	}
 	.my-modal-footer {
 		@apply flex justify-end items-center h-14 px-4;
+	}
+
+	.my-dialog[open]::backdrop {
+		animation: fade 0.2s ease-out;
+	}
+	@keyframes zoom {
+		from {
+			transform: scale(0.95);
+		}
+		to {
+			transform: scale(1);
+		}
+	}
+	@keyframes fade {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
 	}
 </style>

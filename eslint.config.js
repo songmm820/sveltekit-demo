@@ -72,7 +72,7 @@ export default defineConfig(
 				'error',
 				{
 					checkGlobal: false,
-					style: ['class']
+					style: ['class', 'global']
 				}
 			],
 			'svelte/prefer-class-directive': [
