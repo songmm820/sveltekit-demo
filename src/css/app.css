@@ -36,4 +36,11 @@ html[data-theme='light'] {
 	--color-primary: var(--primary);
 	--color-danger: var(--danger);
 	--color-success: var(--success);
+
+	--blur-sm: calc(var(--space) * 0.5);
+	--blur-md: calc(var(--space) * 1);
+	--blur-lg: calc(var(--space) * 1.5);
+	--blur-xl: calc(var(--space) * 2);
+	--blur-2xl: calc(var(--space) * 2.5);
+	--blur-3xl: calc(var(--space) * 3);
 }
