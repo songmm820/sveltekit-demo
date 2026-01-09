@@ -8,30 +8,18 @@
      - children: Snippet 子元素
 -->
 
-<script module lang="ts">
-	export const ButtonTypeEnum = {
-		primary: 'primary',
-		secondary: 'secondary',
-		danger: 'danger',
-		link: 'link'
-	} as const;
-
-	export type ButtonTypeEnum = (typeof ButtonTypeEnum)[keyof typeof ButtonTypeEnum];
-</script>
-
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { ClassValue } from 'svelte/elements';
-	import type { HTMLButtonAttributes } from 'svelte/elements';
+	import type { ClassValue, HTMLButtonAttributes } from 'svelte/elements';
 
-	// 合并HTMLButtonElement的属性和自定义属性
+	export type ButtonType = 'primary' | 'secondary' | 'danger' | 'link';
+
 	export type ButtonProps = HTMLButtonAttributes & {
 		class?: ClassValue;
-		variant?: ButtonTypeEnum;
 		loading?: boolean;
+		variant?: ButtonType;
 		children: Snippet;
 	};
-
 	const _id = $props.id();
 
 	let {
@@ -39,7 +27,7 @@
 		class: className = '',
 		disabled = false,
 		id = _id,
-		variant = ButtonTypeEnum.primary,
+		variant = 'primary',
 		children,
 		...other
 	}: ButtonProps = $props();

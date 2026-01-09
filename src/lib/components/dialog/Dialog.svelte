@@ -7,21 +7,21 @@
 	 - height?: string | number 弹窗高度
 	 - title?: Snippet | string 弹窗标题
 	 - children: Snippet 弹窗内容
-	 - onclose: () => void 关闭弹窗时触发的回调函数
+	 - onClose: () => void 关闭弹窗时触发的回调函数
 
 -->
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import Button, { ButtonTypeEnum } from './Button.svelte';
+	import { Button } from '$lib/components/button';
 
-	type ModalProps = {
+	export type DialogProps = {
 		open: boolean;
 		width?: string | number;
 		height?: string | number;
 		title?: Snippet | string;
 		footer?: Snippet;
 		children: Snippet;
-		onclose?: () => void;
+		onClose?: () => void;
 	};
 
 	let dialogEl: HTMLDialogElement | undefined = $state();
@@ -33,12 +33,12 @@
 		height,
 		footer,
 		children,
-		onclose
-	}: ModalProps = $props();
+		onClose
+	}: DialogProps = $props();
 
 	function handleClose() {
 		open = false;
-		onclose?.();
+		onClose?.();
 	}
 
 	function getWidth() {
@@ -101,7 +101,7 @@
 					aria-hidden="true"
 					onclick={handleClose}
 				>
-					<Button variant={ButtonTypeEnum.primary} onclick={handleClose}>确定</Button>
+					<Button variant="primary" onclick={handleClose}>确定</Button>
 				</div>
 			{/if}
 		</div>

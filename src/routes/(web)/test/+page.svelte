@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import Input from '$lib/components/Input.svelte';
-	import Button from '$lib/components/Button.svelte';
-	import Modal from '$lib/components/Modal.svelte';
+	import Input from '$/lib/components/input/Input.svelte';
+	import Modal from '$/lib/components/dialog/Dialog.svelte';
+	import { Button } from '$/lib/components/button';
 
 	let counter = $state<number>(0);
 
@@ -37,7 +37,7 @@
 		bind:this={inputEl}
 		bind:value={inputValue}
 		placeholder="请输入"
-		onformat={(v) => v.toLocaleUpperCase()}
+		onFormat={(v) => v.toLocaleUpperCase()}
 	>
 		{#snippet prefix()}
 			<span>before</span>
@@ -48,7 +48,7 @@
 		{/snippet}
 	</Input>
 
-	<Input bind:value={inputValue} placeholder="请输入" onformat={(v) => v.toLocaleUpperCase()} />
+	<Input bind:value={inputValue} placeholder="请输入" onFormat={(v) => v.toLocaleUpperCase()} />
 
 	<Button onclick={() => (open = true)}>Open Modal</Button>
 
