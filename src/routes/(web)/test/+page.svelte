@@ -17,7 +17,7 @@
 	}
 </script>
 
-<main transition:fade class="p-6 flex flex-col gap-12">
+<main transition:fade class="bg-(--color-bg) p-6 flex flex-col gap-12">
 	<h1 class="text-3xl font-bold text-center">Welcome to SvelteKit</h1>
 	<p>
 		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation

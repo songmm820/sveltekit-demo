@@ -36,7 +36,7 @@
 	let {
 		value = $bindable<string>(''),
 		id = _id,
-		rounded = true,
+		rounded = false,
 		prefix,
 		suffix,
 		onInput,
@@ -52,7 +52,7 @@
 			}
 		},
 		defaultVariants: {
-			rounded: true
+			rounded: false
 		}
 	});
 
@@ -111,6 +111,6 @@
 	}
 
 	.my-input {
-		@apply flex-1 h-full border-none outline-none caret-primary;
+		@apply flex-1 h-full border-none outline-none;
 	}
 </style>
