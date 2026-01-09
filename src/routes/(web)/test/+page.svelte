@@ -11,7 +11,6 @@
 	let open = $state<boolean>(false);
 
 	let inputEl: Input;
-	
 
 	function add() {
 		counter++;
@@ -27,26 +26,18 @@
 	<p>Counter: {counter}</p>
 	<!-- <button class="font-bold text-lg my-button" onclick={add}> ADD</button> -->
 
+	<Button variant="primary">Primary Button</Button>
+	<Button variant="primary" disabled>Disabled Primary Button</Button>
+	<Button variant="outline">Outline Button</Button>
+	<Button variant="success">Success Button</Button>
+	<Button variant="danger">Danger Button</Button>
+
+	<div>
+		<Button variant="link">Link Button</Button>
+		123
+	</div>
+
 	<Button onclick={add}>Add Counter</Button>
-
-	<Button disabled onclick={add}>Add Counter</Button>
-
-	<Button onclick={() => inputEl.onFocus()}>Focus Input</Button>
-
-	<Input
-		bind:this={inputEl}
-		bind:value={inputValue}
-		placeholder="请输入"
-		onFormat={(v) => v.toLocaleUpperCase()}
-	>
-		{#snippet prefix()}
-			<span>before</span>
-		{/snippet}
-
-		{#snippet suffix()}
-			<span>after</span>
-		{/snippet}
-	</Input>
 
 	<Input bind:value={inputValue} placeholder="请输入" onFormat={(v) => v.toLocaleUpperCase()} />
 
