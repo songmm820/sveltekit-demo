@@ -5,6 +5,8 @@
 	 - class: ClassValue 自定义类名
 	 - loading: boolean 加载状态
 	 - variant: 'primary' | 'secondary' | 'danger' | 'link' 按钮类型
+	 - block: boolean 是否占满父元素宽度
+	 - rounded: boolean 是否圆角
      - children: Snippet 子元素
 -->
 
@@ -21,6 +23,7 @@
 		loading?: boolean;
 		variant?: ButtonType;
 		block?: boolean;
+		rounded?: boolean;
 		children: Snippet;
 	};
 	const _id = $props.id();
@@ -31,6 +34,7 @@
 		id = _id,
 		block = false,
 		variant = 'primary',
+		rounded = false,
 		children,
 		...other
 	}: ButtonProps = $props();
@@ -51,6 +55,10 @@
 			disabled: {
 				true: 'opacity-80 cursor-not-allowed',
 				false: ''
+			},
+			rounded: {
+				true: 'rounded-full',
+				false: ''
 			}
 		},
 		defaultVariants: {
@@ -64,7 +72,7 @@
 	{id}
 	{disabled}
 	{...other}
-	class={cn(buttonVariants({ variant, block, disabled }), className)}
+	class={cn(buttonVariants({ variant, block, disabled, rounded }), className)}
 >
 	{@render children()}
 </button>

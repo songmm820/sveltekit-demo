@@ -3,6 +3,8 @@
  - 输入框组件，继承HTMLInputElement的所有属性
  - 自定义属性
 	 - value: string 输入框的值
+	 - id: string 输入框的id
+	 - rounded: boolean 是否圆角
 	 - prefix: Snippet 前缀元素
 	 - suffix: Snippet 后缀元素
 	 - onInput: (value: string) => void 输入框值变化时触发的回调函数
@@ -10,6 +12,8 @@
 
 -->
 <script lang="ts">
+	import { cn } from '$/lib/utils/class';
+	import { cva } from 'class-variance-authority';
 	import type { Snippet } from 'svelte';
 	import type { FormEventHandler, HTMLInputAttributes } from 'svelte/elements';
 
@@ -20,6 +24,7 @@
 
 	export type InputProps = OmitHTMLInputAttributes & {
 		value?: string;
+		rounded?: boolean;
 		prefix?: Snippet;
 		suffix?: Snippet;
 		onInput?: (value: string) => void;
@@ -31,12 +36,25 @@
 	let {
 		value = $bindable<string>(''),
 		id = _id,
+		rounded = true,
 		prefix,
 		suffix,
 		onInput,
 		onFormat,
 		...other
 	}: InputProps = $props();
+
+	const inputVariants = cva('my-input-container', {
+		variants: {
+			rounded: {
+				true: 'rounded-full',
+				false: 'rounded-md'
+			}
+		},
+		defaultVariants: {
+			rounded: true
+		}
+	});
 
 	let inputEl: HTMLInputElement;
 
@@ -64,7 +82,7 @@
 	}
 </script>
 
-<div class="my-input-container">
+<div class={cn(inputVariants({ rounded }))}>
 	{#if prefix}
 		<div class="px-2">{@render prefix()}</div>
 	{/if}
@@ -84,7 +102,7 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-input-container {
-		@apply inline-flex items-center rounded-md w-full h-11 px-6 
+		@apply inline-flex items-center w-full h-11 px-6 py-1 
 		text-md text-(--color-text) 
 		bg-(--color-bg-sec) focus-within:bg-(--color-bg)
 		border border-transparent focus-within:border-primary 
@@ -93,6 +111,6 @@
 	}
 
 	.my-input {
-		@apply flex-1 border-none outline-none caret-primary;
+		@apply flex-1 h-full border-none outline-none caret-primary;
 	}
 </style>
