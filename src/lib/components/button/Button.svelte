@@ -11,7 +11,7 @@
 -->
 
 <script lang="ts">
-	import { cn } from '$/lib/utils/class';
+	import { cn } from '$lib/utils/class';
 	import { cva } from 'class-variance-authority';
 	import type { Snippet } from 'svelte';
 	import type { ClassValue, HTMLButtonAttributes } from 'svelte/elements';

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Input from '$/lib/components/input/Input.svelte';
-	import { Button } from '$/lib/components/button';
-	import { useScrollBottom } from '$/lib/hooks';
-	import debounce from '$/lib/utils/debounce';
+	import { Button } from '$lib/components/button';
+	import debounce from '$lib/utils/debounce';
+	import Input from '$lib/components/input/Input.svelte';
+	import useScrollBottom from '$lib/hooks/use-scroll-bottom.svelte';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');
