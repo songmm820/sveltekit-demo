@@ -6,7 +6,7 @@
  * @returns 包含当前值、增加函数、减少函数、重置函数和设置值函数的对象
  */
 
-export function useCounter(
+export default function useCounter(
 	initialValue = 0,
 	step = 1
 ): {

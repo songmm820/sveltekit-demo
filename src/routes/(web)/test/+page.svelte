@@ -3,28 +3,27 @@
 	import Input from '$/lib/components/input/Input.svelte';
 	import Modal from '$/lib/components/dialog/Dialog.svelte';
 	import { Button } from '$/lib/components/button';
-
-	let counter = $state<number>(0);
+	import { useScrollBottom } from '$/lib/hooks';
+	import debounce from '$/lib/utils/debounce';
 
 	let inputValue = $state<string>('123');
 
 	let open = $state<boolean>(false);
 
-	let inputEl: Input;
+	const handleReachBottom = () => {
+		// console.log('reach bottom');
+	};
 
-	function add() {
-		counter++;
-	}
+	const debounceOnReachBottom = debounce(handleReachBottom, 500);
+
+	useScrollBottom(() => document, {
+		threshold: 0,
+		onReachBottom: debounceOnReachBottom
+	});
 </script>
 
 <main transition:fade class="bg-(--color-bg) p-6 flex flex-col gap-12">
 	<h1 class="text-3xl font-bold text-center">Welcome to SvelteKit</h1>
-	<p>
-		Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation
-	</p>
-
-	<p>Counter: {counter}</p>
-	<!-- <button class="font-bold text-lg my-button" onclick={add}> ADD</button> -->
 
 	<Button variant="primary">Primary Button</Button>
 	<Button variant="primary" disabled>Disabled Primary Button</Button>
@@ -37,13 +36,9 @@
 		123
 	</div>
 
-	<Button onclick={add}>Add Counter</Button>
-
 	<Input bind:value={inputValue} placeholder="请输入" onFormat={(v) => v.toLocaleUpperCase()} />
 
 	<Button onclick={() => (open = true)}>Open Modal</Button>
 
 	<Modal bind:open>123123</Modal>
-
-	<enhanced:img src="$lib/assets/favicon.svg" alt="An alt text" />
 </main>

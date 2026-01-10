@@ -6,7 +6,7 @@
  * @param options 监听选项
  * @returns 取消监听函数
  */
-export function useMutationObserver(
+export default function useMutationObserver(
 	ref: () => HTMLElement | null,
 	callback: MutationCallback,
 	options: MutationObserverInit = {
@@ -16,7 +16,7 @@ export function useMutationObserver(
 		subtree: true
 	}
 ): void {
-	const element = $derived(ref());
+	let element = $derived(ref());
 
 	$effect(() => {
 		if (!element) return;

@@ -5,7 +5,7 @@
  * @param interval 间隔时间，默认 1000 毫秒
  * @returns 包含启动函数和清除函数的对象
  */
-export function useInterval(
+export default function useInterval(
 	callback: () => void,
 	interval: number | null = 1000
 ): { start: () => void; clear: () => void } {

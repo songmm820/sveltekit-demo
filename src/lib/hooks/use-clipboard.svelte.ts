@@ -5,7 +5,7 @@ type UseClipboardOptions = {
 	reset: boolean;
 };
 
-export class UseClipboard {
+export default class UseClipboard {
 	// 复制状态
 	#copiedStatus = $state<CopiedStatus>();
 	delay: number;

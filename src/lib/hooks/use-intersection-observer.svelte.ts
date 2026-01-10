@@ -5,17 +5,17 @@
  * @param callback 交叉观察回调函数
  * @param options 交叉观察选项，默认 { threshold: 0.1 }
  */
-export function useIntersectionObserver(
+export default function useIntersectionObserver(
 	ref: () => HTMLElement | null,
 	callback: IntersectionObserverCallback,
 	options: IntersectionObserverInit = { threshold: 0.1 }
 ): void {
-	const element = $derived<HTMLElement | null>(ref());
+	let element = $derived<HTMLElement | null>(ref());
 
 	$effect(() => {
 		if (!element) return;
-		const observer = new IntersectionObserver(callback, options);
-		observer.observe(element);
-		return () => observer.disconnect();
+		const _observer = new IntersectionObserver(callback, options);
+		_observer.observe(element);
+		return () => _observer.disconnect();
 	});
 }

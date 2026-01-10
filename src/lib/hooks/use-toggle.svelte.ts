@@ -4,7 +4,7 @@
  * @param initialValue 初始值，默认 false
  * @returns 包含当前值、切换函数和设置值函数的数组
  */
-export function useToggle(initialValue = false): {
+export default function useToggle(initialValue = false): {
 	value: boolean;
 	toggle: () => void;
 	setValue: (v: boolean) => void;
