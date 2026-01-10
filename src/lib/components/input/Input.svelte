@@ -5,6 +5,7 @@
 	 - value: string 输入框的值
 	 - id: string 输入框的id
 	 - rounded: boolean 是否圆角
+	 - block: boolean 是否块级元素
 	 - prefix: Snippet 前缀元素
 	 - suffix: Snippet 后缀元素
 	 - onInput: (value: string) => void 输入框值变化时触发的回调函数
@@ -25,6 +26,7 @@
 	export type InputProps = OmitHTMLInputAttributes & {
 		value?: string;
 		rounded?: boolean;
+		block?: boolean;
 		prefix?: Snippet;
 		suffix?: Snippet;
 		onInput?: (value: string) => void;
@@ -36,7 +38,8 @@
 	let {
 		value = $bindable<string>(''),
 		id = _id,
-		rounded = false,
+		rounded,
+		block,
 		prefix,
 		suffix,
 		onInput,
@@ -49,10 +52,15 @@
 			rounded: {
 				true: 'rounded-full',
 				false: 'rounded-md'
+			},
+			block: {
+				true: 'w-full',
+				false: 'w-80'
 			}
 		},
 		defaultVariants: {
-			rounded: false
+			rounded: false,
+			block: false
 		}
 	});
 
@@ -82,7 +90,7 @@
 	}
 </script>
 
-<div class={cn(inputVariants({ rounded }))}>
+<div class={cn(inputVariants({ rounded, block }))}>
 	{#if prefix}
 		<div class="px-2">{@render prefix()}</div>
 	{/if}
@@ -102,7 +110,7 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-input-container {
-		@apply inline-flex items-center w-full h-11 px-6 py-1 
+		@apply inline-flex items-center h-11 px-6 py-1 
 		text-md text-(--color-text) 
 		bg-(--color-bg-sec) focus-within:bg-(--color-bg)
 		border border-transparent focus-within:border-primary 

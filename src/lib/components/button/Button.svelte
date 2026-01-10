@@ -30,11 +30,11 @@
 
 	let {
 		class: className = '',
-		disabled = false,
+		disabled,
 		id = _id,
-		block = false,
+		block,
 		variant = 'primary',
-		rounded = false,
+		rounded,
 		children,
 		...other
 	}: ButtonProps = $props();
@@ -63,7 +63,9 @@
 		},
 		defaultVariants: {
 			variant: 'primary',
-			block: false
+			block: false,
+			disabled: false,
+			rounded: false
 		}
 	});
 </script>
@@ -80,7 +82,7 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-button {
-		@apply inline-flex items-center justify-center 
+		@apply inline-flex items-center justify-center h-fit
 		transition-all duration-200;
 	}
 </style>
