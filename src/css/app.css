@@ -4,19 +4,23 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 html[data-theme='light'] {
-	--color-bg: #ffffff;
-	--color-bg-sec: #f5f5f5;
-	--color-text: #333;
-	--color-border: #e7e7e7;
-	--color-bg-popover: #f5f5f5;
+	--background: #ffffff;
+	--background-sec: #f5f5f5;
+	--foreground: #000;
+	--text: #333;
+	--border: lab(90.952% 0 -0.0000119209);
+	--border-sec: transparent;
+	--popover: #00000080;
 }
 
 html[data-theme='dark'] {
-	--color-bg: #1a1a1a;
-	--color-bg-sec: #2d2d2d;
-	--color-text: #f5f5f5;
-	--color-border: #444;
-	--color-bg-popover: #2d2d2d;
+	--background: lab(2.75381% 0 0);
+	--background-sec: #2d2d2d;
+	--foreground: #fff;
+	--text: #f5f5f5;
+	--border: lab(100% 0 0/0.1);
+	--border-sec: lab(100% 0 0/0.1);
+	--popover: #00000080;
 }
 
 html,
@@ -24,8 +28,8 @@ body {
 	width: 100%;
 	height: 100%;
 	font-size: 16px;
-	color: var(--color-text);
-	background-color: var(--color-bg);
+	color: var(--text);
+	background-color: var(--background);
 }
 
 :root {

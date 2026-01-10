@@ -43,7 +43,7 @@
 		variants: {
 			variant: {
 				primary: 'bg-primary text-white px-4 py-2 rounded-md hover:opacity-90',
-				outline: 'border border-primary text-primary px-4 py-2 rounded-md hover:bg-primary/10',
+				outline: 'border-2 border-primary text-primary px-4 py-2 rounded-md hover:bg-primary/10',
 				danger: 'bg-danger text-white px-4 py-2 rounded-md hover:opacity-90',
 				success: 'bg-success text-white px-4 py-2 rounded-md hover:opacity-90',
 				link: 'text-primary'
@@ -82,7 +82,7 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-button {
-		@apply inline-flex items-center justify-center h-fit
+		@apply inline-flex items-center justify-center h-10
 		transition-all duration-200;
 	}
 </style>

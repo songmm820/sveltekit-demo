@@ -112,9 +112,9 @@
 	.my-input-container {
 		@apply inline-flex items-center h-11 px-6 py-1 
 		text-md text-(--color-text) 
-		bg-(--color-bg-sec) focus-within:bg-(--color-bg)
-		border border-transparent focus-within:border-primary 
-		placeholder:text-(--color-text) placeholder:opacity-50
+		bg-(--background-sec) focus-within:bg-(--background)
+		border-2 border-transparent focus-within:border-primary 
+		placeholder:text-(--text) placeholder:opacity-50
         transition-all duration-100 ease-in-out;
 	}
 

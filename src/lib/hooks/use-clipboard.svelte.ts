@@ -5,6 +5,9 @@ type UseClipboardOptions = {
 	reset: boolean;
 };
 
+/**
+ * 用于管理剪贴板的钩子
+ */
 export default class UseClipboard {
 	// 复制状态
 	#copiedStatus = $state<CopiedStatus>();
@@ -16,6 +19,10 @@ export default class UseClipboard {
 	constructor({ delay = 1000, reset = true }: Partial<UseClipboardOptions>) {
 		this.delay = delay;
 		this.reset = reset;
+	}
+
+	static getInstance(options: Partial<UseClipboardOptions> = {}): UseClipboard {
+		return new UseClipboard(options);
 	}
 
 	/**
@@ -82,3 +89,5 @@ export default class UseClipboard {
 		return this.#lastCopied;
 	}
 }
+
+export const useClipboard = UseClipboard.getInstance();

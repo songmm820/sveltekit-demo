@@ -3,43 +3,35 @@
  - 弹窗组件
  - 自定义属性
 	 - open: boolean 是否打开弹窗
-	 - width?: string | number 弹窗宽度
-	 - height?: string | number 弹窗高度
+	 - width: string | number 弹窗宽度
+	 - height: string | number 弹窗高度
 	 - title?: Snippet | string 弹窗标题
+	 - footer?: Snippet 弹窗底部内容
 	 - children: Snippet 弹窗内容
 	 - onClose: () => void 关闭弹窗时触发的回调函数
-
 -->
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-	import { Button } from '$lib/components/button';
+	import { mount, unmount } from 'svelte';
+	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
+	import DialogEl, { type DialogElProps } from '$lib/components/dialog/DialogEl.svelte';
 
-	export type DialogProps = {
-		open: boolean;
-		width?: string | number;
-		height?: string | number;
-		title?: Snippet | string;
-		footer?: Snippet;
-		children: Snippet;
-		onClose?: () => void;
+	const zIndex = useZIndex.getNext();
+
+	type DialogProps = Omit<DialogElProps, 'zIndex'> & {
+		open?: boolean;
 	};
 
-	let dialogEl: HTMLDialogElement | undefined = $state();
-
 	let {
-		open = $bindable(false),
-		title,
+		open = $bindable<boolean>(false),
 		width,
 		height,
+		title,
 		footer,
 		children,
 		onClose
 	}: DialogProps = $props();
 
-	function handleClose() {
-		open = false;
-		onClose?.();
-	}
+	let dialogEl: ReturnType<typeof mount> | null = null;
 
 	function getWidth() {
 		if (typeof width === 'number') {
@@ -55,62 +47,46 @@
 		return height || '600px';
 	}
 
-	const onCloseModal = (e: MouseEvent) => {
-		if (e.target === dialogEl) handleClose();
-	};
+	// 关闭弹窗
+	function handleCloseDialog() {
+		useZIndex.recycle(zIndex);
+		onClose?.();
+	}
+
+	// 应用到 body 元素上
+	function applyToBodyElement() {
+		if (dialogEl) {
+			unmount(dialogEl);
+		}
+
+		dialogEl = mount(DialogEl, {
+			target: document.body,
+			props: {
+				zIndex,
+				title,
+				open,
+				width: getWidth(),
+				height: getHeight(),
+				footer,
+				children,
+				onClose: handleCloseDialog
+			}
+		});
+	}
+
+	// 销毁元素
+	function destroyElement() {
+		if (dialogEl) {
+			unmount(dialogEl);
+			dialogEl = null;
+		}
+	}
 
 	$effect(() => {
-		if (open && dialogEl) {
-			dialogEl.showModal();
+		if (open) {
+			applyToBodyElement();
+		} else {
+			destroyElement();
 		}
 	});
 </script>
-
-{#if open}
-	<dialog
-		bind:this={dialogEl}
-		style:width={getWidth()}
-		style:height={getHeight()}
-		class="my-dialog rounded-2xl m-auto"
-		onclose={handleClose}
-		onclick={onCloseModal}
-	>
-		<div class="my-modal-wrapper w-full h-full flex flex-col" aria-label="Modal">
-			<!-- Header -->
-			{#if title}
-				<div class="my-modal-header flex justify-between items-center h-12 px-4">
-					{#if typeof title === 'string'}
-						<h2 class="text-2xl font-bold">{title}</h2>
-					{:else}
-						{@render title()}
-					{/if}
-				</div>
-			{/if}
-			<!-- Body -->
-			<div class="my-modal-body flex-1 px-4 py-4">
-				{@render children()}
-			</div>
-			<!-- Footer -->
-			{#if footer}
-				<div class="my-modal-footer flex justify-end items-center h-14 px-4">
-					{@render footer()}
-				</div>
-			{:else}
-				<div
-					class="my-modal-footer flex justify-end items-center h-14 px-4"
-					aria-hidden="true"
-					onclick={handleClose}
-				>
-					<Button variant="primary" onclick={handleClose}>确定</Button>
-				</div>
-			{/if}
-		</div>
-	</dialog>
-{/if}
-
-<style lang="css">
-	@reference '#app.css';
-	.my-dialog::backdrop {
-		@apply bg-[rgba(0,0,0,0.3)] backdrop-blur-sm;
-	}
-</style>
