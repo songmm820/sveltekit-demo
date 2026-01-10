@@ -3,8 +3,15 @@
 	import '$/css/app.css';
 	import '$/css/scrollbar.css';
 	import type { LayoutProps } from './$types';
+	import { browser } from '$app/environment';
+	import { createThemeContext, type ThemeEnum } from '$/lib/hooks/use-theme.svelte';
 
 	let { children }: LayoutProps = $props();
+
+	if (browser) {
+		const theme = document.documentElement.dataset.theme as ThemeEnum;
+		createThemeContext(theme);
+	}
 </script>
 
 <svelte:head>

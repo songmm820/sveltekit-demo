@@ -10,7 +10,7 @@ export default function useIntersectionObserver(
 	callback: IntersectionObserverCallback,
 	options: IntersectionObserverInit = { threshold: 0.1 }
 ): void {
-	let element = $derived<HTMLElement | null>(ref());
+	const element = $derived<HTMLElement | null>(ref());
 
 	$effect(() => {
 		if (!element) return;

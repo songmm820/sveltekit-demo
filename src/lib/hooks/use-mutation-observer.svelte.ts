@@ -16,7 +16,7 @@ export default function useMutationObserver(
 		subtree: true
 	}
 ): void {
-	let element = $derived(ref());
+	const element = $derived(ref());
 
 	$effect(() => {
 		if (!element) return;

@@ -21,13 +21,13 @@ export default function useClickOutside(
 	};
 
 	$effect(() => {
-		let el = typeof ref === 'function' ? ref() : ref;
-		if (!el) return;
+		const _el = typeof ref === 'function' ? ref() : ref;
+		if (!_el) return;
 
 		const _handleClick = (event: MouseEvent) => {
 			const _target = event.target as HTMLElement;
 			if (
-				el.contains(_target) ||
+				_el.contains(_target) ||
 				ignoreElements.some((_ignoreEl) => _ignoreEl?.contains(_target))
 			) {
 				return;

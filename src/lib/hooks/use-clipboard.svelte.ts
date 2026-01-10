@@ -42,6 +42,8 @@ export default class UseClipboard {
 				}, this.delay);
 			}
 		} catch (error) {
+			// eslint-disable-next-line no-console
+			console.error('复制到剪贴板失败:', error);
 			this.#copiedStatus = 'failure';
 			if (this.reset) {
 				this.timeout = setTimeout(() => {

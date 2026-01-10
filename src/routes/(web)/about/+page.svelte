@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { useThemeContext } from '$lib/contexts/themeContext';
+	import { useThemeContext } from '$/lib/contexts/theme-context.svelte';
 
 	const { mode } = useThemeContext();
 </script>
