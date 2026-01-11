@@ -111,14 +111,13 @@
 	@reference '#app.css';
 	.my-input-container {
 		@apply inline-flex items-center h-11 px-6 py-1 
-		text-base text-(--color-text) 
 		bg-(--background-sec) focus-within:bg-(--background)
 		border-2 border-transparent focus-within:border-primary 
 		placeholder:text-(--text) placeholder:opacity-50
-        transition-all duration-100 ease-in-out;
+        transition-all duration-300;
 	}
 
 	.my-input {
-		@apply flex-1 h-full border-none outline-none;
+		@apply flex-1 h-full border-none outline-none text-base text-(--text) bg-transparent;
 	}
 </style>

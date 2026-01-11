@@ -5,10 +5,13 @@
 	import useScrollBottom from '$lib/hooks/use-scroll-bottom.svelte';
 	import Dialog from '$lib/components/dialog/Dialog.svelte';
 	import SvelteMessageBox from '$lib/components/dialog/dialog-alert';
+	import { ThemeEnum, useThemeContext } from '$lib/hooks/use-theme.svelte';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');
 	};
+
+	const themeCtx = useThemeContext();
 
 	let dialogOpenOuter = $state<boolean>(false);
 	let dialogOpenInner = $state<boolean>(false);
@@ -51,6 +54,19 @@
 
 <main class="w-full h-full p-6">
 	<h1 class="text-3xl font-bold text-center">Welcome to SvelteKit UI Components</h1>
+
+	<!-- 亮色|暗色模式 -->
+	<div class="my-4 p-2">
+		<h2 class="text-2xl font-bold">亮色|暗色模式</h2>
+		<div class="mt-3 flex flex-wrap gap-4 items-center">
+			<Button variant="primary" onclick={() => themeCtx?.setTheme(ThemeEnum.LIGHT)}
+				>Change Light Theme
+			</Button>
+			<Button variant="plain" onclick={() => themeCtx?.setTheme(ThemeEnum.DARK)}
+				>Change Dark Theme
+			</Button>
+		</div>
+	</div>
 
 	<!-- 按钮 -->
 	<div class="my-4 p-2">
