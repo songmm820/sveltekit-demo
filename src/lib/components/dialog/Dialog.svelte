@@ -11,7 +11,7 @@
 	 - onClose: () => void 关闭弹窗时触发的回调函数
 -->
 <script lang="ts">
-	import { mount, unmount } from 'svelte';
+	import { mount, unmount, untrack } from 'svelte';
 	import DialogEl, { type DialogElProps } from '$lib/components/dialog/DialogEl.svelte';
 
 	type DialogProps = Omit<DialogElProps, 'zIndex'> & {
@@ -79,9 +79,13 @@
 
 	$effect(() => {
 		if (open) {
-			applyToBodyElement();
+			untrack(() => {
+				applyToBodyElement();
+			});
 		} else {
-			destroyElement();
+			untrack(() => {
+				destroyElement();
+			});
 		}
 	});
 </script>
