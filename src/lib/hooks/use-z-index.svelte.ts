@@ -1,4 +1,4 @@
-import { SvelteSet } from "svelte/reactivity";
+import { SvelteSet } from 'svelte/reactivity';
 
 /**
  * 用于管理z-index的钩子
@@ -13,7 +13,6 @@ export default class UseZIndex {
 
 	constructor(
 		private _initialIndex: number = 1000,
-		private _minIndex: number = 1000,
 		private _maxIndex: number = 9999
 	) {
 		this.#initialIndex = this._initialIndex;
@@ -34,7 +33,7 @@ export default class UseZIndex {
 		} = {}
 	): UseZIndex {
 		if (!UseZIndex.instance) {
-			UseZIndex.instance = new UseZIndex(options.initialIndex, options.minIndex, options.maxIndex);
+			UseZIndex.instance = new UseZIndex(options.initialIndex, options.maxIndex);
 		}
 		return UseZIndex.instance;
 	}
