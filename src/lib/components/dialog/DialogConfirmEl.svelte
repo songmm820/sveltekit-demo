@@ -18,7 +18,7 @@
 	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
 	import { translateY } from '$lib/utils/animation';
 
-	export type ConfirmElProps = {
+	export type DialogConfirmElProps = {
 		open: boolean;
 		title?: string;
 		message?: string;
@@ -31,12 +31,14 @@
 	const zIndex: number = useZIndex.getNext();
 	const duration: number = 200;
 
-	const buttonTypeMap: Record<Required<ConfirmElProps>['type'], Required<ButtonProps>['variant']> =
-		{
-			error: 'danger',
-			warning: 'warning',
-			primary: 'primary'
-		};
+	const buttonTypeMap: Record<
+		Required<DialogConfirmElProps>['type'],
+		Required<ButtonProps>['variant']
+	> = {
+		error: 'danger',
+		warning: 'warning',
+		primary: 'primary'
+	};
 
 	let {
 		open = $bindable(false),
@@ -46,7 +48,7 @@
 		onCancel,
 		onConfirm,
 		onClose
-	}: ConfirmElProps = $props();
+	}: DialogConfirmElProps = $props();
 
 	let buttonLoading = $state<boolean>(false);
 
@@ -105,9 +107,9 @@
 				</div>
 				<!-- 弹窗底部区域 -->
 				<div class="my-dialog-footer flex justify-end gap-4">
-					<Button class="w-25" variant="plain" onclick={handleCancel}>取消</Button>
+					<Button class="w-1/2" variant="plain" onclick={handleCancel}>取消</Button>
 					<Button
-						class="w-25"
+						class="w-1/2"
 						loading={buttonLoading}
 						variant={buttonTypeMap[type]}
 						onclick={handleConfirm}

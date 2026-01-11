@@ -4,7 +4,7 @@
 	import Input from '$lib/components/input/Input.svelte';
 	import useScrollBottom from '$lib/hooks/use-scroll-bottom.svelte';
 	import Dialog from '$lib/components/dialog/Dialog.svelte';
-	import { confirm } from '$lib/components/dialog/dialog-alert';
+	import SvelteMessageBox from '$lib/components/dialog/dialog-alert';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');
@@ -16,7 +16,7 @@
 	const debounceOnReachBottom = debounce(handleReachBottom, 500);
 
 	const handleConfirm = (type: 'error' | 'warning' | 'primary') => {
-		confirm({
+		SvelteMessageBox.confirm({
 			title: '异步确认',
 			type: type,
 			message:
@@ -24,6 +24,20 @@
 			onConfirm: async () => {
 				// 延迟3秒模拟异步操作
 				await new Promise((resolve) => setTimeout(resolve, 3000));
+			},
+			onCancel: () => {}
+		});
+	};
+
+	const handleInput = () => {
+		SvelteMessageBox.input({
+			title: '请输入您的姓名',
+			placeholder: '请输入您的姓名',
+			message: '提示：姓名不能包含特殊字符，只能包含字母、数字和下划线。',
+			onConfirm: async (value: string) => {
+				// 延迟3秒模拟异步操作
+				await new Promise((resolve) => setTimeout(resolve, 3000));
+				console.log('确认输入值:', value);
 			},
 			onCancel: () => {}
 		});
@@ -61,6 +75,7 @@
 			<Input placeholder="小写转大写" onFormat={(v) => v.toLocaleUpperCase()} />
 			<Input placeholder="圆形" rounded />
 			<Input placeholder="禁用" disabled />
+			<Input placeholder="自动聚焦" autofocus />
 		</div>
 	</div>
 
@@ -84,14 +99,15 @@
 			</Dialog>
 
 			<Button variant="danger" onclick={() => handleConfirm('error')}
-				>这是一个命令式删除确认弹窗</Button
-			>
+				>这是一个命令式删除确认弹窗
+			</Button>
 			<Button variant="primary" onclick={() => handleConfirm('primary')}
-				>这是一个命令式确认弹窗</Button
-			>
-			<Button variant="warning" onclick={() => handleConfirm('warning')}
-				>这是一个命令式警告弹窗</Button
-			>
+				>这是一个命令式确认弹窗
+			</Button>
+			<Button variant="warning" onclick={() => handleConfirm('warning')}>
+				这是一个命令式警告弹窗
+			</Button>
+			<Button variant="primary" onclick={() => handleInput()}>这是一个输入框弹窗</Button>
 		</div>
 	</div>
 </main>
