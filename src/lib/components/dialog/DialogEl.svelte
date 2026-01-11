@@ -3,7 +3,6 @@
  - 弹窗El元素
  - 自定义属性
      - title?: Snippet | string 弹窗标题
-	 - zIndex: number 弹窗遮罩的 z-index 值
      - width?: string | number 弹窗宽度
 	 - height?: string | number 弹窗高度
      - footer?: Snippet 弹窗底部内容
@@ -12,13 +11,13 @@
 -->
 
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+	import { onDestroy, type Snippet } from 'svelte';
 	import Button from '$lib/components/button/Button.svelte';
 	import DialogOverlay from '$lib/components/dialog/DialogOverlay.svelte';
+	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
 
 	export type DialogElProps = {
 		title?: Snippet | string;
-		zIndex: number;
 		width?: string | number;
 		height?: string | number;
 		footer?: Snippet;
@@ -26,7 +25,17 @@
 		onClose: () => void;
 	};
 
-	let { title, zIndex, width, height, footer, children, onClose }: DialogElProps = $props();
+	const zIndex = useZIndex.getNext();
+
+	let { title, width, height, footer, children, onClose }: DialogElProps = $props();
+
+	const handleClose = () => {
+		onClose();
+	};
+
+	onDestroy(() => {
+		useZIndex.recycle(zIndex);
+	});
 </script>
 
 <DialogOverlay {zIndex}>
@@ -39,12 +48,12 @@
 					{:else}
 						{@render title()}
 					{/if}
-					<Button class="min-w-20" variant="link" onclick={onClose}>关闭</Button>
+					<Button class="min-w-20" variant="link" onclick={handleClose}>关闭</Button>
 				</div>
 			{:else}
 				<div class="my-dialog-title flex justify-between items-center">
 					<span class="text-lg font-bold">弹窗标题</span>
-					<Button class="min-w-20" variant="link" onclick={onClose}>关闭</Button>
+					<Button class="min-w-20" variant="link" onclick={handleClose}>关闭</Button>
 				</div>
 			{/if}
 			<div class="flex-1 py-3">
@@ -57,8 +66,8 @@
 				{@render footer()}
 			{:else}
 				<div class="my-dialog-footer flex justify-end gap-4">
-					<Button class="min-w-20" variant="outline" onclick={onClose}>取消</Button>
-					<Button class="min-w-20" variant="primary" onclick={onClose}>确定</Button>
+					<Button class="min-w-20" variant="outline" onclick={handleClose}>取消</Button>
+					<Button class="min-w-20" variant="primary" onclick={handleClose}>确定</Button>
 				</div>
 			{/if}
 		</div>

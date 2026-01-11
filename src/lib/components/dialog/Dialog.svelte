@@ -12,10 +12,7 @@
 -->
 <script lang="ts">
 	import { mount, unmount } from 'svelte';
-	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
 	import DialogEl, { type DialogElProps } from '$lib/components/dialog/DialogEl.svelte';
-
-	const zIndex = useZIndex.getNext();
 
 	type DialogProps = Omit<DialogElProps, 'zIndex'> & {
 		open?: boolean;
@@ -49,7 +46,6 @@
 
 	// 关闭弹窗
 	function handleCloseDialog() {
-		useZIndex.recycle(zIndex);
 		onClose?.();
 	}
 
@@ -62,7 +58,6 @@
 		dialogEl = mount(DialogEl, {
 			target: document.body,
 			props: {
-				zIndex,
 				title,
 				open,
 				width: getWidth(),

@@ -75,11 +75,12 @@ export default class UseZIndex {
 		const step = _step > 0 ? _step : 1;
 		const nextIndex = this.#zIndex + step;
 		if (nextIndex >= this._maxIndex) {
-			return this.#zIndex;
+			return this._maxIndex;
 		}
 		this.#history.push(nextIndex);
 		this.#used.add(nextIndex);
 		this.#zIndex = nextIndex;
+		console.log('UseZIndex getNext:', nextIndex);
 		return nextIndex;
 	}
 
@@ -100,8 +101,9 @@ export default class UseZIndex {
 		if (this.#used.has(_zIndex)) {
 			this.#used.delete(_zIndex);
 			this.#history = this.#history.filter((index) => index !== _zIndex);
-			this.#zIndex -= 1;
 		}
+		this.#zIndex = _zIndex - 1;
+		console.log('UseZIndex recycle:', _zIndex);
 	}
 }
 

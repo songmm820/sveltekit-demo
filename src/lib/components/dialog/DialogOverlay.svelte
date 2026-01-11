@@ -15,12 +15,12 @@
 		children?: Snippet;
 	};
 
-	const _id = $props.id();
+	const id = $props.id();
 
 	let { zIndex, children }: OverlayProps = $props();
 </script>
 
-<div id={_id} class="my-overlay" style:z-index={zIndex}>
+<div id={id} class="my-overlay" style:z-index={zIndex}>
 	{#if children}
 		{@render children()}
 	{/if}
