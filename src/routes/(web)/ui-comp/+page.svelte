@@ -4,6 +4,7 @@
 	import Input from '$lib/components/input/Input.svelte';
 	import useScrollBottom from '$lib/hooks/use-scroll-bottom.svelte';
 	import Dialog from '$lib/components/dialog/Dialog.svelte';
+	import { confirm } from '$lib/components/dialog/dialog-alert';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');
@@ -13,6 +14,22 @@
 	let dialogOpenInner = $state<boolean>(false);
 
 	const debounceOnReachBottom = debounce(handleReachBottom, 500);
+
+	const handleConfirm = (type: 'error' | 'warning' | 'primary') => {
+		confirm({
+			title: '确认删除',
+			type: type,
+			message:
+				'确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。',
+			onConfirm: async () => {
+				// console.log('确认删除');
+				// 延迟3秒模拟异步操作
+				await new Promise((resolve) => setTimeout(resolve, 3000));
+				console.log('删除成功');
+			},
+			onCancel: () => {}
+		});
+	};
 
 	useScrollBottom(() => document, {
 		threshold: 0,
@@ -34,6 +51,8 @@
 			<Button variant="success">Success Button</Button>
 			<Button variant="danger">Danger Button</Button>
 			<Button variant="link">Link Button</Button>
+			<Button variant="plain">Plain Button</Button>
+			<Button variant="warning">Warning Button</Button>
 		</div>
 	</div>
 
@@ -65,6 +84,16 @@
 					<p>这是一个嵌套弹窗的内容。</p>
 				</Dialog>
 			</Dialog>
+
+			<Button variant="danger" onclick={() => handleConfirm('error')}
+				>这是一个命令式删除确认弹窗</Button
+			>
+			<Button variant="primary" onclick={() => handleConfirm('primary')}
+				>这是一个命令式确认弹窗</Button
+			>
+			<Button variant="warning" onclick={() => handleConfirm('warning')}
+				>这是一个命令式警告弹窗</Button
+			>
 		</div>
 	</div>
 </main>

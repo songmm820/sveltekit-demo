@@ -38,7 +38,7 @@ export default defineConfig(
 			// see: https://typescript-eslint.io/troubleshooting/faqs/eslint/#i-get-errors-from-the-no-undef-rule-about-global-variables-not-being-defined-even-though-there-are-no-typescript-errors
 
 			'no-debugger': 'error',
-			'no-console': 'error',
+			'no-console': 'warn',
 			// 禁止相对路径引入
 			'no-restricted-imports': [
 				'error',

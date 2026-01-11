@@ -16,7 +16,14 @@
 	import type { Snippet } from 'svelte';
 	import type { ClassValue, HTMLButtonAttributes } from 'svelte/elements';
 
-	export type ButtonType = 'primary' | 'outline' | 'danger' | 'success' | 'link';
+	export type ButtonType =
+		| 'primary'
+		| 'outline'
+		| 'danger'
+		| 'success'
+		| 'link'
+		| 'plain'
+		| 'warning';
 
 	export type ButtonProps = HTMLButtonAttributes & {
 		class?: ClassValue;
@@ -30,6 +37,7 @@
 
 	let {
 		class: className = '',
+		loading = false,
 		disabled,
 		id = _id,
 		block,
@@ -46,7 +54,9 @@
 				outline: 'border-2 border-primary text-primary px-4 py-2 rounded-md hover:bg-primary/10',
 				danger: 'bg-danger text-white px-4 py-2 rounded-md hover:opacity-90',
 				success: 'bg-success text-white px-4 py-2 rounded-md hover:opacity-90',
-				link: 'text-primary'
+				link: 'text-primary hover:opacity-90',
+				plain: 'bg-(--background-sec) text-(--text-sec) px-4 py-2 rounded-md hover:text-(--text)',
+				warning: 'bg-warning text-white px-4 py-2 rounded-md hover:opacity-90'
 			},
 			block: {
 				true: 'w-full',
@@ -70,19 +80,34 @@
 	});
 </script>
 
+{#snippet loadingIcon()}
+	{#if ['danger', 'warning', 'success'].includes(variant)}
+		<div
+			class="mr-1.5 w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"
+		></div>
+	{:else}
+		<div
+			class="mr-1.5 w-4 h-4 border-2 border-gray-200 border-t-primary rounded-full animate-spin"
+		></div>
+	{/if}
+{/snippet}
+
 <button
 	{id}
 	{disabled}
 	{...other}
 	class={cn(buttonVariants({ variant, block, disabled, rounded }), className)}
 >
+	{#if loading}
+		{@render loadingIcon()}
+	{/if}
 	{@render children()}
 </button>
 
 <style lang="css">
 	@reference '#app.css';
 	.my-button {
-		@apply inline-flex items-center justify-center h-9
+		@apply inline-flex items-center justify-center h-11
 		transition-all duration-200;
 	}
 </style>
