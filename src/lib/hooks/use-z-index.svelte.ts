@@ -1,3 +1,5 @@
+import { SvelteSet } from "svelte/reactivity";
+
 /**
  * 用于管理z-index的钩子
  */
@@ -5,7 +7,7 @@ export default class UseZIndex {
 	#zIndex = $state<number>(1000);
 	#initialIndex: number;
 	#history = $state<number[]>([]);
-	#used = $state<Set<number>>(new Set());
+	#used = $state<SvelteSet<number>>(new SvelteSet());
 
 	private static instance: UseZIndex | null = null;
 
@@ -63,7 +65,7 @@ export default class UseZIndex {
 	 */
 	get used(): Set<number> {
 		// 返回副本，防止外部修改
-		return new Set(this.#used);
+		return new SvelteSet([...this.#used]);
 	}
 
 	/**
@@ -80,7 +82,6 @@ export default class UseZIndex {
 		this.#history.push(nextIndex);
 		this.#used.add(nextIndex);
 		this.#zIndex = nextIndex;
-		console.log('UseZIndex getNext:', nextIndex);
 		return nextIndex;
 	}
 
@@ -103,7 +104,6 @@ export default class UseZIndex {
 			this.#history = this.#history.filter((index) => index !== _zIndex);
 		}
 		this.#zIndex = _zIndex - 1;
-		console.log('UseZIndex recycle:', _zIndex);
 	}
 }
 

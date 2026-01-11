@@ -51,11 +51,9 @@
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">弹窗</h2>
 		<div class="mt-3 flex flex-wrap gap-4 items-center">
-			<Button variant="primary" onclick={() => (dialogOpenOuter = true)}
-				>打开弹窗 {dialogOpenOuter}</Button
-			>
+			<Button variant="primary" onclick={() => (dialogOpenOuter = true)}>打开弹窗</Button>
 			<Dialog open={dialogOpenOuter} title="这是一个弹窗" onClose={() => (dialogOpenOuter = false)}>
-				<Button variant="success" onclick={() => (dialogOpenInner = true)}>打开嵌套弹窗</Button>
+				<Button variant="primary" onclick={() => (dialogOpenInner = true)}>打开嵌套弹窗</Button>
 
 				<Dialog
 					open={dialogOpenInner}

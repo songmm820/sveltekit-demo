@@ -3,24 +3,27 @@
  - 弹窗遮罩组件
  - 自定义属性
 	 - zIndex: number 弹窗遮罩的 z-index 值
+	 - duration?: number 弹窗遮罩动画持续时间
 	 - children?: Snippet 遮罩子元素
 	 - onClose: () => void 点击遮罩时触发的回调函数
 -->
 
 <script lang="ts">
+	import { fade } from '$lib/utils/animation';
 	import type { Snippet } from 'svelte';
 
 	export type OverlayProps = {
 		zIndex: number;
+		duration?: number;
 		children?: Snippet;
 	};
 
 	const id = $props.id();
 
-	let { zIndex, children }: OverlayProps = $props();
+	let { zIndex, duration = 400, children }: OverlayProps = $props();
 </script>
 
-<div id={id} class="my-overlay" style:z-index={zIndex}>
+<div transition:fade|global={{ duration }} {id} class="my-overlay" style:z-index={zIndex}>
 	{#if children}
 		{@render children()}
 	{/if}

@@ -59,7 +59,7 @@
 			target: document.body,
 			props: {
 				title,
-				open,
+				open: open,
 				width: getWidth(),
 				height: getHeight(),
 				footer,
