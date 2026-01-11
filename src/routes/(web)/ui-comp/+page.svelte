@@ -17,15 +17,13 @@
 
 	const handleConfirm = (type: 'error' | 'warning' | 'primary') => {
 		confirm({
-			title: '确认删除',
+			title: '异步确认',
 			type: type,
 			message:
-				'确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。',
+				'确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。确定要删除吗？真的要删除吗？删除后无法恢复！',
 			onConfirm: async () => {
-				// console.log('确认删除');
 				// 延迟3秒模拟异步操作
 				await new Promise((resolve) => setTimeout(resolve, 3000));
-				console.log('删除成功');
 			},
 			onCancel: () => {}
 		});
