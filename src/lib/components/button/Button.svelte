@@ -82,7 +82,7 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-button {
-		@apply inline-flex items-center justify-center h-10
+		@apply inline-flex items-center justify-center h-9
 		transition-all duration-200;
 	}
 </style>
