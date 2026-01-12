@@ -6,7 +6,7 @@ import DialogConfirmEl, {
 const DEFAULT_DURATION = 200;
 
 // 确认弹窗实例
-let confirmInstance: ReturnType<typeof mount> | null;
+let confirmInstance: DialogConfirmEl | null;
 
 /**
  * 销毁确认弹窗实例

@@ -28,7 +28,7 @@
 		onClose
 	}: DialogProps = $props();
 
-	let dialogEl: ReturnType<typeof mount> | null = null;
+	let dialogEl: DialogEl | null = null;
 
 	function getWidth() {
 		if (typeof width === 'number') {

@@ -4,7 +4,7 @@ import ToastEl, { type ToastElProps } from '$lib/components/toast/ToastEl.svelte
 const DEFAULT_DURATION = 4000;
 
 // 确认实例集合
-let toastInstance: ReturnType<typeof mount> | null;
+let toastInstance: ToastEl | null;
 // const toastInstances: ReturnType<typeof mount>[] = [];
 
 /**
