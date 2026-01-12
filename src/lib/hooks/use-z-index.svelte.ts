@@ -4,9 +4,6 @@ import { SvelteSet } from 'svelte/reactivity';
  * 用于管理z-index的钩子
  */
 export default class UseZIndex {
-	#zIndex = $state<number>(1000);
-	#initialIndex: number;
-	#history = $state<number[]>([]);
 	#used = $state<SvelteSet<number>>(new SvelteSet());
 
 	private static instance: UseZIndex | null = null;
@@ -14,10 +11,7 @@ export default class UseZIndex {
 	constructor(
 		private _initialIndex: number = 1000,
 		private _maxIndex: number = 9999
-	) {
-		this.#initialIndex = this._initialIndex;
-		this.#zIndex = this._initialIndex;
-	}
+	) {}
 
 	/**
 	 * 获取单例实例（全局唯一的 z-index 管理器）
@@ -39,25 +33,6 @@ export default class UseZIndex {
 	}
 
 	/**
-	 * 获取当前z-index值
-	 *
-	 * @returns 当前z-index值
-	 */
-	get current(): number {
-		return this.#zIndex;
-	}
-
-	/**
-	 * 获取z-index历史记录
-	 *
-	 * @returns z-index历史记录
-	 */
-	get history(): number[] {
-		// 返回副本，防止外部修改
-		return [...this.#history];
-	}
-
-	/**
 	 * 获取已使用的z-index值集合
 	 *
 	 * @returns 已使用的z-index值集合
@@ -72,24 +47,28 @@ export default class UseZIndex {
 	 *
 	 * @returns 下一个z-index值
 	 */
-	getNext(_step: number = 1): number {
-		const step = _step > 0 ? _step : 1;
-		const nextIndex = this.#zIndex + step;
+	getNext(): number {
+		if (this.#used.size === 0) {
+			this.#used.add(this._initialIndex);
+			return this._initialIndex;
+		}
+
+		// 获取#used中的最大值
+		const maxUsed = Math.max(...this.#used);
+		// 下一个z-index为最大值加1
+		const nextIndex = maxUsed + 1;
 		if (nextIndex >= this._maxIndex) {
 			return this._maxIndex;
 		}
-		this.#history.push(nextIndex);
 		this.#used.add(nextIndex);
-		this.#zIndex = nextIndex;
 		return nextIndex;
 	}
 
 	/**
 	 * 重置z-index值
 	 */
-	reset() {
-		this.#zIndex = this.#initialIndex;
-		this.#history = [];
+	reset(): void {
+		this.#used.clear();
 	}
 
 	/**
@@ -97,12 +76,10 @@ export default class UseZIndex {
 	 *
 	 * @param _zIndex 要回收的zIndex
 	 */
-	recycle(_zIndex: number) {
+	recycle(_zIndex: number): void {
 		if (this.#used.has(_zIndex)) {
 			this.#used.delete(_zIndex);
-			this.#history = this.#history.filter((index) => index !== _zIndex);
 		}
-		this.#zIndex = _zIndex - 1;
 	}
 }
 
