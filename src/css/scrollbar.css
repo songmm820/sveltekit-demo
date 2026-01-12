@@ -1,25 +1,24 @@
 /* 设置滚动条的高度（水平滚动条） */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 4px;
+	width: 10px;
+	height: 4px;
 }
 
 /* 修改滚动条轨道 */
 ::-webkit-scrollbar-track {
-  background: transparent;
+	background: transparent;
 }
 
 /* 修改滚动条滑块 */
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(102, 102, 102, 0.5);
-  border-radius: 1px;
+	background-color: rgba(102, 102, 102, 0.5);
+	border-radius: 1px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(102, 102, 102, 0.6);
+	background-color: rgba(102, 102, 102, 0.6);
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background-color: rgba(102, 102, 102, 0.8);
+	background-color: rgba(102, 102, 102, 0.8);
 }
-
