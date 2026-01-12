@@ -4,7 +4,7 @@
 	import Input from '$lib/components/input/Input.svelte';
 	import useScrollBottom from '$lib/hooks/use-scroll-bottom.svelte';
 	import Dialog from '$lib/components/dialog/Dialog.svelte';
-	import SvelteMessageBox from '$lib/components/dialog/dialog-alert';
+	import SvelteMessageBox from '$lib/components/message-box';
 	import { ThemeEnum, useThemeContext } from '$lib/hooks/use-theme.svelte';
 
 	const handleReachBottom = () => {
@@ -43,6 +43,20 @@
 				console.log('确认输入值:', value);
 			},
 			onCancel: () => {}
+		});
+	};
+
+	const handleToast = (
+		position: 'top' | 'bottom' | 'center',
+		message: string,
+		description?: string,
+		status?: 'success' | 'error' | 'info' | 'warning'
+	) => {
+		SvelteMessageBox.toast({
+			position: position,
+			message: message,
+			status: status,
+			description: description
 		});
 	};
 
@@ -111,6 +125,9 @@
 					onClose={() => (dialogOpenInner = false)}
 				>
 					<p>这是一个嵌套弹窗的内容。</p>
+					<Button variant="primary" onclick={() => handleToast('center', '这是一个土司')}
+						>显示土司
+					</Button>
 				</Dialog>
 			</Dialog>
 
@@ -124,6 +141,21 @@
 				这是一个命令式警告弹窗
 			</Button>
 			<Button variant="primary" onclick={() => handleInput()}>这是一个输入框弹窗</Button>
+		</div>
+	</div>
+
+	<!-- 土司 -->
+	<div class="my-4 p-2">
+		<h2 class="text-2xl font-bold">土司</h2>
+		<div class="mt-3 flex flex-wrap gap-4 items-center">
+			<Button variant="primary" onclick={() => handleToast('top', '上方土司')}>显示土司</Button>
+			<Button variant="primary" onclick={() => handleToast('bottom', '下方土司')}>显示土司</Button>
+			<Button
+				variant="primary"
+				onclick={() => handleToast('center', '中心土司', '这是一个中心土司的描述', 'success')}
+			>
+				显示土司，包含描述
+			</Button>
 		</div>
 	</div>
 </main>

@@ -12,6 +12,7 @@ html[data-theme='light'] {
 	--border: lab(90.952% 0 -0.0000119209);
 	--border-sec: transparent;
 	--popover: #00000080;
+	--toast: #ffffff;
 }
 
 html[data-theme='dark'] {
@@ -23,6 +24,7 @@ html[data-theme='dark'] {
 	--border: lab(100% 0 0/0.1);
 	--border-sec: lab(100% 0 0/0.1);
 	--popover: #00000080;
+	--toast: #1f1f1f;
 }
 
 html,
