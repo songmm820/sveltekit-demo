@@ -39,8 +39,15 @@
 			message: '提示：姓名不能包含特殊字符，只能包含字母、数字和下划线。',
 			onConfirm: async (value: string) => {
 				// 延迟3秒模拟异步操作
+				if (!value) {
+					SvelteMessageBox.toast({
+						message: '请输入姓名',
+						status: 'error'
+					});
+					return Promise.reject('请输入姓名');
+				}
 				await new Promise((resolve) => setTimeout(resolve, 3000));
-				console.log('确认输入值:', value);
+				// 返回true或者false，根据实际情况判断是否关闭弹窗
 			},
 			onCancel: () => {}
 		});

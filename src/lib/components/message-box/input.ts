@@ -3,7 +3,7 @@ import DialogInputEl from '$lib/components/dialog/DialogInputEl.svelte';
 
 const DEFAULT_DURATION = 200;
 
-let inputInstance: ReturnType<typeof mount> | null;
+let inputInstance: DialogInputEl | null;
 
 function destroyInput() {
 	if (inputInstance) {
@@ -21,6 +21,14 @@ type InputOptions = {
 	onCancel?: () => void | Promise<void>;
 };
 
+/**
+ * 输入弹窗
+ *
+ * onConfirm 确认回调函数，内部reject错误时，onConfirm 不会自动关闭弹窗
+ *
+ * @param options - 弹窗配置项
+ * @returns 弹窗实例
+ */
 function input(options: InputOptions) {
 	const { title = '温馨提示', message, placeholder, onConfirm, onCancel } = options;
 	// 如果弹窗实例已存在，先销毁
@@ -38,7 +46,13 @@ function input(options: InputOptions) {
 				await Promise.resolve(onCancel?.()); // 支持异步操作
 			},
 			onConfirm: async (value: string) => {
-				await Promise.resolve(onConfirm?.(value)); // 支持异步操作
+				try {
+					await Promise.resolve(onConfirm?.(value)); // 支持异步操作
+					inputInstance?.close();
+				} catch (error) {
+					// 如果有reject错误，则不关闭弹窗
+					return Promise.reject(error);
+				}
 			},
 			onClose: () => {
 				destroyInput();

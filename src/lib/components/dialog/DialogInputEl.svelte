@@ -46,11 +46,12 @@
 	let inputValue = $state<string>('');
 	let inputRef = $state<Input | null>(null);
 
-	const handleClose = async () => {
+	// 关闭弹窗
+	export async function close() {
 		open = false;
 		await new Promise((resolve) => setTimeout(resolve, duration));
 		onClose();
-	};
+	}
 
 	// 点击取消按钮时触发的回调函数
 	async function handleCancel() {
@@ -60,7 +61,7 @@
 		if (onCancel) {
 			await onCancel();
 		}
-		handleClose();
+		await close();
 	}
 
 	// 点击确认按钮时触发的回调函数
@@ -70,10 +71,15 @@
 		}
 		buttonLoading = true;
 		if (onConfirm) {
-			await onConfirm(inputValue);
+			try {
+				await onConfirm(inputValue);
+			} catch (error) {
+				// 如果有reject错误，则不关闭弹窗
+				return Promise.reject(error);
+			} finally {
+				buttonLoading = false;
+			}
 		}
-		buttonLoading = false;
-		handleClose();
 	}
 
 	onMount(() => {
