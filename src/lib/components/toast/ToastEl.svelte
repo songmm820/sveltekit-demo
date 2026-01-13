@@ -22,9 +22,11 @@
 	// 过渡动画时间，单位毫秒
 	const DEFAULT_DURATION: number = 200;
 
+	type ToastStatus = 'success' | 'error' | 'info' | 'warning';
+
 	export type ToastElProps = {
 		duration?: number; // 弹窗显示时间，单位毫秒
-		status?: 'success' | 'error' | 'info' | 'warning';
+		status?: ToastStatus;
 		position?: 'top' | 'bottom' | 'center';
 		rounded?: boolean;
 		gap?: number; // 土司之间的间距，单位像素
@@ -65,6 +67,12 @@
 			rounded: {
 				true: 'rounded-full',
 				false: 'rounded-lg'
+			},
+			status: {
+				success: '',
+				error: '',
+				info: '',
+				warning: ''
 			}
 		},
 		defaultVariants: {
@@ -102,12 +110,15 @@
 			easing: linear,
 			reverse: false
 		}}
-		class={toastVariant({ position, rounded })}
+		class={toastVariant({ position, rounded, status })}
 		{id}
 		style:z-index={zIndex}
 		style:transform={`translateY(${offsetY}px)`}
 	>
-		{message}
+		<div class="flex items-center gap-2">
+			<!-- {@render Icon()} -->
+			<span>{message}</span>
+		</div>
 
 		{#if description}
 			<div class="mt-1 text-sm opacity-60">
@@ -121,6 +132,6 @@
 	@reference '#app.css';
 
 	.my-toast {
-		@apply fixed px-5 py-3 min-w-40 bg-(--toast) border-2 border-(--border-sec) text-center text-md shadow-sm transition-all duration-300;
+		@apply fixed px-5 py-3 min-w-40 bg-(--toast) text-center text-md shadow-sm transition-all duration-300;
 	}
 </style>
