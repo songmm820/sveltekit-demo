@@ -3,8 +3,8 @@
  - 弹窗组件
  - 自定义属性
 	 - open: boolean 是否打开弹窗
-	 - width: string | number 弹窗宽度
-	 - height: string | number 弹窗高度
+	 - width?: string | number 弹窗宽度
+	 - height?: string | number 弹窗高度
 	 - title?: Snippet | string 弹窗标题
 	 - footer?: Snippet 弹窗底部内容
 	 - children: Snippet 弹窗内容

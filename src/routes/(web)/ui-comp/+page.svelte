@@ -6,6 +6,8 @@
 	import Dialog from '$lib/components/dialog/Dialog.svelte';
 	import SvelteMessageBox, { type ConfirmOptions } from '$lib/components/message-box';
 	import { ThemeEnum, useThemeContext } from '$lib/hooks/use-theme.svelte';
+	import Image from '$lib/components/image/Image.svelte';
+	import favicon from '$lib/assets/favicon.svg';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');
@@ -178,6 +180,14 @@
 			>
 				显示土司，包含描述
 			</Button>
+		</div>
+	</div>
+
+	<!-- 图片 -->
+	<div class="my-4 p-2">
+		<h2 class="text-2xl font-bold">图片</h2>
+		<div class="mt-3 flex flex-wrap gap-4 items-center">
+			<Image src={favicon} alt="SvelteKit" />
 		</div>
 	</div>
 </main>

@@ -11,6 +11,7 @@
 <script lang="ts">
 	import { fade } from '$lib/utils/animation';
 	import type { Snippet } from 'svelte';
+	import type { Attachment } from 'svelte/attachments';
 
 	export type OverlayProps = {
 		zIndex: number;
@@ -21,7 +22,19 @@
 	const id = $props.id();
 
 	let { zIndex, duration = 400, children }: OverlayProps = $props();
+
+	// 弹窗遮罩组件的动作函数, 用于禁止滚动body
+	const overlayAction: Attachment<HTMLElement> = (element: HTMLElement) => {
+		const originalOverflow = element.style.overflow;
+		element.style.overflow = 'hidden';
+		return () => {
+			element.style.overflow = originalOverflow;
+		};
+	};
 </script>
+
+<!-- 禁止滚动body -->
+<svelte:body {@attach overlayAction} />
 
 <div transition:fade|global={{ duration }} {id} class="my-overlay" style:z-index={zIndex}>
 	{#if children}
