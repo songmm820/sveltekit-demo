@@ -13,7 +13,7 @@ function destroyInput() {
 	}
 }
 
-type InputOptions = {
+export type InputOptions = {
 	title?: string;
 	placeholder?: string;
 	message?: string;

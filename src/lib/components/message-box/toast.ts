@@ -12,9 +12,9 @@ type ToastInstance = {
 // 土司实例集合
 const toastInstances: ToastInstance[] = [];
 // 每个土司间距
-const TOAST_GAP: number = 50;
+const TOAST_GAP: number = 55;
 // 同时显示的最大toast数量
-const MAX_TOAST_COUNT: number = 5;
+const MAX_TOAST_COUNT: number = 3;
 
 /**
  * 销毁确认弹窗实例
@@ -26,11 +26,9 @@ async function destroyToast(id: string) {
 	if (targetIndex === -1) return;
 	const targetItem = toastInstances[targetIndex];
 	if (targetItem) {
-		// 等待动画完成
-		unmount(targetItem.instance); // 卸载组件 会触发 onDestroy 钩子
 		// 从集合中移除
 		toastInstances.splice(targetIndex, 1);
-		// 更新所有toast的垂直偏移
+		unmount(targetItem.instance);
 		updateToastOffsets();
 	}
 }
@@ -40,15 +38,12 @@ async function destroyToast(id: string) {
  */
 function updateToastOffsets() {
 	toastInstances.forEach((item, index) => {
-		// 计算偏移：索引 * 间距（比如第0个0px，第1个80px，第2个160px...）
-		const offsetY = index * TOAST_GAP;
-		if (item.instance) {
-			item.instance.updateOffsetY(offsetY);
-		}
+		// 更新索引，索引减11
+		item.instance.onUpdateIndex(index);
 	});
 }
 
-type ToastOptions = Omit<ToastElProps, 'open' | 'onClose'> & {
+export type ToastOptions = Omit<ToastElProps, 'open' | 'onClose'> & {
 	message: string;
 };
 
@@ -69,8 +64,7 @@ function toast(options: ToastOptions) {
 
 	// 如果超出最大toast数量，移除最早的toast
 	if (toastInstances.length >= MAX_TOAST_COUNT) {
-		destroyToast(toastInstances[0].id);
-		return
+		return;
 	}
 
 	const toastId = nanoid(8);

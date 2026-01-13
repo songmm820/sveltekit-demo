@@ -1,6 +1,6 @@
-import confirm from './confirm';
-import input from './input';
-import toast from './toast';
+import confirm, { type ConfirmOptions } from './confirm';
+import input, { type InputOptions } from './input';
+import toast, { type ToastOptions } from './toast';
 
 // 导出到一个对象上
 const SvelteMessageBox = {
@@ -10,3 +10,5 @@ const SvelteMessageBox = {
 };
 
 export default SvelteMessageBox;
+
+export type { ConfirmOptions, InputOptions, ToastOptions };

@@ -19,12 +19,8 @@ async function destroyConfirm() {
 	}
 }
 
-type ConfirmOptions = {
-	title?: string;
-	message?: string;
-	type?: DialogConfirmElProps['type'];
-	onConfirm?: () => void | Promise<void>;
-	onCancel?: () => void | Promise<void>;
+export type ConfirmOptions = Omit<DialogConfirmElProps, 'open' | 'onClose'> & {
+	open?: boolean;
 };
 
 /**
@@ -37,6 +33,8 @@ function confirm(options: ConfirmOptions) {
 		title = '温馨提示',
 		type = 'primary',
 		message = '确定要执行此操作吗？',
+		cancelText,
+		confirmText,
 		onConfirm,
 		onCancel
 	} = options;
@@ -48,6 +46,8 @@ function confirm(options: ConfirmOptions) {
 		props: {
 			open: true,
 			duration: DEFAULT_DURATION,
+			cancelText,
+			confirmText,
 			type,
 			title,
 			message,
@@ -63,6 +63,5 @@ function confirm(options: ConfirmOptions) {
 		}
 	});
 }
-
 
 export default confirm;

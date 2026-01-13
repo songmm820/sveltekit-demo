@@ -4,6 +4,7 @@ type AnimationParams = {
 	delay?: number;
 	duration?: number;
 	easing?: (t: number) => number;
+	reverse?: boolean;
 };
 
 /**
@@ -35,6 +36,7 @@ export function scale(node: HTMLElement, params?: AnimationParams) {
  * Y轴平移动画
  *
  * @param node 弹窗元素
+ * @param reverse 是否反向动画
  * @param params 动画配置
  * @returns 动画配置对象
  */
@@ -49,6 +51,7 @@ export function translateY(node: HTMLElement, params?: AnimationParams & { offse
 		easing: backInOut,
 		delay: 0
 	};
+	const { reverse = false } = params || {};
 	const existingTransform = getComputedStyle(node).transform.replace('none', '');
 	const opacity = getComputedStyle(node).opacity;
 
@@ -57,7 +60,10 @@ export function translateY(node: HTMLElement, params?: AnimationParams & { offse
 		duration: duration,
 		easing: easing,
 		css: (t: number) => {
-			const translateY = (1 - t) * offset;
+			let translateY = (1 - t) * offset;
+			if (reverse) {
+				translateY = translateY * -1;
+			}
 			const opacityValue = t * parseFloat(opacity);
 			return `transform: ${existingTransform} translateY(${-translateY}px); opacity: ${opacityValue};`;
 		}

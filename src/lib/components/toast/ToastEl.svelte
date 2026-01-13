@@ -49,16 +49,11 @@
 		onClose
 	}: ToastElProps = $props();
 
-	let offsetY = $state<number>(0);
+	let index = $state<number>(0);
 
-	export function updateOffsetY(newOffsetY: number) {
-		offsetY = newOffsetY;
+	export function onUpdateIndex(newIndex: number) {
+		index = newIndex;
 	}
-
-	// 根据偏移量计算土司的index
-	const toastIndex = $derived.by(() => {
-		return Math.floor(offsetY / gap) + 1;
-	});
 
 	const toastVariant = cva('my-toast', {
 		variants: {
@@ -77,7 +72,10 @@
 		}
 	});
 
-	async function onCloseToast() {
+	// 根据显示位置计算，顶部toast的偏移量为负的，底部toast的偏移量为正的
+	let offsetY = $derived(position === 'top' ? index * gap : -index * gap);
+
+	export async function onCloseToast() {
 		await new Promise((resolve) => setTimeout(resolve, duration));
 		open = false;
 		await new Promise((resolve) => setTimeout(resolve, DEFAULT_DURATION));
@@ -98,16 +96,18 @@
 
 {#if open}
 	<div
-		transition:translateY|global={{ duration: DEFAULT_DURATION, offset: 40, easing: linear }}
+		transition:translateY|global={{
+			duration: DEFAULT_DURATION,
+			offset: 40,
+			easing: linear,
+			reverse: false
+		}}
 		class={toastVariant({ position, rounded })}
 		{id}
 		style:z-index={zIndex}
-		style:transform={`${position === 'top' ? `translateY(${offsetY}px)` : `translateY(-${offsetY}px)`}`}
+		style:transform={`translateY(${offsetY}px)`}
 	>
 		{message}
-		{offsetY}
-		{toastIndex}
-		{status}
 
 		{#if description}
 			<div class="mt-1 text-sm opacity-60">
@@ -121,6 +121,6 @@
 	@reference '#app.css';
 
 	.my-toast {
-		@apply fixed px-5 py-3 min-w-40 bg-(--toast) text-center text-md shadow-md;
+		@apply fixed px-5 py-3 min-w-40 bg-(--toast) border-2 border-(--border-sec) text-center text-md shadow-sm transition-all duration-300;
 	}
 </style>

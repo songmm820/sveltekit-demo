@@ -4,7 +4,7 @@
 	import Input from '$lib/components/input/Input.svelte';
 	import useScrollBottom from '$lib/hooks/use-scroll-bottom.svelte';
 	import Dialog from '$lib/components/dialog/Dialog.svelte';
-	import SvelteMessageBox from '$lib/components/message-box';
+	import SvelteMessageBox, { type ConfirmOptions } from '$lib/components/message-box';
 	import { ThemeEnum, useThemeContext } from '$lib/hooks/use-theme.svelte';
 
 	const handleReachBottom = () => {
@@ -18,17 +18,9 @@
 
 	const debounceOnReachBottom = debounce(handleReachBottom, 500);
 
-	const handleConfirm = (type: 'error' | 'warning' | 'primary') => {
+	const handleConfirm = (options: ConfirmOptions) => {
 		SvelteMessageBox.confirm({
-			title: '异步确认',
-			type: type,
-			message:
-				'确定要删除吗？真的要删除吗？删除后无法恢复！很长时间不删除，会自动删除。确定要删除吗？真的要删除吗？删除后无法恢复！',
-			onConfirm: async () => {
-				// 延迟3秒模拟异步操作
-				await new Promise((resolve) => setTimeout(resolve, 3000));
-			},
-			onCancel: () => {}
+			...options
 		});
 	};
 
@@ -138,14 +130,37 @@
 				</Dialog>
 			</Dialog>
 
-			<Button variant="danger" onclick={() => handleConfirm('error')}
+			<Button
+				variant="danger"
+				onclick={() =>
+					handleConfirm({
+						type: 'error',
+						title: '删除确认',
+						message: '确定要删除吗？真的要删除吗？删除后无法恢复！',
+						onConfirm: async () => {
+							// 延迟3秒模拟异步操作
+							await new Promise((resolve) => setTimeout(resolve, 3000));
+						}
+					})}
 				>这是一个命令式删除确认弹窗
 			</Button>
-			<Button variant="primary" onclick={() => handleConfirm('primary')}
+			<Button
+				variant="primary"
+				onclick={() =>
+					handleConfirm({
+						type: 'primary'
+					})}
 				>这是一个命令式确认弹窗
 			</Button>
-			<Button variant="warning" onclick={() => handleConfirm('warning')}>
-				这是一个命令式警告弹窗
+			<Button
+				variant="warning"
+				onclick={() =>
+					handleConfirm({
+						type: 'warning',
+						cancelText: null
+					})}
+			>
+				没有取消按钮
 			</Button>
 			<Button variant="primary" onclick={() => handleInput()}>这是一个输入框弹窗</Button>
 		</div>

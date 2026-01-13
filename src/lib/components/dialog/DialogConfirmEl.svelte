@@ -5,6 +5,8 @@
 	 - open: boolean 弹窗是否打开
      - title?: string 弹窗标题
 	 - message?: string 弹窗内容
+	 - cancelText?: string | null 取消按钮文本
+	 - confirmText?: string | null 确认按钮文本
 	 - type?: 'error' | 'warning' | 'primary' 弹窗类型
 	 - onCancel?: () => void 点击取消按钮时触发的回调函数
 	 - onConfirm?: () => void 点击确认按钮时触发的回调函数\
@@ -23,8 +25,10 @@
 		title?: string;
 		message?: string;
 		type?: 'error' | 'warning' | 'primary';
-		onCancel?: () => Promise<void>;
-		onConfirm?: () => Promise<void>;
+		cancelText?: string | null;
+		confirmText?: string | null;
+		onCancel?: () => Promise<void> | void;
+		onConfirm?: () => Promise<void> | void;
 		onClose: () => void;
 	};
 
@@ -45,6 +49,8 @@
 		title,
 		type = 'primary',
 		message,
+		cancelText = '取消',
+		confirmText = '确定',
 		onCancel,
 		onConfirm,
 		onClose
@@ -64,7 +70,7 @@
 			return;
 		}
 		if (onCancel) {
-			await onCancel();
+			await Promise.resolve(onCancel());
 		}
 		handleClose();
 	}
@@ -76,7 +82,7 @@
 		}
 		buttonLoading = true;
 		if (onConfirm) {
-			await onConfirm();
+			await Promise.resolve(onConfirm());
 		}
 		buttonLoading = false;
 		handleClose();
@@ -106,16 +112,22 @@
 					{message}
 				</div>
 				<!-- 弹窗底部区域 -->
-				<div class="my-dialog-footer flex justify-end gap-4">
-					<Button class="w-1/2" variant="plain" onclick={handleCancel}>取消</Button>
-					<Button
-						class="w-1/2"
-						loading={buttonLoading}
-						variant={buttonTypeMap[type]}
-						onclick={handleConfirm}
-					>
-						确定
-					</Button>
+				<div class="my-dialog-footer flex justify-center gap-4">
+					{#if cancelText}
+						<Button class="w-1/2" variant="plain" onclick={handleCancel}>
+							{cancelText}
+						</Button>
+					{/if}
+					{#if confirmText}
+						<Button
+							class="w-1/2"
+							loading={buttonLoading}
+							variant={buttonTypeMap[type]}
+							onclick={handleConfirm}
+						>
+							{confirmText}
+						</Button>
+					{/if}
 				</div>
 			</div>
 		</div>
