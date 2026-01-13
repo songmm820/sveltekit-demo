@@ -115,9 +115,9 @@
 		style:z-index={zIndex}
 		style:transform={`translateY(${offsetY}px)`}
 	>
-		<div class="flex items-center gap-2">
+		<div class="text-center">
 			<!-- {@render Icon()} -->
-			<span>{message}</span>
+			{message}
 		</div>
 
 		{#if description}
