@@ -33,7 +33,7 @@
 	};
 
 	const zIndex: number = useZIndex.getNext();
-	const duration: number = 200;
+	const duration: number = 300;
 
 	const buttonTypeMap: Record<
 		Required<DialogConfirmElProps>['type'],

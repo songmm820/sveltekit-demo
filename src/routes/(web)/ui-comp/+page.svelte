@@ -8,6 +8,9 @@
 	import { ThemeEnum, useThemeContext } from '$lib/hooks/use-theme.svelte';
 	import Image from '$lib/components/image/Image.svelte';
 	import favicon from '$lib/assets/favicon.svg';
+	import FloatElement from '$lib/components/float-element/FloatElement.svelte';
+	import useEventListener from '$lib/hooks/use-event-listener.svelte';
+	import { browser } from '$app/environment';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');
@@ -60,6 +63,34 @@
 			description: description
 		});
 	};
+
+	let floatElementOpen = $state<boolean>(false);
+
+	if (browser) {
+		useEventListener(
+			document,
+			'scroll',
+			() => {
+				const scrollTop = document.documentElement.scrollTop;
+				if (scrollTop > 200) {
+					floatElementOpen = true;
+				} else {
+					floatElementOpen = false;
+				}
+			},
+			{
+				immediate: true
+			}
+		);
+	}
+
+	function scrollToTop() {
+		// 平滑滚动到顶部
+		window.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+	}
 
 	useScrollBottom(() => document, {
 		threshold: 0,
@@ -190,4 +221,9 @@
 			<Image src={favicon} alt="SvelteKit" />
 		</div>
 	</div>
+
+	<!-- 浮动元素 -->
+	<FloatElement open={floatElementOpen} position="bottom-right">
+		<Button class="rounded-full" variant="primary" onclick={() => scrollToTop()}>返回顶部</Button>
+	</FloatElement>
 </main>

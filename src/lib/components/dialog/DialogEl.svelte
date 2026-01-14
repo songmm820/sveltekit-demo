@@ -36,7 +36,7 @@
 		title,
 		width,
 		height,
-		duration = 200,
+		duration = 300,
 		footer,
 		children,
 		onClose

@@ -21,7 +21,7 @@
 
 	const id = $props.id();
 
-	let { zIndex, duration = 400, children }: OverlayProps = $props();
+	let { zIndex, duration = 300, children }: OverlayProps = $props();
 
 	// 弹窗遮罩组件的动作函数, 用于禁止滚动body
 	const overlayAction: Attachment<HTMLElement> = (element: HTMLElement) => {

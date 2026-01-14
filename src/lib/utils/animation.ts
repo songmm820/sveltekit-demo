@@ -1,4 +1,4 @@
-import { backInOut } from 'svelte/easing';
+import { backInOut, linear } from 'svelte/easing';
 
 type AnimationParams = {
 	delay?: number;
@@ -15,11 +15,7 @@ type AnimationParams = {
  * @returns 动画配置对象
  */
 export function scale(node: HTMLElement, params?: AnimationParams) {
-	const { duration, easing, delay } = params || {
-		duration: 400,
-		easing: backInOut,
-		delay: 0
-	};
+	const { duration = 400, easing = backInOut, delay = 0 } = params || {};
 	const existingTransform = getComputedStyle(node).transform.replace('none', '');
 	const opacity = getComputedStyle(node).opacity;
 
@@ -42,16 +38,12 @@ export function scale(node: HTMLElement, params?: AnimationParams) {
  */
 export function translateY(node: HTMLElement, params?: AnimationParams & { offset?: number }) {
 	const {
-		duration,
-		easing,
-		delay,
-		offset = 70
-	} = params || {
-		duration: 400,
-		easing: backInOut,
-		delay: 0
-	};
-	const { reverse = false } = params || {};
+		duration = 400,
+		easing = linear,
+		delay = 0,
+		offset = 70,
+		reverse = false
+	} = params || {};
 	const existingTransform = getComputedStyle(node).transform.replace('none', '');
 	const opacity = getComputedStyle(node).opacity;
 
@@ -78,11 +70,7 @@ export function translateY(node: HTMLElement, params?: AnimationParams & { offse
  * @returns 动画配置对象
  */
 export function fade(node: HTMLElement, params?: AnimationParams) {
-	const { duration, easing, delay } = params || {
-		duration: 400,
-		easing: backInOut,
-		delay: 0
-	};
+	const { duration = 400, easing = backInOut, delay = 0 } = params || {};
 	const opacity = getComputedStyle(node).opacity;
 
 	return {

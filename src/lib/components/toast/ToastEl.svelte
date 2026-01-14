@@ -117,6 +117,7 @@
 	>
 		<div class="text-center">
 			<!-- {@render Icon()} -->
+			 <span class="icon-[ic--baseline-16mp]"></span>
 			{message}
 		</div>
 
