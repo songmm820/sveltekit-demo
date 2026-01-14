@@ -29,14 +29,17 @@ html[data-theme='dark'] {
 
 html,
 body {
-	width: 100%;
+	width: calc(100vw - 12px);
 	height: 100%;
 	font-size: 16px;
 	color: var(--text);
 	background-color: var(--background);
 	user-select: none;
 	transition: all 0.3s ease-in-out;
+	scrollbar-gutter: stable; /* 防止滚动条宽度变化导致布局变化 */
 }
+
+/* 预留滚动条宽度 */
 
 :root {
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
