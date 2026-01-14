@@ -18,8 +18,8 @@
 
 	const themeCtx = useThemeContext();
 
-	let dialogOpenOuter = $state<boolean>(false);
-	let dialogOpenInner = $state<boolean>(false);
+	let dialogOpenOuter: boolean = $state(false);
+	let dialogOpenInner: boolean = $state(false);
 
 	const debounceOnReachBottom = debounce(handleReachBottom, 500);
 
@@ -64,7 +64,7 @@
 		});
 	};
 
-	let floatElementOpen = $state<boolean>(false);
+	let floatElementOpen: boolean = $state(false);
 
 	if (browser) {
 		useEventListener(

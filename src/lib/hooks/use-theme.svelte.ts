@@ -17,7 +17,7 @@ type ThemeContext = {
 };
 
 export function createThemeContext(defaultMode: ThemeEnum): ThemeContext {
-	let mode = $state<ThemeEnum>(defaultMode);
+	let mode: ThemeEnum = $state(defaultMode);
 
 	// 设置主题
 	function setTheme(newMode: ThemeEnum) {

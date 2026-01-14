@@ -16,7 +16,7 @@ export default function useCounter(
 	reset: () => void;
 	setCount: (v: number) => void;
 } {
-	let count = $state<number>(initialValue);
+	let count: number = $state(initialValue);
 
 	const increment = () => {
 		count += step;

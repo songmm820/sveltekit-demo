@@ -17,11 +17,9 @@ export default function useScrollBottom(
 	ref: Target | (() => Target),
 	_options?: ScrollBottomOptions
 ): void {
-	let isBottom = $state<boolean>(false);
-	const options = _options ?? {
-		threshold: 0,
-		onReachBottom: () => {}
-	};
+	let isBottom: boolean = $state(false);
+
+	const { threshold = 0, onReachBottom } = _options ?? {};
 
 	$effect(() => {
 		const target = typeof ref === 'function' ? ref() : ref;
@@ -41,9 +39,9 @@ export default function useScrollBottom(
 				isBottom = false;
 				return;
 			}
-			isBottom = scrollTop + clientHeight >= scrollHeight - options.threshold;
+			isBottom = scrollTop + clientHeight >= scrollHeight - threshold;
 			if (isBottom) {
-				options.onReachBottom();
+				onReachBottom?.();
 			}
 		}
 

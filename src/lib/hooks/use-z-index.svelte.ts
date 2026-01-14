@@ -4,7 +4,7 @@ import { SvelteSet } from 'svelte/reactivity';
  * 用于管理z-index的钩子
  */
 export default class UseZIndex {
-	#used = $state<SvelteSet<number>>(new SvelteSet());
+	#used: SvelteSet<number> = $state(new SvelteSet());
 
 	private static instance: UseZIndex | null = null;
 

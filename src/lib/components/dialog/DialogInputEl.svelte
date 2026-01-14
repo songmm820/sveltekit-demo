@@ -42,9 +42,9 @@
 		onClose
 	}: DialogInputElProps = $props();
 
-	let buttonLoading = $state<boolean>(false);
-	let inputValue = $state<string>('');
-	let inputRef = $state<Input | null>(null);
+	let buttonLoading: boolean = $state(false);
+	let inputValue: string = $state('');
+	let inputRef: Input | null = $state(null);
 
 	// 关闭弹窗
 	export async function close() {

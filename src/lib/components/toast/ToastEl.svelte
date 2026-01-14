@@ -51,7 +51,7 @@
 		onClose
 	}: ToastElProps = $props();
 
-	let index = $state<number>(0);
+	let index: number = $state(0);
 
 	export function onUpdateIndex(newIndex: number) {
 		index = newIndex;

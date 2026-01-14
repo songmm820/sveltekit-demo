@@ -10,11 +10,11 @@ type UseClipboardOptions = {
  */
 export default class UseClipboard {
 	// 复制状态
-	#copiedStatus = $state<CopiedStatus>();
+	#copiedStatus: CopiedStatus | undefined = $state(undefined);
 	delay: number;
 	reset: boolean;
 	timeout: ReturnType<typeof setTimeout> | undefined = undefined;
-	#lastCopied = $state<string | undefined>(undefined);
+	#lastCopied: string | undefined = $state(undefined);
 
 	constructor({ delay = 1000, reset = true }: Partial<UseClipboardOptions>) {
 		this.delay = delay;

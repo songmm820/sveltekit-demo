@@ -9,7 +9,7 @@ export default function useToggle(initialValue = false): {
 	toggle: () => void;
 	setValue: (v: boolean) => void;
 } {
-	let value = $state<boolean>(initialValue);
+	let value: boolean = $state(initialValue);
 
 	const toggle = () => {
 		value = !value;

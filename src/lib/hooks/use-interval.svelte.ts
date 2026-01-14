@@ -9,7 +9,7 @@ export default function useInterval(
 	callback: () => void,
 	interval: number | null = 1000
 ): { start: () => void; clear: () => void } {
-	let timerId = $state<ReturnType<typeof setInterval> | null>(null);
+	let timerId: ReturnType<typeof setInterval> | null = $state(null);
 
 	const start = () => {
 		if (interval === null) return;

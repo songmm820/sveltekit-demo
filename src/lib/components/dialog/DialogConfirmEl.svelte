@@ -56,7 +56,7 @@
 		onClose
 	}: DialogConfirmElProps = $props();
 
-	let buttonLoading = $state<boolean>(false);
+	let buttonLoading: boolean = $state(false);
 
 	const handleClose = async () => {
 		open = false;
