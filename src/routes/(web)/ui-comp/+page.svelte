@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Button } from '$lib/components/button';
 	import debounce from '$lib/utils/debounce';
 	import Input from '$lib/components/input/Input.svelte';
 	import useScrollBottom from '$lib/hooks/use-scroll-bottom.svelte';
@@ -11,6 +10,7 @@
 	import FloatElement from '$lib/components/float-element/FloatElement.svelte';
 	import useEventListener from '$lib/hooks/use-event-listener.svelte';
 	import { browser } from '$app/environment';
+	import Button from '$lib/components/button/Button.svelte';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');

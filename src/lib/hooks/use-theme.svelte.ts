@@ -11,7 +11,7 @@ export const THEME_CONTEXT_KEY = Symbol('theme');
 export const THEME_CACHE_KEY = 'THEME_MODE';
 
 type ThemeContext = {
-	mode: ThemeEnum;
+	get mode(): ThemeEnum;
 	setTheme: (mode: ThemeEnum) => void;
 	toggleTheme: () => void;
 };
@@ -25,6 +25,7 @@ export function createThemeContext(defaultMode: ThemeEnum): ThemeContext {
 			throw new Error(`无效主题：${newMode}，仅支持 light/dark`);
 		}
 		mode = newMode;
+		if (!browser) return;
 		document.documentElement.setAttribute('data-theme', newMode);
 		localStorage.setItem(THEME_CACHE_KEY, newMode);
 	}
@@ -35,7 +36,13 @@ export function createThemeContext(defaultMode: ThemeEnum): ThemeContext {
 		setTheme(mode);
 	}
 
-	const context: ThemeContext = { mode, setTheme, toggleTheme };
+	const context: ThemeContext = {
+		get mode() {
+			return mode;
+		},
+		setTheme,
+		toggleTheme
+	};
 	setContext(THEME_CONTEXT_KEY, context);
 
 	return context;
