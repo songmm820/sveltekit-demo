@@ -4,7 +4,15 @@ import tailwindcss from '@tailwindcss/vite';
 import { enhancedImages } from '@sveltejs/enhanced-img';
 
 export default defineConfig({
-	plugins: [tailwindcss(), sveltekit(), enhancedImages()],
+	plugins: [
+		tailwindcss({
+			optimize: {
+				minify: true
+			}
+		}),
+		sveltekit(),
+		enhancedImages()
+	],
 
 	build: {
 		rollupOptions: {
