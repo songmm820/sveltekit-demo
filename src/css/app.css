@@ -4,6 +4,7 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 html[data-theme='light'] {
+	--scroll-color: #ebeaea;
 	--background: #ffffff;
 	--background-sec: #f5f5f5;
 	--foreground: #000;
@@ -16,11 +17,12 @@ html[data-theme='light'] {
 }
 
 html[data-theme='dark'] {
-	--background: lab(2.75381% 0 0);
+	--scroll-color: rgba(102, 102, 102, 0.5);
+	--background: #1f1f1f;
 	--background-sec: #2d2d2d;
 	--foreground: #fff;
 	--text: #f5f5f5;
-	--text-sec: lab(45% 0 0);
+	--text-sec: #999;
 	--border: lab(100% 0 0/0.1);
 	--border-sec: lab(100% 0 0/0.1);
 	--popover: #00000080;
@@ -36,7 +38,8 @@ body {
 	background-color: var(--background);
 	user-select: none;
 	transition: all 0.3s ease-in-out;
-	scrollbar-gutter: stable; /* 防止滚动条宽度变化导致布局变化 */
+	/* 防止滚动条宽度变化导致布局变化 */
+	scrollbar-gutter: stable; 
 }
 
 /* 预留滚动条宽度 */

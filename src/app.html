@@ -7,7 +7,7 @@
 		<script>
 			// 注入主题模式脚本，防止首次加载时主题模式页面闪烁
 			const theme = localStorage.getItem('THEME_MODE');
-			document.documentElement.setAttribute('data-theme', theme);
+			document.documentElement.setAttribute('data-theme', theme || 'light');
 		</script>
 	</head>
 	<body data-sveltekit-preload-data="hover">
