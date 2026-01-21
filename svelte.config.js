@@ -6,8 +6,17 @@ import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 const config = {
 	// Consult https://svelte.dev/docs/kit/integrations
 	// for more information about preprocessors
-	preprocess: vitePreprocess(),
+	preprocess: vitePreprocess({
+		// 用于在标签中启用 CSS 预处理器：PostCSS、SCSS、Less、Stylus 和 SugarSS。
+		style: false
+	}),
 
+	compilerOptions: {
+		// 保留 HTML 注释
+		preserveComments: false,
+		// 保留 HTML 空格
+		preserveWhitespace: false,
+	},
 	kit: {
 		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.

@@ -13,10 +13,19 @@ export default defineConfig({
 		sveltekit(),
 		enhancedImages()
 	],
-
+	preview: {
+		// 预览时，端口号为 4143
+		port: 4143,
+		// 预览时，严格使用端口号 4143
+		strictPort: true
+	},
 	build: {
+		// 打包时，每个 chunk 的大小超过 300KB 时，会警告提示
+		chunkSizeWarningLimit: 500,
 		rollupOptions: {
 			output: {
+				// 压缩输出的代码
+				compact: true,
 				manualChunks(id) {
 					// 将 components 目录所有组件打包成一个chunk
 					if (id.includes('/src/lib/components/') || id.includes('/src/components/')) {
