@@ -39,7 +39,7 @@ body {
 	user-select: none;
 	transition: all 0.3s ease-in-out;
 	/* 防止滚动条宽度变化导致布局变化 */
-	scrollbar-gutter: stable; 
+	scrollbar-gutter: stable;
 }
 
 /* 预留滚动条宽度 */

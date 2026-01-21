@@ -37,13 +37,7 @@ export function scale(node: HTMLElement, params?: AnimationParams) {
  * @returns 动画配置对象
  */
 export function translateY(node: HTMLElement, params?: AnimationParams & { offset?: number }) {
-	const {
-		duration = 400,
-		easing = linear,
-		delay = 0,
-		offset = 70,
-		reverse = false
-	} = params || {};
+	const { duration = 400, easing = linear, delay = 0, offset = 70, reverse = false } = params || {};
 	const existingTransform = getComputedStyle(node).transform.replace('none', '');
 	const opacity = getComputedStyle(node).opacity;
 

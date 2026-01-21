@@ -98,13 +98,13 @@
 	});
 </script>
 
-<main class="w-full h-full p-6">
-	<h1 class="text-3xl font-bold text-center">Welcome to SvelteKit UI Components</h1>
+<main class="h-full w-full p-6">
+	<h1 class="text-center text-3xl font-bold">Welcome to SvelteKit UI Components</h1>
 
 	<!-- 亮色|暗色模式 -->
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">亮色|暗色模式</h2>
-		<div class="mt-3 flex flex-wrap gap-4 items-center">
+		<div class="mt-3 flex flex-wrap items-center gap-4">
 			<Button variant="primary" onclick={() => themeCtx?.setTheme(ThemeEnum.LIGHT)}
 				>Change Light Theme
 			</Button>
@@ -117,7 +117,7 @@
 	<!-- 按钮 -->
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">按钮</h2>
-		<div class="mt-3 flex flex-wrap gap-4 items-center">
+		<div class="mt-3 flex flex-wrap items-center gap-4">
 			<Button variant="primary">Primary Button</Button>
 			<Button variant="primary" rounded>Rounded Button</Button>
 			<Button variant="primary" disabled>Disabled Primary Button</Button>
@@ -133,7 +133,7 @@
 	<!-- 输入框 -->
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">输入框</h2>
-		<div class="mt-3 flex flex-wrap gap-4 items-center">
+		<div class="mt-3 flex flex-wrap items-center gap-4">
 			<Input placeholder="小写转大写" onFormat={(v) => v.toLocaleUpperCase()} />
 			<Input placeholder="圆形" rounded />
 			<Input placeholder="禁用" disabled />
@@ -144,7 +144,7 @@
 	<!-- 弹窗 -->
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">弹窗</h2>
-		<div class="mt-3 flex flex-wrap gap-4 items-center">
+		<div class="mt-3 flex flex-wrap items-center gap-4">
 			<Button variant="primary" onclick={() => (dialogOpenOuter = true)}>打开弹窗</Button>
 			<Dialog open={dialogOpenOuter} title="这是一个弹窗" onClose={() => (dialogOpenOuter = false)}>
 				<Button variant="primary" onclick={() => (dialogOpenInner = true)}>打开嵌套弹窗</Button>
@@ -202,7 +202,7 @@
 	<!-- 土司 -->
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">土司</h2>
-		<div class="mt-3 flex flex-wrap gap-4 items-center">
+		<div class="mt-3 flex flex-wrap items-center gap-4">
 			<Button variant="primary" onclick={() => handleToast('top', '上方土司')}>显示土司</Button>
 			<Button variant="primary" onclick={() => handleToast('bottom', '下方土司')}>显示土司</Button>
 			<Button
@@ -217,7 +217,7 @@
 	<!-- 图片 -->
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">图片</h2>
-		<div class="mt-3 flex flex-wrap gap-4 items-center">
+		<div class="mt-3 flex flex-wrap items-center gap-4">
 			<Image src={favicon} alt="SvelteKit" />
 		</div>
 	</div>

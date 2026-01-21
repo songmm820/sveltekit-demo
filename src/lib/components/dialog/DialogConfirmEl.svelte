@@ -101,14 +101,14 @@
 			class="my-dialog-alert-container w-94"
 			style:z-index={zIndex}
 		>
-			<div class="w-full h-full flex flex-col">
+			<div class="flex h-full w-full flex-col">
 				<div class="my-dialog-title">
-					<div class="text-lg text-center font-bold text-var(--text)">
+					<div class="text-var(--text) text-center text-lg font-bold">
 						{title}
 					</div>
 				</div>
 				<!-- 弹窗内容区域 -->
-				<div class="text-center pt-4 pb-6 text-(--text-sec)">
+				<div class="pt-4 pb-6 text-center text-(--text-sec)">
 					{message}
 				</div>
 				<!-- 弹窗底部区域 -->
@@ -138,7 +138,7 @@
 	@reference '#app.css';
 
 	.my-dialog-alert-container {
-		@apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-		p-6 bg-(--background) rounded-xl border-2 border-(--border-sec);
+		@apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform
+		rounded-xl border-2 border-(--border-sec) bg-(--background) p-6;
 	}
 </style>

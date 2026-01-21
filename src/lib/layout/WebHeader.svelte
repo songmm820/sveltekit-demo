@@ -43,12 +43,12 @@
 <header
 	class={cn(
 		'bg-(--background) text-(--text)',
-		'px-6 shadow-sm opacity-95 border-b border-(--border-sec) flex items-center',
+		'flex items-center border-b border-(--border-sec) px-6 opacity-95 shadow-sm',
 		className
 	)}
 >
-	<img src={favicon} alt="logo" class="size-10 mr-5" />
-	<nav class="container size-full flex justify-between items-center">
+	<img src={favicon} alt="logo" class="mr-5 size-10" />
+	<nav class="container flex size-full items-center justify-between">
 		<div class="flex items-center gap-6">
 			{#each NavList as item (item.href)}
 				<a

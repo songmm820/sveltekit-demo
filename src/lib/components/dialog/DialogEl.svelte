@@ -62,11 +62,11 @@
 			style:width
 			style:height
 		>
-			<div class="w-full h-full flex flex-col">
+			<div class="flex h-full w-full flex-col">
 				{#if title}
 					<div class="my-dialog-title">
 						{#if typeof title === 'string'}
-							<div class="w-full flex justify-center items-center text-lg text-center font-bold">
+							<div class="flex w-full items-center justify-center text-center text-lg font-bold">
 								{title}
 							</div>
 						{:else}
@@ -98,7 +98,7 @@
 	@reference '#app.css';
 
 	.my-dialog-container {
-		@apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-		p-4 bg-(--background) rounded-xl border-2 border-(--border-sec);
+		@apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform
+		rounded-xl border-2 border-(--border-sec) bg-(--background) p-4;
 	}
 </style>

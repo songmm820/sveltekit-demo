@@ -50,20 +50,20 @@
 	const buttonVariants = cva('my-button', {
 		variants: {
 			variant: {
-				primary: 'bg-primary text-white px-4 py-2 rounded-md hover:opacity-90',
-				outline: 'border-2 border-primary text-primary px-4 py-2 rounded-md hover:bg-primary/10',
-				danger: 'bg-danger text-white px-4 py-2 rounded-md hover:opacity-90',
-				success: 'bg-success text-white px-4 py-2 rounded-md hover:opacity-90',
+				primary: 'rounded-md bg-primary px-4 py-2 text-white hover:opacity-90',
+				outline: 'rounded-md border-2 border-primary px-4 py-2 text-primary hover:bg-primary/10',
+				danger: 'rounded-md bg-danger px-4 py-2 text-white hover:opacity-90',
+				success: 'rounded-md bg-success px-4 py-2 text-white hover:opacity-90',
 				link: 'text-primary hover:opacity-90',
-				plain: 'bg-(--background-sec) text-(--text-sec) px-4 py-2 rounded-md hover:text-(--text)',
-				warning: 'bg-warning text-white px-4 py-2 rounded-md hover:opacity-90'
+				plain: 'rounded-md bg-(--background-sec) px-4 py-2 text-(--text-sec) hover:text-(--text)',
+				warning: 'rounded-md bg-warning px-4 py-2 text-white hover:opacity-90'
 			},
 			block: {
 				true: 'w-full',
 				false: 'w-fit'
 			},
 			disabled: {
-				true: 'opacity-80 cursor-not-allowed',
+				true: 'cursor-not-allowed opacity-80',
 				false: ''
 			},
 			rounded: {
@@ -83,11 +83,11 @@
 {#snippet loadingIcon()}
 	{#if ['danger', 'warning', 'success'].includes(variant)}
 		<div
-			class="mr-1.5 w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"
+			class="mr-1.5 h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white"
 		></div>
 	{:else}
 		<div
-			class="mr-1.5 w-4 h-4 border-2 border-gray-200 border-t-primary rounded-full animate-spin"
+			class="mr-1.5 h-4 w-4 animate-spin rounded-full border-2 border-gray-200 border-t-primary"
 		></div>
 	{/if}
 {/snippet}
@@ -107,7 +107,6 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-button {
-		@apply inline-flex items-center justify-center h-11
-		transition-all duration-300;
+		@apply inline-flex h-11 items-center justify-center transition-all duration-300;
 	}
 </style>

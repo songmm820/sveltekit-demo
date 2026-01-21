@@ -60,9 +60,9 @@
 	const toastVariant = cva('my-toast', {
 		variants: {
 			position: {
-				top: 'top-16 left-1/2 transform -translate-x-1/2',
-				bottom: 'bottom-16 left-1/2 transform -translate-x-1/2',
-				center: 'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+				top: 'top-16 left-1/2 -translate-x-1/2 transform',
+				bottom: 'bottom-16 left-1/2 -translate-x-1/2 transform',
+				center: 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform'
 			},
 			rounded: {
 				true: 'rounded-full',
@@ -117,7 +117,7 @@
 	>
 		<div class="text-center">
 			<!-- {@render Icon()} -->
-			 <span class="icon-[ic--baseline-16mp]"></span>
+			<span class="icon-[ic--baseline-16mp]"></span>
 			{message}
 		</div>
 
@@ -133,6 +133,6 @@
 	@reference '#app.css';
 
 	.my-toast {
-		@apply fixed px-5 py-3 min-w-40 bg-(--toast) text-center text-md shadow-sm transition-all duration-300;
+		@apply fixed min-w-40 bg-(--toast) px-5 py-3 text-center text-md shadow-sm transition-all duration-300;
 	}
 </style>

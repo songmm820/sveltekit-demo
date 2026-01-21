@@ -110,14 +110,14 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-input-container {
-		@apply inline-flex items-center h-11 px-6 py-1 
-		bg-(--background-sec) focus-within:bg-(--background)
-		border-2 border-transparent focus-within:border-primary 
+		@apply inline-flex h-11 items-center border-2 border-transparent 
+		bg-(--background-sec) px-6
+		py-1 transition-all duration-300 
 		placeholder:text-(--text) placeholder:opacity-50
-        transition-all duration-300;
+        focus-within:border-primary focus-within:bg-(--background);
 	}
 
 	.my-input {
-		@apply flex-1 h-full border-none outline-none text-base text-(--text) bg-transparent;
+		@apply h-full flex-1 border-none bg-transparent text-base text-(--text) outline-none;
 	}
 </style>

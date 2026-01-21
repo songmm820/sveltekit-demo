@@ -15,7 +15,7 @@
 	}
 </script>
 
-<main class="w-full h-full p-6 flex flex-col items-center justify-center gap-4">
+<main class="flex h-full w-full flex-col items-center justify-center gap-4 p-6">
 	<Button onclick={onGoToUiComponentsPage}>Go To UI Components Page</Button>
 
 	<Button onclick={onToggleTheme}>Toggle Theme</Button>

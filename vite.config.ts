@@ -15,6 +15,10 @@ export default defineConfig({
 						// 将这些文件打包到名为 "components" 的 chunk 中
 						return 'components';
 					}
+					// tailwindcss 相关文件
+					if (id.includes('tailwindcss')) {
+						return 'tailwindcss';
+					}
 					// 第三方库
 					if (id.includes('node_modules')) {
 						return 'vendor';
