@@ -20,6 +20,8 @@
 </script>
 
 <main class="flex h-full w-full flex-col items-center justify-center gap-4 p-6">
+	<h1>{import.meta.env.MODE}</h1>
+
 	<Button onclick={onGoToUiComponentsPage}>Go To UI Components Page</Button>
 
 	<Button onclick={onToggleTheme}>Toggle Theme</Button>
