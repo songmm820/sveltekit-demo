@@ -1,0 +1,67 @@
+// 服务器端钩子
+import type {
+	Handle,
+	HandleFetch,
+	HandleServerError,
+	HandleValidationError,
+	ServerInit
+} from '@sveltejs/kit';
+
+/**
+ * 该函数在 SvelteKit 服务器启动时调用一次。
+ * 它可以用于初始化应用程序，例如连接数据库、设置缓存或加载配置。
+ * @see https://svelte.dev/docs/kit/hooks#Shared-hooks-init
+ */
+export const init: ServerInit = async () => {
+	// 初始化应用
+	// eslint-disable-next-line no-console
+	console.log('初始化应用 FROM SERVER');
+};
+
+/**
+ * 该函数每次 SvelteKit 服务器接收到请求——无论是在应用运行时，还是在运行期间发生预渲染——并确定回应。
+ * 这允许你修改响应头或正体，或者完全绕过SvelteKit（例如程序化路由实现）。
+ * @see https://svelte.dev/docs/kit/hooks#Server-hooks-locals
+ */
+export const handle: Handle = async ({ event, resolve }) => {
+	// 处理请求
+	const response = await resolve(event);
+	// 处理响应
+	return response;
+};
+
+/**
+ * 该函数允许你修改（或替换）event.fetch调用在服务器端点（或预渲染期间）运行的端点。
+ * 例如，你的函数可能会请求访问公共URL，比如用户在客户端导航到相应页面时。
+ * 但在SSR期间，直接访问API可能更合理（绕过它和公共互联网之间的代理和负载均衡器）。
+ * @see https://svelte.dev/docs/kit/hooks#Server-hooks-handleFetch
+ */
+export const handleFetch: HandleFetch = async ({ request, fetch }) => {
+	// 处理请求
+	const response = await fetch(request);
+	// 处理响应
+	return response;
+};
+
+/**'
+ * 该函数允许你修改（或替换）SvelteKit 服务器在处理表单验证错误时返回的响应。
+ * 例如，你可能想返回一个自定义错误消息，或者添加额外的元数据。
+ * @see https://svelte.dev/docs/kit/hooks#Server-hooks-handleValidationError
+ */
+export const handleValidationError: HandleValidationError = async ({ issues }) => {
+	return {
+		message: 'Validation error',
+		issues
+	};
+};
+
+/**
+ * 该函数允许你修改（或替换）SvelteKit 服务器在处理错误时返回的响应。
+ * 例如，你可能想返回一个自定义错误消息，或者添加额外的元数据。
+ * @see https://svelte.dev/docs/kit/hooks#Shared-hooks-handleError
+ */
+export const handleError: HandleServerError = async ({ error, event, status, message }) => {
+	// 处理错误
+	// eslint-disable-next-line no-console
+	console.error(error, event, status, message);
+};
