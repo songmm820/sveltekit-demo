@@ -11,7 +11,7 @@
 	import type { ClassValue } from 'svelte/elements';
 	import favicon from '$lib/assets/favicon.svg';
 
-	type WebRoute = '/ui-comp' | '/';
+	type WebRoute = '/ui-comp' | '/' | '/about';
 
 	type NavItem = {
 		label: string;
@@ -31,6 +31,10 @@
 		{
 			label: 'Ui Components',
 			href: '/ui-comp'
+		},
+		{
+			label: 'About',
+			href: '/about'
 		}
 	];
 
@@ -53,10 +57,9 @@
 			{#each NavList as item (item.href)}
 				<a
 					href={resolve(item.href)}
-					class={cn('text-lg font-medium', {
-						'text-primary': item.href === currentRoute
-					})}
-					>{item.label}
+					class={cn('text-lg font-medium', item.href === currentRoute && 'text-primary')}
+				>
+					{item.label}
 				</a>
 			{/each}
 		</div>

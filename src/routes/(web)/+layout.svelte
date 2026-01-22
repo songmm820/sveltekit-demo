@@ -21,8 +21,11 @@
 	<meta name="description" content="This is where the description goes for SEO" />
 </svelte:head>
 
-<div class="h-15 w-full">
-	<WebHeader class="fixed top-0 right-0 left-0 z-2 h-15" />
+<div class="flex size-full flex-col items-center justify-center">
+	<div class="h-15 w-full">
+		<WebHeader class="fixed top-0 right-0 left-0 z-2 h-15" />
+	</div>
+	<div class="min-h-0 flex-1">
+		{@render children()}
+	</div>
 </div>
-
-{@render children()}

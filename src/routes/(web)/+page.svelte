@@ -10,6 +10,10 @@
 		goto(resolve('/ui-comp'));
 	}
 
+	function onToAbout() {
+		goto(resolve('/about'));
+	}
+
 	function onToggleTheme() {
 		themeCtx?.toggleTheme();
 	}
@@ -19,6 +23,8 @@
 	<Button onclick={onGoToUiComponentsPage}>Go To UI Components Page</Button>
 
 	<Button onclick={onToggleTheme}>Toggle Theme</Button>
+
+	<Button onclick={onToAbout}>About</Button>
 </main>
 
 <style lang="css">
