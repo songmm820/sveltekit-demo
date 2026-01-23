@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // 服务器端钩子
 import type {
 	Handle,
@@ -16,6 +17,7 @@ export const init: ServerInit = async () => {
 	// 初始化应用
 	// eslint-disable-next-line no-console
 	console.log('初始化应用 FROM SERVER');
+
 };
 
 /**
@@ -62,6 +64,4 @@ export const handleValidationError: HandleValidationError = async ({ issues }) =
  */
 export const handleError: HandleServerError = async ({ error, event, status, message }) => {
 	// 处理错误
-	// eslint-disable-next-line no-console
-	console.error(error, event, status, message);
 };

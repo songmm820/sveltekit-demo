@@ -6,6 +6,7 @@
 	import { browser } from '$app/environment';
 	import { createThemeContext, type ThemeEnum } from '$lib/hooks/use-theme.svelte';
 	import WebHeader from '$lib/layout/WebHeader.svelte';
+	import { beforeNavigate } from '$app/navigation';
 
 	let { children }: LayoutProps = $props();
 
@@ -13,6 +14,10 @@
 		const theme = document.documentElement.dataset.theme as ThemeEnum;
 		createThemeContext(theme);
 	}
+
+	beforeNavigate((navigation) => {
+		console.log('全局导航拦截：', navigation.from?.url.pathname, '→', navigation.to?.url.pathname);
+	});
 </script>
 
 <svelte:head>

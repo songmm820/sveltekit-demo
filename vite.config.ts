@@ -13,6 +13,12 @@ export default defineConfig({
 		sveltekit(),
 		enhancedImages()
 	],
+	server: {
+		// 开发时，端口号为 4143
+		port: 4143,
+		// 开发时，严格使用端口号 4143
+		strictPort: true
+	},
 	preview: {
 		// 预览时，端口号为 4143
 		port: 4143,
