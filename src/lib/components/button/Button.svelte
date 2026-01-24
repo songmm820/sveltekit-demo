@@ -50,13 +50,13 @@
 	const buttonVariants = cva('my-button', {
 		variants: {
 			variant: {
-				primary: 'rounded-md bg-primary px-4 py-2 text-white hover:opacity-90',
+				primary: 'rounded-md bg-primary px-4 py-2 text-white hover:brightness-110 active:brightness-95',
 				outline: 'rounded-md border-2 border-primary px-4 py-2 text-primary hover:bg-primary/10',
-				danger: 'rounded-md bg-danger px-4 py-2 text-white hover:opacity-90',
-				success: 'rounded-md bg-success px-4 py-2 text-white hover:opacity-90',
-				link: 'text-primary hover:opacity-90',
+				danger: 'rounded-md bg-danger px-4 py-2 text-white hover:brightness-110 active:brightness-95',
+				success: 'rounded-md bg-success px-4 py-2 text-white hover:brightness-110 active:brightness-95',
+				link: 'text-primary hover:brightness-110 active:brightness-95',
 				plain: 'rounded-md bg-(--background-sec) px-4 py-2 text-(--text-sec) hover:text-(--text)',
-				warning: 'rounded-md bg-warning px-4 py-2 text-white hover:opacity-90'
+				warning: 'rounded-md bg-warning px-4 py-2 text-white hover:brightness-110 active:brightness-95'
 			},
 			block: {
 				true: 'w-full',
