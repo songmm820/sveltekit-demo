@@ -7,6 +7,7 @@
 	import { createThemeContext, type ThemeEnum } from '$lib/hooks/use-theme.svelte';
 	import WebHeader from '$lib/layout/WebHeader.svelte';
 	import { beforeNavigate } from '$app/navigation';
+	import { updated } from '$app/state';
 
 	let { children }: LayoutProps = $props();
 
@@ -26,11 +27,15 @@
 	<meta name="description" content="This is where the description goes for SEO" />
 </svelte:head>
 
-<div class="flex size-full flex-col items-center justify-center">
-	<div class="h-15 w-full">
-		<WebHeader class="fixed top-0 right-0 left-0 z-2 h-15" />
+{#if updated.current}
+	<p>页面已更新</p>
+{:else}
+	<div class="flex size-full flex-col items-center justify-center">
+		<div class="h-15 w-full">
+			<WebHeader class="fixed top-0 right-0 left-0 z-2 h-15" />
+		</div>
+		<div class="min-h-0 w-full flex-1">
+			{@render children()}
+		</div>
 	</div>
-	<div class="min-h-0 flex-1 w-full">
-		{@render children()}
-	</div>
-</div>
+{/if}
