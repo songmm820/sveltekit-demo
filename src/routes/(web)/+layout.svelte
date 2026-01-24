@@ -30,7 +30,7 @@
 	<div class="h-15 w-full">
 		<WebHeader class="fixed top-0 right-0 left-0 z-2 h-15" />
 	</div>
-	<div class="min-h-0 flex-1">
+	<div class="min-h-0 flex-1 w-full">
 		{@render children()}
 	</div>
 </div>

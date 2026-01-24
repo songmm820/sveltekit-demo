@@ -42,11 +42,13 @@
 	});
 </script>
 
-{#each confetti as c, index (index)}
-	<span class="confetto" style:left="{c.x}%" style:top="{c.y}%" style:scale={c.r}>
-		{c.character}
-	</span>
-{/each}
+<div class="size-full relative overflow-hidden">
+	{#each confetti as c, index (index)}
+		<span class="confetto" style:left="{c.x}%" style:top="{c.y}%" style:scale={c.r}>
+			{c.character}
+		</span>
+	{/each}
+</div>
 
 <style lang="css">
 	@reference '#app.css';
