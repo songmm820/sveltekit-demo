@@ -10,6 +10,7 @@
 	import { cn } from '$lib/utils/class';
 	import type { ClassValue } from 'svelte/elements';
 	import favicon from '$lib/assets/favicon.svg';
+	import { goto } from '$app/navigation';
 
 	type WebRoute = '/ui-comp' | '/' | '/about';
 
@@ -42,17 +43,21 @@
 
 	// 获取当前路由
 	const currentRoute = $derived.by(() => $page.url.pathname);
+
+	function onGotoWorkbench() {
+		goto(resolve('/workbench'));
+	}
 </script>
 
 <header
 	class={cn(
 		'bg-(--background) text-(--text)',
-		'flex items-center border-b border-(--border-sec) px-6 opacity-95 shadow-sm',
+		'flex items-center border-b border-(--border-sec) pl-7 opacity-95 shadow-sm',
 		className
 	)}
 >
 	<img src={favicon} alt="logo" class="mr-5 size-10" />
-	<nav class="container flex size-full items-center justify-between">
+	<nav class="flex size-full flex-1 items-center justify-between">
 		<div class="flex items-center gap-6">
 			{#each NavList as item (item.href)}
 				<a
@@ -64,4 +69,12 @@
 			{/each}
 		</div>
 	</nav>
+
+	<div
+		aria-hidden="true"
+		class="ml-7 flex h-full w-40 items-center justify-center bg-primary text-center text-white transition-all duration-300 hover:brightness-90"
+		onclick={onGotoWorkbench}
+	>
+		Go Workbench
+	</div>
 </header>
