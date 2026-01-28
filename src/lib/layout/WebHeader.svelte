@@ -6,7 +6,7 @@
 -->
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { cn } from '$lib/utils/class';
 	import type { ClassValue } from 'svelte/elements';
 	import favicon from '$lib/assets/favicon.svg';
@@ -42,7 +42,7 @@
 	let { class: className = '' }: WebHeaderProps = $props();
 
 	// 获取当前路由
-	const currentRoute = $derived.by(() => $page.url.pathname);
+	const currentRoute = $derived.by(() => page.url.pathname);
 
 	function onGotoWorkbench() {
 		goto(resolve('/workbench'));
