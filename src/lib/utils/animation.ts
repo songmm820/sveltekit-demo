@@ -36,22 +36,67 @@ export function scale(node: HTMLElement, params?: AnimationParams) {
  * @param params 动画配置
  * @returns 动画配置对象
  */
-export function translateY(node: HTMLElement, params?: AnimationParams & { offset?: number }) {
-	const { duration = 400, easing = linear, delay = 0, offset = 70, reverse = false } = params || {};
+export function translateY(
+	node: HTMLElement,
+	params?: AnimationParams & { offset?: number; full?: boolean }
+) {
+	const {
+		duration = 400,
+		easing = linear,
+		delay = 0,
+		offset = 70,
+		reverse = false,
+		full = false
+	} = params || {};
 	const existingTransform = getComputedStyle(node).transform.replace('none', '');
 	const opacity = getComputedStyle(node).opacity;
+	const fullOffset = full ? node.offsetHeight : offset;
 
 	return {
 		delay: delay,
 		duration: duration,
 		easing: easing,
 		css: (t: number) => {
-			let translateY = (1 - t) * offset;
-			if (reverse) {
-				translateY = translateY * -1;
-			}
+			const translateYValue = reverse ? (1 - t) * fullOffset * -1 : (1 - t) * fullOffset;
+
 			const opacityValue = t * parseFloat(opacity);
-			return `transform: ${existingTransform} translateY(${-translateY}px); opacity: ${opacityValue};`;
+			return `transform: ${existingTransform} translateY(${-translateYValue}px); opacity: ${opacityValue};`;
+		}
+	};
+}
+
+/**
+ * X轴平移动画
+ *
+ * @param node 弹窗元素
+ * @param reverse 是否反向动画
+ * @param params 动画配置
+ * @returns 动画配置对象
+ */
+export function translateX(
+	node: HTMLElement,
+	params?: AnimationParams & { offset?: number; full?: boolean }
+) {
+	const {
+		duration = 400,
+		easing = linear,
+		delay = 0,
+		offset = 70,
+		reverse = false,
+		full = false
+	} = params || {};
+	const existingTransform = getComputedStyle(node).transform.replace('none', '');
+	const opacity = getComputedStyle(node).opacity;
+	const fullOffset = full ? node.offsetWidth : offset;
+
+	return {
+		delay: delay,
+		duration: duration,
+		easing: easing,
+		css: (t: number) => {
+			const translateYValue = reverse ? (1 - t) * fullOffset * -1 : (1 - t) * fullOffset;
+			const opacityValue = t * parseFloat(opacity);
+			return `transform: ${existingTransform} translateX(${translateYValue}px); opacity: ${opacityValue};`;
 		}
 	};
 }

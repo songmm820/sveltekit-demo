@@ -3,12 +3,6 @@
  - 弹窗组件
  - 自定义属性
 	 - open: boolean 是否打开弹窗
-	 - width?: string | number 弹窗宽度
-	 - height?: string | number 弹窗高度
-	 - title?: Snippet | string 弹窗标题
-	 - footer?: Snippet 弹窗底部内容
-	 - children: Snippet 弹窗内容
-	 - onClose: () => void 关闭弹窗时触发的回调函数
 -->
 <script lang="ts">
 	import { mount, unmount, untrack } from 'svelte';
@@ -22,10 +16,8 @@
 		open = $bindable<boolean>(false),
 		width,
 		height,
-		title,
-		footer,
-		children,
-		onClose
+		onClose,
+		...restProps
 	}: DialogProps = $props();
 
 	let dialogEl: DialogEl | null = null;
@@ -58,12 +50,10 @@
 		dialogEl = mount(DialogEl, {
 			target: document.body,
 			props: {
-				title,
+				...restProps,
 				open: open,
 				width: getWidth(),
 				height: getHeight(),
-				footer,
-				children,
 				onClose: handleCloseDialog
 			}
 		});

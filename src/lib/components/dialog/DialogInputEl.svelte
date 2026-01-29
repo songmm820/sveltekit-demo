@@ -14,7 +14,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import Button from '$lib/components/button/Button.svelte';
-	import DialogOverlay from '$lib/components/dialog/DialogOverlay.svelte';
+	import DialogOverlay from '$lib/components/dialog/Overlay.svelte';
 	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
 	import { translateY } from '$lib/utils/animation';
 	import Input from '$lib/components/input/Input.svelte';

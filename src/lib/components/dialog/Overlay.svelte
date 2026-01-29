@@ -17,11 +17,12 @@
 		zIndex: number;
 		duration?: number;
 		children?: Snippet;
+		onClick?: () => void;
 	};
 
 	const id = $props.id();
 
-	let { zIndex, duration = 300, children }: OverlayProps = $props();
+	let { zIndex, duration = 300, children, onClick }: OverlayProps = $props();
 
 	// 弹窗遮罩组件的动作函数, 用于禁止滚动body
 	const overlayAction: Attachment<HTMLElement> = (element: HTMLElement) => {
@@ -31,12 +32,24 @@
 			element.style.overflow = originalOverflow;
 		};
 	};
+
+	// 点击遮罩关闭弹窗
+	function handleClick() {
+		onClick?.();
+	}
 </script>
 
 <!-- 禁止滚动body -->
 <svelte:body {@attach overlayAction} />
 
-<div transition:fade|global={{ duration }} {id} class="my-overlay" style:z-index={zIndex}>
+<div
+	aria-hidden="true"
+	transition:fade|global={{ duration }}
+	{id}
+	class="my-overlay"
+	style:z-index={zIndex}
+	onclick={handleClick}
+>
 	{#if children}
 		{@render children()}
 	{/if}

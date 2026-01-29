@@ -7,7 +7,7 @@
 	 - onClose?: () => void 关闭弹窗回调
 -->
 <script lang="ts">
-	import DialogOverlay from '$lib/components/dialog/DialogOverlay.svelte';
+	import DialogOverlay from '$lib/components/dialog/Overlay.svelte';
 	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
 	import { onDestroy } from 'svelte';
 	import { fade } from 'svelte/transition';

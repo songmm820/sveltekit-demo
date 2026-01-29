@@ -42,7 +42,10 @@ body {
 	scrollbar-gutter: stable;
 }
 
-/* 预留滚动条宽度 */
+/* 取消button focus:visible 样式 */
+button:focus-visible {
+	outline: none;
+}
 
 :root {
 	font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
