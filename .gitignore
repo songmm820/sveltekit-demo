@@ -26,6 +26,3 @@ vite.config.ts.timestamp-*
 # IDE
 .idea
 .vscode
-
-# Version
-/static/version.json
