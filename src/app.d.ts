@@ -11,6 +11,17 @@ declare global {
 		}
 		// interface Platform {}
 	}
+
+	interface Window {
+		electronAPI: {
+			// 关闭应用
+			onCloseApp: () => void;
+			// Electron 版本
+			version: string;
+			// Electron 版本
+			electronVersion: string;
+		};
+	}
 }
 
 export {};

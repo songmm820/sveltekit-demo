@@ -69,6 +69,7 @@
 	});
 
 	let transitionFn = $derived(drawerTransitions[direction].animate);
+	let reverse = $derived(drawerTransitions[direction].reverse);
 
 	const handleClose = async () => {
 		open = false;
@@ -103,7 +104,7 @@
 			class={drawerVariants({ direction })}
 			transition:transitionFn|global={{
 				duration,
-				reverse: drawerTransitions[direction].reverse,
+				reverse,
 				full: true
 			}}
 			style:z-index={zIndex}
@@ -137,6 +138,6 @@
 	@reference '#app.css';
 
 	.my-drawer-container {
-		@apply fixed border-2 border-(--border-sec) bg-(--background) p-4;
+		@apply fixed bg-(--background) p-4;
 	}
 </style>

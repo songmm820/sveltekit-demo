@@ -37,12 +37,12 @@ body {
 	color: var(--text);
 	background-color: var(--background);
 	user-select: none;
-	transition: all 0.3s ease-in-out;
 	/* 防止滚动条宽度变化导致布局变化 */
 	scrollbar-gutter: stable;
 }
 
 /* 取消button focus:visible 样式 */
+a,
 button:focus-visible {
 	outline: none;
 }

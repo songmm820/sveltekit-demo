@@ -1,18 +1,33 @@
 import { app, BrowserWindow } from 'electron';
-// import path from 'path';
-// const { app, BrowserWindow } = require('electron');
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// 关闭安全策略
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 function createWindow() {
 	const win = new BrowserWindow({
-		width: 800,
-		height: 600,
+		width: 1200,
+		height: 800,
 		webPreferences: {
-			nodeIntegration: true,
-			contextIsolation: false
-		}
+			nodeIntegration: true, // 为页面集成 Node.js 环境
+			contextIsolation: true, // 上下文隔离
+			preload: path.join(__dirname, 'preload.js')
+		},
+		titleBarStyle: 'default'
 	});
 	win.webContents.openDevTools();
+
 	win.loadURL('http://localhost:4143');
+
+	win.on('close', (event) => {
+		event.preventDefault();
+		// 通知渲染进程关闭应用
+		win.webContents.send('app:close');
+	});
 }
 
 app.whenReady().then(() => {
