@@ -25,12 +25,6 @@ function createWindow() {
 	win.webContents.openDevTools();
 
 	win.loadURL('http://localhost:4143');
-
-	win.on('close', (event) => {
-		event.preventDefault();
-		// 通知渲染进程关闭应用
-		win.webContents.send('app:close');
-	});
 }
 
 ipcMain.handle('execute-command', async (event, cmd) => {
