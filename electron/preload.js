@@ -1,6 +1,7 @@
 // 预加载脚本
 import { contextBridge } from 'electron';
 import { version } from 'os';
+import { ipcRenderer } from 'electron';
 
 // 暴露 API 给渲染进程
 contextBridge.exposeInMainWorld('electronAPI', {
@@ -11,5 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 	// Node.js 版本
 	nodeVersion: process.versions.node,
 	// Chrome 版本
-	chromeVersion: process.versions.chrome
+	chromeVersion: process.versions.chrome,
+	// 执行命令
+	executeCommand: (cmd) => ipcRenderer.invoke('execute-command', cmd)
 });

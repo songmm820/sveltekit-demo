@@ -1,6 +1,7 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
+import { executeCommand } from './execute-cmd.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -12,6 +13,8 @@ function createWindow() {
 	const win = new BrowserWindow({
 		width: 1200,
 		height: 800,
+		minWidth: 1200,
+		minHeight: 800,
 		webPreferences: {
 			nodeIntegration: true, // 为页面集成 Node.js 环境
 			contextIsolation: true, // 上下文隔离
@@ -29,6 +32,10 @@ function createWindow() {
 		win.webContents.send('app:close');
 	});
 }
+
+ipcMain.handle('execute-command', async (event, cmd) => {
+	return await executeCommand(cmd);
+});
 
 app.whenReady().then(() => {
 	createWindow();

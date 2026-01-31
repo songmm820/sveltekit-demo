@@ -20,6 +20,8 @@ declare global {
 			version: string;
 			// Electron 版本
 			electronVersion: string;
+			// 执行命令
+			executeCommand: (cmd: string) => Promise<string>;
 		};
 	}
 }
