@@ -9,7 +9,7 @@
 	import { page } from '$app/state';
 	import { cn } from '$lib/utils/class';
 	import type { ClassValue } from 'svelte/elements';
-	import favicon from '$lib/assets/favicon.svg';
+	import logo from '$lib/assets/svg/logo.svg';
 	import { goto } from '$app/navigation';
 
 	type WebRoute = '/ui-comp' | '/' | '/about';
@@ -45,7 +45,7 @@
 	const currentRoute = $derived.by(() => page.url.pathname);
 
 	function onGotoWorkbench() {
-		goto(resolve('/workbench'));
+		goto(resolve('/'));
 	}
 </script>
 
@@ -56,7 +56,7 @@
 		className
 	)}
 >
-	<img src={favicon} alt="logo" class="mr-5 size-10" />
+	<img src={logo} alt="logo" class="mr-5 size-10" />
 	<nav class="flex size-full flex-1 items-center justify-between">
 		<div class="flex items-center gap-6">
 			{#each NavList as item (item.href)}

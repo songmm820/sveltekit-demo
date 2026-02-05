@@ -6,7 +6,7 @@
 	import SvelteMessageBox, { type ConfirmOptions } from '$lib/components/message-box';
 	import { ThemeEnum, useThemeContext } from '$lib/hooks/use-theme.svelte';
 	import Image from '$lib/components/image/Image.svelte';
-	import favicon from '$lib/assets/favicon.svg';
+	import logo from '$lib/assets/svg/logo.svg';
 	import FloatElement from '$lib/components/float-element/FloatElement.svelte';
 	import useEventListener from '$lib/hooks/use-event-listener.svelte';
 	import { browser } from '$app/environment';
@@ -218,14 +218,6 @@
 			<Button variant="primary" onclick={() => handleOpenDrawer('top')}>打开抽屉 自上而下</Button>
 			<Button variant="primary" onclick={() => handleOpenDrawer('left')}>打开抽屉 从左而右</Button>
 			<Button variant="primary" onclick={() => handleOpenDrawer('right')}>打开抽屉 从右而左</Button>
-			<!-- drawer 挂载到指定元素上 -->
-			<div id="drawer-target" class="h-100 w-100"></div>
-			<Button
-				variant="primary"
-				onclick={() =>
-					handleOpenDrawer('bottom', document.getElementById('drawer-target') as HTMLElement)}
-				>挂载到指定元素上
-			</Button>
 			<Drawer
 				direction={drawerDirection}
 				open={drawerOpen}
@@ -257,7 +249,7 @@
 	<div class="my-4 p-2">
 		<h2 class="text-2xl font-bold">图片</h2>
 		<div class="mt-3 flex flex-wrap items-center gap-4">
-			<Image src={favicon} alt="SvelteKit" />
+			<Image src={logo} alt="SvelteKit" />
 		</div>
 	</div>
 

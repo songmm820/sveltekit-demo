@@ -1,2 +1,2 @@
-// 禁用ssr
-export const ssr = false;
+// 是否禁用ssr
+export const ssr: boolean = true;

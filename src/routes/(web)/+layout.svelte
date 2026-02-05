@@ -1,5 +1,5 @@
 <script lang="ts">
-	import favicon from '$lib/assets/favicon.svg';
+	import logo from '$lib/assets/svg/logo.svg';
 	import type { LayoutProps } from './$types';
 	import { browser } from '$app/environment';
 	import { createThemeContext, type ThemeEnum } from '$lib/hooks/use-theme.svelte';
@@ -20,9 +20,23 @@
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
-	<title>SvelteKit Demo</title>
-	<meta name="description" content="This is where the description goes for SEO" />
+	<link rel="icon" href={logo} />
+	<title>The Archer</title>
+	<meta charset="UTF-8" />
+
+	<!-- OG 核心标签 -->
+	<meta property="og:title" content="The Archer" />
+	<meta property="og:description" content="The Archer is a SvelteKit UI Components Demo." />
+	<meta property="og:image" content={logo} />
+	<meta property="og:type" content="website" />
+
+	<!-- 元数据 -->
+	<meta name="description" content="The Archer is a SvelteKit UI Components Demo." />
+	<meta name="language" content="zh-CN" />
+	<meta
+		name="viewport"
+		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+	/>
 </svelte:head>
 
 {#if updated.current}
