@@ -26,17 +26,20 @@
 
 	<!-- OG 核心标签 -->
 	<meta property="og:title" content="The Archer" />
-	<meta property="og:description" content="The Archer is a SvelteKit UI Components Demo." />
+	<meta property="og:description" content="The Archer is a SvelteKit Demo." />
 	<meta property="og:image" content={logo} />
 	<meta property="og:type" content="website" />
 
 	<!-- 元数据 -->
-	<meta name="description" content="The Archer is a SvelteKit UI Components Demo." />
+	<meta name="description" content="The Archer is a SvelteKit Demo." />
 	<meta name="language" content="zh-CN" />
 	<meta
 		name="viewport"
 		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 	/>
+
+	<!-- 关键词 -->
+	 <meta name="keywords" content="The SvelteKit Demo, TailwindCSS, Vite" />
 </svelte:head>
 
 {#if updated.current}
