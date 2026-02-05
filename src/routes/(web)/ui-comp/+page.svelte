@@ -11,8 +11,7 @@
 	import useEventListener from '$lib/hooks/use-event-listener.svelte';
 	import { browser } from '$app/environment';
 	import Button from '$lib/components/button/Button.svelte';
-	import Drawer from '$lib/components/drawer/Drawer.svelte';
-	import type { DrawerElProps } from '$lib/components/drawer/DrawerEl.svelte';
+	import Drawer, { type DrawerProps } from '$lib/components/drawer/Drawer.svelte';
 
 	const handleReachBottom = () => {
 		// console.log('reach bottom');
@@ -23,7 +22,8 @@
 	let dialogOpenOuter: boolean = $state(false);
 	let dialogOpenInner: boolean = $state(false);
 	let drawerOpen: boolean = $state(false);
-	let drawerDirection: DrawerElProps['direction'] = $state('bottom');
+	let drawerDirection: DrawerProps['direction'] = $state('bottom');
+	let drawerTarget: DrawerProps['target'] = $state(null);
 
 	const debounceOnReachBottom = debounce(handleReachBottom, 500);
 
@@ -88,9 +88,10 @@
 		);
 	}
 
-	function handleOpenDrawer(direction: DrawerElProps['direction']) {
+	function handleOpenDrawer(direction: DrawerProps['direction'], target?: HTMLElement) {
 		drawerDirection = direction;
 		drawerOpen = true;
+		drawerTarget = target;
 	}
 
 	function scrollToTop() {
@@ -217,9 +218,18 @@
 			<Button variant="primary" onclick={() => handleOpenDrawer('top')}>打开抽屉 自上而下</Button>
 			<Button variant="primary" onclick={() => handleOpenDrawer('left')}>打开抽屉 从左而右</Button>
 			<Button variant="primary" onclick={() => handleOpenDrawer('right')}>打开抽屉 从右而左</Button>
+			<!-- drawer 挂载到指定元素上 -->
+			<div id="drawer-target" class="h-100 w-100"></div>
+			<Button
+				variant="primary"
+				onclick={() =>
+					handleOpenDrawer('bottom', document.getElementById('drawer-target') as HTMLElement)}
+				>挂载到指定元素上
+			</Button>
 			<Drawer
 				direction={drawerDirection}
 				open={drawerOpen}
+				target={drawerTarget}
 				title="这是一个抽屉"
 				onClose={() => (drawerOpen = false)}
 			>

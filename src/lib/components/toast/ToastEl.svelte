@@ -17,7 +17,6 @@
 	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
 	import { translateY } from '$lib/utils/animation';
 	import { cva } from 'class-variance-authority';
-	import { linear } from 'svelte/easing';
 
 	// 过渡动画时间，单位毫秒
 	const DEFAULT_DURATION: number = 200;
@@ -106,8 +105,7 @@
 	<div
 		transition:translateY|global={{
 			duration: DEFAULT_DURATION,
-			offset: 40,
-			easing: linear,
+			offset: 20,
 			reverse: false
 		}}
 		class={toastVariant({ position, rounded, status })}

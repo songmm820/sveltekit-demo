@@ -1,16 +1,25 @@
 <!-- 
  @component
  - 抽屉组件
+ - 自定义属性
+	 - open?: boolean 弹窗是否打开
+	 - target?: HTMLElement 挂载到指定元素，默认挂载到 body 元素上
 -->
 <script lang="ts">
 	import { mount, unmount, untrack } from 'svelte';
 	import DrawerEl, { type DrawerElProps } from '$lib/components/drawer/DrawerEl.svelte';
 
-	type DrawerProps = Omit<DrawerElProps, 'zIndex'> & {
+	export type DrawerProps = Omit<DrawerElProps, 'zIndex'> & {
 		open?: boolean;
+		target?: HTMLElement | null;
 	};
 
-	let { open = $bindable<boolean>(false), onClose, ...restProps }: DrawerProps = $props();
+	let {
+		open = $bindable<boolean>(false),
+		target = document.body,
+		onClose,
+		...restProps
+	}: DrawerProps = $props();
 
 	let drawerEl: DrawerEl | null = null;
 
@@ -26,7 +35,7 @@
 		}
 
 		drawerEl = mount(DrawerEl, {
-			target: document.body,
+			target: target || document.body,
 			props: {
 				open: open,
 				...restProps,

@@ -2,6 +2,7 @@
  @component
  - 抽屉El组件
  - 自定义属性
+	 - open?: boolean 弹窗是否打开
      - title?: Snippet | string 弹窗标题
 	 - size?: string | number 抽屉宽度或高度
 	 - direction?: 'top' | 'bottom' | 'left' | 'right' 抽屉打开方向
@@ -138,6 +139,6 @@
 	@reference '#app.css';
 
 	.my-drawer-container {
-		@apply fixed bg-(--background) p-4;
+		@apply absolute bg-(--background) p-4;
 	}
 </style>
