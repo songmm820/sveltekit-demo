@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-node';
+import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 // import pkg from './package.json' with { type: 'json' };
 
@@ -21,12 +21,7 @@ const config = {
 		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
 		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
 		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
-		adapter: adapter({
-			// 用于构建服务器的目录
-			out: 'build-sveltekit',
-			// 启用对资产和预渲染页面的 gzip 和 brotli 预压缩
-			precompress: true
-		}),
+		adapter: adapter(),
 		alias: {
 			$lib: './src/lib',
 			$css: './src/css',
