@@ -1,7 +1,7 @@
 /* 设置滚动条的高度（水平滚动条） */
 ::-webkit-scrollbar {
-	width: 4px;
-	height: 4px;
+	width: 8px;
+	height: 8px;
 }
 
 /* 修改滚动条轨道 */

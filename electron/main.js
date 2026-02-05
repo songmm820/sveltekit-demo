@@ -15,12 +15,13 @@ function createWindow() {
 		height: 800,
 		minWidth: 1200,
 		minHeight: 800,
+		transparent: false,
+		titleBarStyle: 'default',
 		webPreferences: {
 			nodeIntegration: true, // 为页面集成 Node.js 环境
 			contextIsolation: true, // 上下文隔离
 			preload: path.join(__dirname, 'preload.js')
-		},
-		titleBarStyle: 'default'
+		}
 	});
 	win.webContents.openDevTools();
 

@@ -4,7 +4,7 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 html[data-theme='light'] {
-	--scroll-color: #ebeaea;
+	--scroll: #ebeaea;
 	--background: #ffffff;
 	--background-sec: #f5f5f5;
 	--foreground: #000;
@@ -17,7 +17,7 @@ html[data-theme='light'] {
 }
 
 html[data-theme='dark'] {
-	--scroll-color: rgba(102, 102, 102, 0.5);
+	--scroll: rgba(102, 102, 102, 0.5);
 	--background: #1f1f1f;
 	--background-sec: #2d2d2d;
 	--foreground: #fff;
@@ -27,6 +27,14 @@ html[data-theme='dark'] {
 	--border-sec: lab(100% 0 0/0.1);
 	--popover: #00000080;
 	--toast: #1f1f1f;
+}
+
+:root {
+	--scroll-color: transparent;
+}
+
+:hover {
+	--scroll-color: var(--scroll);
 }
 
 html,
