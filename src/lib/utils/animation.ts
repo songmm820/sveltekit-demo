@@ -1,11 +1,37 @@
-import { backInOut, linear } from 'svelte/easing';
+import {
+	backInOut,
+	bounceInOut,
+	circInOut,
+	cubicInOut,
+	cubicOut,
+	elasticInOut,
+	expoInOut,
+	linear,
+	quadInOut,
+	sineInOut
+} from 'svelte/easing';
 
-type AnimationParams = {
+export type AnimationParams = {
 	delay?: number;
 	duration?: number;
 	easing?: (t: number) => number;
 	reverse?: boolean;
 };
+
+export const AnimationEnum = {
+	BackInOut: backInOut,
+	BounceInOut: bounceInOut,
+	CircInOut: circInOut,
+	CubicInOut: cubicInOut,
+	CubicOut: cubicOut,
+	ElasticInOut: elasticInOut,
+	ExpoInOut: expoInOut,
+	Linear: linear,
+	QuadInOut: quadInOut,
+	SineInOut: sineInOut
+} as const;
+
+export type AnimationEnumType = (typeof AnimationEnum)[keyof typeof AnimationEnum];
 
 /**
  * 缩放动画
@@ -42,7 +68,7 @@ export function translateY(
 ) {
 	const {
 		duration = 400,
-		easing = linear,
+		easing = AnimationEnum.CubicInOut,
 		delay = 0,
 		offset = 70,
 		reverse = false,
@@ -79,7 +105,7 @@ export function translateX(
 ) {
 	const {
 		duration = 400,
-		easing = linear,
+		easing = AnimationEnum.CubicInOut,
 		delay = 0,
 		offset = 70,
 		reverse = false,
@@ -117,5 +143,37 @@ export function fade(node: HTMLElement, params?: AnimationParams) {
 		duration: duration,
 		easing: easing,
 		css: (t: number) => `opacity: ${t * parseFloat(opacity)};`
+	};
+}
+
+/**
+ * Dialog 缩放淡入动画（出现 + 离开）
+ *
+ * @param node Dialog 元素
+ * @param params 动画配置
+ * @returns 动画配置对象
+ */
+export function dialogZoom(node: HTMLElement, params?: AnimationParams & { startScale?: number }) {
+	const {
+		duration = 280,
+		easing = AnimationEnum.CubicInOut,
+		delay = 0,
+		startScale = 0.6 // 初始缩放比例
+	} = params || {};
+
+	const opacity = parseFloat(getComputedStyle(node).opacity) || 1;
+
+	return {
+		delay,
+		duration,
+		easing,
+		// t: 0 -> 1（进入）或 1 -> 0（离开）
+		css: (t: number) => {
+			const scale = startScale + (1 - startScale) * t;
+			return `
+				opacity: ${t * opacity};
+				transform: scale(${scale});
+			`;
+		}
 	};
 }

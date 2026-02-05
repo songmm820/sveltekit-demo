@@ -16,7 +16,7 @@
 	import Button from '$lib/components/button/Button.svelte';
 	import DialogOverlay from '$lib/components/dialog/Overlay.svelte';
 	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
-	import { translateY } from '$lib/utils/animation';
+	import { dialogZoom } from '$lib/utils/animation';
 
 	export type DialogElProps = {
 		open: boolean;
@@ -54,9 +54,10 @@
 </script>
 
 {#if open}
-	<DialogOverlay {duration} {zIndex}>
+	<DialogOverlay duration={duration - 80} {zIndex}>
 		<div
-			transition:translateY|global={{ duration }}
+			in:dialogZoom|global={{ duration }}
+			out:dialogZoom|global={{ duration }}
 			class="my-dialog-container"
 			style:z-index={zIndex}
 			style:width
@@ -99,6 +100,6 @@
 
 	.my-dialog-container {
 		@apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform
-		rounded-xl border-2 border-(--border-sec) bg-(--background) p-4;
+		rounded-4xl border-2 border-(--border-sec) bg-(--background) p-4;
 	}
 </style>
