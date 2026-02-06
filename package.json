@@ -15,7 +15,11 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "eslint .",
-		"app": "chcp 65001 && concurrently -n \"VITE,ELECTRON\" -c \"blue,green\" \"pnpm dev\" \"pnpm electron:dev\""
+		"app": "chcp 65001 && concurrently -n \"VITE,ELECTRON\" -c \"blue,green\" \"pnpm dev\" \"pnpm electron:dev\"",
+		"db:push": "drizzle-kit push",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio"
 	},
 	"imports": {
 		"#app.css": "./src/css/app.css"
@@ -35,11 +39,12 @@
 		"@tailwindcss/vite": "^4.1.18",
 		"@types/node": "^24",
 		"concurrently": "^9.2.1",
-		"electron": "^40.1.0",
+		"drizzle-kit": "^0.31.8",
 		"eslint": "^9.39.1",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.13.1",
 		"globals": "^16.5.0",
+		"mysql2": "^3.16.3",
 		"prettier": "^3.7.4",
 		"prettier-plugin-svelte": "^3.4.0",
 		"prettier-plugin-tailwindcss": "^0.7.2",
@@ -51,10 +56,12 @@
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
+		"@tidbcloud/serverless": "^0.2.0",
 		"alova": "^3.5.0",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"dotenv": "^17.2.3",
+		"drizzle-orm": "^0.45.1",
 		"nanoid": "^5.1.6",
 		"tailwind-merge": "^3.4.0"
 	}

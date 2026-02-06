@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // 服务器端钩子
+import { createDb } from '$lib/server/db/config';
 import type {
 	Handle,
 	HandleFetch,
@@ -14,10 +16,8 @@ import type {
  * @see https://svelte.dev/docs/kit/hooks#Shared-hooks-init
  */
 export const init: ServerInit = async () => {
-	// 初始化应用
-	// eslint-disable-next-line no-console
-	console.log('初始化应用 FROM SERVER');
-
+	// 初始化数据库
+	createDb();
 };
 
 /**
