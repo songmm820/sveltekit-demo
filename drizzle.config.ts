@@ -1,10 +1,9 @@
 import { defineConfig } from 'drizzle-kit';
 import fs from 'fs';
-import path from 'path';
 
-const caPath = path.resolve(__dirname, './src/lib/server/db/isrgrootx1.pem');
+const caPath = fs.readFileSync('./src/lib/server/db/isrgrootx1.pem').toString();
 // 检查证书文件是否存在
-if (!fs.existsSync(caPath)) {
+if (!caPath) {
 	throw new Error(`SSL 证书文件不存在：${caPath}，请检查路径是否正确`);
 }
 
@@ -12,6 +11,7 @@ export default defineConfig({
 	out: './drizzle',
 	schema: './src/lib/server/db/schema',
 	dialect: 'mysql',
+	casing: 'snake_case',
 	dbCredentials: {
 		host: process.env.TIDB_HOST!,
 		user: process.env.TIDB_NAME!,
@@ -20,7 +20,7 @@ export default defineConfig({
 		database: process.env.TIDB_DATABASE!,
 		ssl: {
 			cert: caPath,
-			rejectUnauthorized: false
+			rejectUnauthorized: true
 		}
 	},
 	verbose: true,
