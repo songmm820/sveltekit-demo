@@ -45,7 +45,7 @@
 	const currentRoute = $derived.by(() => page.url.pathname);
 
 	function onGotoWorkbench() {
-		goto(resolve('/'));
+		goto(resolve('/login'));
 	}
 </script>
 
@@ -75,6 +75,6 @@
 		class="ml-7 flex h-full w-40 items-center justify-center bg-primary text-center text-white transition-all duration-300 hover:brightness-90"
 		onclick={onGotoWorkbench}
 	>
-		Go Workbench
+		Login
 	</div>
 </header>

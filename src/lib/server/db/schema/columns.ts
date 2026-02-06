@@ -11,4 +11,4 @@ export const atColumn = {
 };
 
 // Id 列
-export const idColumn = int('id').primaryKey();
+export const idColumn = int('id').primaryKey().autoincrement();
