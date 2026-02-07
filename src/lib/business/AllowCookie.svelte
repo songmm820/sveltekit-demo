@@ -5,7 +5,6 @@
 -->
 
 <script lang="ts">
-	import Button from '$lib/components/button/Button.svelte';
 	import { setAllowCookie } from '$lib/stores/app-share-config.svelte';
 
 	// 同意并关闭提示
@@ -15,15 +14,23 @@
 </script>
 
 <div
-	class="flex h-12 w-full items-center bg-(--background-sec) text-center text-md text-(--text-sec)"
+	class="px-6 flex h-12 w-full items-center justify-center bg-(--background-sec) text-center text-md text-(--text-sec)"
 >
 	<span>
-		本网站使用 cookie，用于在您的设备中储存信息。这些 cookie
-		可以使网站正常运行，以及帮助我们改进用户体验。使用本网站，即表示您接受放置这些 cookie。
+		<span>
+			本网站使用 cookie，用于在您的设备中储存信息。这些 cookie
+			可以使网站正常运行，以及帮助我们改进用户体验。使用本网站，即表示您接受放置这些 cookie。
+		</span>
+		<span
+			class="ml-2 text-primary underline"
+			role="button"
+			tabindex="0"
+			onkeypress={() => onAlowCookie()}
+			onclick={() => onAlowCookie()}
+		>
+			同意并关闭提示</span
+		>
 	</span>
-	<Button class="ml-2 underline" variant="link" onclick={() => onAlowCookie()}>
-		同意并关闭提示
-	</Button>
 </div>
 
 <style lang="css">
