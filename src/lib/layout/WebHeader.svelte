@@ -71,9 +71,11 @@
 	</nav>
 
 	<div
-		aria-hidden="true"
+		role="button"
+		onkeypress={() => onGotoWorkbench()}
+		tabindex="0"
 		class="ml-7 flex h-full w-40 items-center justify-center bg-primary text-center text-white transition-all duration-300 hover:brightness-90"
-		onclick={onGotoWorkbench}
+		onclick={() => onGotoWorkbench()}
 	>
 		Login
 	</div>

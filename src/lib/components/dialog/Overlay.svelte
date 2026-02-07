@@ -43,12 +43,14 @@
 <svelte:body {@attach overlayAction} />
 
 <div
-	aria-hidden="true"
 	transition:fade|global={{ duration }}
 	{id}
 	class="my-overlay"
 	style:z-index={zIndex}
-	onclick={handleClick}
+	role="button"
+	tabindex="0"
+	onkeypress={() => handleClick()}
+	onclick={() => handleClick()}
 >
 	{#if children}
 		{@render children()}

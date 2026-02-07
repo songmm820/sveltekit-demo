@@ -48,7 +48,15 @@
 			class="flex h-full w-full flex-col items-center justify-center"
 			role="dialog"
 		>
-			<div class="h-12 w-full" aria-hidden="true" onclick={() => handleClose()}>123123</div>
+			<div
+				class="h-12 w-full"
+				role="button"
+				tabindex="0"
+				onkeypress={() => handleClose()}
+				onclick={() => handleClose()}
+			>
+				123123
+			</div>
 			<div class="flex flex-1 items-center justify-center">
 				<img src={currentImage} alt="Preview Image" aria-hidden="true" />
 			</div>

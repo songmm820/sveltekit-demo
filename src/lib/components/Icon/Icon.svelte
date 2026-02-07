@@ -33,7 +33,6 @@
 	width={getSize()}
 	height={getSize()}
 	fill={color}
-	aria-hidden="true"
 >
 	<use href={`#${name}`} />
 </svg>
