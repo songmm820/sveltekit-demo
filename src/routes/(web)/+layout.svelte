@@ -5,9 +5,14 @@
 	import { createThemeContext, type ThemeEnum } from '$lib/hooks/use-theme.svelte';
 	import WebHeader from '$lib/layout/WebHeader.svelte';
 	import { beforeNavigate } from '$app/navigation';
-	import { updated } from '$app/state';
+	import AllowCookie from '$lib/business/AllowCookie.svelte';
+	import { appShareConfig, getAllowCookie } from '$lib/stores/app-share-config.svelte';
+	import { onMount } from 'svelte';
 
 	let { children }: LayoutProps = $props();
+
+	// 是否允许cookie
+	let isAllowCookie = $derived.by(() => appShareConfig.allowCookie);
 
 	if (browser) {
 		const theme = document.documentElement.dataset.theme as ThemeEnum;
@@ -16,6 +21,10 @@
 
 	beforeNavigate((navigation) => {
 		console.log('全局导航拦截：', navigation.from?.url.pathname, '→', navigation.to?.url.pathname);
+	});
+
+	onMount(() => {
+		getAllowCookie();
 	});
 </script>
 
@@ -39,15 +48,18 @@
 	/>
 
 	<!-- 关键词 -->
-	 <meta name="keywords" content="The SvelteKit Demo, TailwindCSS, Vite" />
+	<meta name="keywords" content="The SvelteKit Demo, TailwindCSS, Vite" />
 </svelte:head>
 
-{#if updated.current}
-	<p>页面已更新</p>
-{:else}
+{#if isAllowCookie !== undefined}
 	<div class="flex size-full flex-col items-center justify-center">
-		<div class="h-15 w-full">
-			<WebHeader class="fixed top-0 right-0 left-0 z-2 h-15" />
+		<div class="hidden min-h-24 w-full tablet:block">
+			<div class="fixed top-0 right-0 left-0 z-2 h-24">
+				{#if isAllowCookie === 'NO_SETTING'}
+					<AllowCookie />
+				{/if}
+				<WebHeader class="h-14" />
+			</div>
 		</div>
 		<div class="min-h-0 w-full flex-1">
 			{@render children()}

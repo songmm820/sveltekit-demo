@@ -99,7 +99,7 @@
 		<div
 			in:dialogZoom|global={{ duration }}
 			out:dialogZoom|global={{ duration }}
-			class="my-dialog-alert-container w-94"
+			class="my-dialog-alert-container w-90"
 			style:z-index={zIndex}
 		>
 			<div class="flex h-full w-full flex-col">
@@ -113,20 +113,21 @@
 					{message}
 				</div>
 				<!-- 弹窗底部区域 -->
-				<div class="my-dialog-footer flex justify-center gap-4">
-					{#if cancelText}
-						<Button class="w-1/2" variant="plain" onclick={handleCancel}>
-							{cancelText}
-						</Button>
-					{/if}
+				<div class="my-dialog-footer flex flex-col justify-center gap-4">
 					{#if confirmText}
 						<Button
-							class="w-1/2"
+							class="w-full"
 							loading={buttonLoading}
 							variant={buttonTypeMap[type]}
 							onclick={handleConfirm}
 						>
 							{confirmText}
+						</Button>
+					{/if}
+
+					{#if cancelText}
+						<Button class="w-full" variant="plain" onclick={handleCancel}>
+							{cancelText}
 						</Button>
 					{/if}
 				</div>
@@ -140,6 +141,6 @@
 
 	.my-dialog-alert-container {
 		@apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform
-		rounded-[16px] border-2 border-(--border-sec) bg-(--background) p-6;
+		rounded-6xl border-2 border-(--border-sec) bg-(--background) p-6;
 	}
 </style>

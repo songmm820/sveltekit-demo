@@ -38,7 +38,7 @@
 	let {
 		value = $bindable<string>(''),
 		id = _id,
-		rounded,
+		rounded = true,
 		block,
 		prefix,
 		suffix,

@@ -81,10 +81,10 @@
 	const drawerVariants = cva('my-drawer-container', {
 		variants: {
 			direction: {
-				top: 'top-0 rounded-b-xl',
-				bottom: 'bottom-0 rounded-t-xl',
-				left: 'left-0 rounded-r-xl',
-				right: 'right-0 rounded-l-xl'
+				top: 'top-0 rounded-b-6xl',
+				bottom: 'bottom-0 rounded-t-6xl',
+				left: 'left-0 rounded-r-6xl',
+				right: 'right-0 rounded-l-6xl'
 			}
 		},
 		defaultVariants: {
@@ -139,6 +139,6 @@
 	@reference '#app.css';
 
 	.my-drawer-container {
-		@apply absolute bg-(--background) p-4;
+		@apply absolute bg-(--background) p-7;
 	}
 </style>

@@ -100,6 +100,6 @@
 
 	.my-dialog-container {
 		@apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform
-		rounded-4xl border-2 border-(--border-sec) bg-(--background) p-4;
+		rounded-6xl border-2 border-(--border-sec) bg-(--background) p-7;
 	}
 </style>
