@@ -14,7 +14,9 @@
 	}
 </script>
 
-<div class="h-12 w-full bg-(--background-sec) text-center text-md leading-12 text-(--text-sec)">
+<div
+	class="flex h-12 w-full items-center bg-(--background-sec) text-center text-md text-(--text-sec)"
+>
 	<span>
 		本网站使用 cookie，用于在您的设备中储存信息。这些 cookie
 		可以使网站正常运行，以及帮助我们改进用户体验。使用本网站，即表示您接受放置这些 cookie。
