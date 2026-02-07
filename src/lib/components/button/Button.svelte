@@ -107,6 +107,6 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-button {
-		@apply inline-flex h-11 items-center justify-center transition-all duration-300;
+		@apply inline-flex h-12 items-center justify-center transition-all;
 	}
 </style>

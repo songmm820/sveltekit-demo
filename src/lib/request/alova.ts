@@ -1,4 +1,6 @@
-/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import SvelteMessageBox from '$lib/components/message-box';
+import type { HttpApiError } from '$lib/server/common/http-response';
 import { createAlova } from 'alova';
 import adapterFetch from 'alova/fetch';
 import SvelteHook from 'alova/svelte';
@@ -10,17 +12,18 @@ const alovaInstance = createAlova({
 	timeout: 10000,
 	statesHook: SvelteHook,
 	responded: {
-		onError: (error) => {
-			console.log(error, '请求失败');
-		},
+		onError: (error) => {},
 		onSuccess: async (response) => {
-			const json = await response.json();
-			return json.data;
+			const json = (await response.json()) as HttpApiError;
+			if (response.status !== 200) {
+				SvelteMessageBox.toast({
+					message: json.message || '请求失败'
+				});
+			}
+			return json;
 		},
 
-		onComplete: (response) => {
-			console.log(response, '请求完成');
-		}
+		onComplete: async (response) => {}
 	},
 	beforeRequest: (method) => {
 		method.config.headers.token = 'Bearer ' + 'token';

@@ -47,6 +47,7 @@ body {
 	user-select: none;
 	/* 防止滚动条宽度变化导致布局变化 */
 	scrollbar-gutter: stable;
+	font-family: -apple-system, 'Noto Sans SC', serif;
 }
 
 /* 取消button focus:visible 样式 */
@@ -64,6 +65,8 @@ button:focus-visible {
 	--text-size: 14px;
 }
 @theme inline {
+
+	--default-transition-duration: 300ms;
 
 	--breakpoint-phone: 375px;
 	--breakpoint-tablet: 768px;

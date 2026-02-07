@@ -1,8 +1,9 @@
-import { SysUserRegisterValidator, userSchema, type SysUserRegisterInput } from '$lib/server/db/schema';
 import { createApiHandler } from '$lib/server/common/route-handler';
 import { HttpApiError, HttpResponse } from '$lib/server/common/http-response';
 import { json } from '@sveltejs/kit';
 import { db } from '$lib/server/db/config';
+import { SysUserRegisterValidator, type SysUserRegisterInput } from '$lib/zod/user';
+import { userSchema } from '$lib/server/db/schema';
 
 /**
  * 注册用户

@@ -43,7 +43,7 @@
 		status = 'info',
 		position = 'top',
 		duration = 2000,
-		rounded = false,
+		rounded = true,
 		gap = 20, // 土司之间的间距，单位像素
 		description,
 		message,
@@ -131,6 +131,6 @@
 	@reference '#app.css';
 
 	.my-toast {
-		@apply fixed min-w-40 bg-(--toast) px-5 py-3 text-center text-md shadow-sm transition-all duration-300;
+		@apply fixed min-w-40 bg-(--toast) px-5 py-3 text-center text-md shadow-sm transition-all;
 	}
 </style>

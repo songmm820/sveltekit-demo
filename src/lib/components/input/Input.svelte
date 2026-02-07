@@ -16,17 +16,18 @@
 	import { cn } from '$lib/utils/class';
 	import { cva } from 'class-variance-authority';
 	import type { Snippet } from 'svelte';
-	import type { FormEventHandler, HTMLInputAttributes } from 'svelte/elements';
+	import type { ClassValue, FormEventHandler, HTMLInputAttributes } from 'svelte/elements';
 
 	type OmitHTMLInputAttributes = Omit<
 		HTMLInputAttributes,
-		'value' | 'onchange' | 'prefix' | 'suffix'
+		'value' | 'onchange' | 'prefix' | 'suffix' | 'class'
 	>;
 
 	export type InputProps = OmitHTMLInputAttributes & {
 		value?: string;
 		rounded?: boolean;
 		block?: boolean;
+		class?: ClassValue;
 		prefix?: Snippet;
 		suffix?: Snippet;
 		onInput?: (value: string) => void;
@@ -39,6 +40,7 @@
 		value = $bindable<string>(''),
 		id = _id,
 		rounded = true,
+		class: className = '',
 		block,
 		prefix,
 		suffix,
@@ -90,7 +92,7 @@
 	}
 </script>
 
-<div class={cn(inputVariants({ rounded, block }))}>
+<div class={cn(inputVariants({ rounded, block }), 'h-12', className)}>
 	{#if prefix}
 		<div class="px-2">{@render prefix()}</div>
 	{/if}
@@ -110,10 +112,11 @@
 <style lang="css">
 	@reference '#app.css';
 	.my-input-container {
-		@apply inline-flex h-11 items-center border-2 border-transparent 
+		@apply inline-flex items-center border-2 border-transparent 
 		bg-(--background-sec) px-6
-		py-1 transition-all duration-300 
+		py-1 transition-all 
 		placeholder:text-(--text) placeholder:opacity-50
+		caret-primary
         focus-within:border-primary focus-within:bg-(--background);
 	}
 

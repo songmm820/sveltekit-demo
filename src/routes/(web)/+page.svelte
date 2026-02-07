@@ -9,7 +9,7 @@
 		<h1 class="mt-12 text-4xl font-bold">射手座</h1>
 
 		<p class="mt-6 px-12 text-center">
-			射手座是一个基于Sveltekit的低代码平台，通过简单的拖拽和配置，即可快速构建出功能完善的web应用程序。
+			射手座是一个云端文件存储平台，您可以在任何时间、任何地点访问和管理您的文件。
 		</p>
 	</div>
 </main>

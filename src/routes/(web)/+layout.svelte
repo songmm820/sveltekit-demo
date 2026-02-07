@@ -8,11 +8,12 @@
 	import AllowCookie from '$lib/business/AllowCookie.svelte';
 	import { appShareConfig, getAllowCookie } from '$lib/stores/app-share-config.svelte';
 	import { onMount } from 'svelte';
+	import { cn } from '$lib/utils/class';
 
 	let { children }: LayoutProps = $props();
 
-	// 是否允许cookie
-	let isAllowCookie = $derived.by(() => appShareConfig.allowCookie);
+	// 是否显示允许cookie的提示
+	let isShowCookie = $derived.by(() => appShareConfig.allowCookie === 'NO_SETTING');
 
 	if (browser) {
 		const theme = document.documentElement.dataset.theme as ThemeEnum;
@@ -51,12 +52,12 @@
 	<meta name="keywords" content="The SvelteKit Demo, TailwindCSS, Vite" />
 </svelte:head>
 
-{#if isAllowCookie !== undefined}
+{#if appShareConfig.allowCookie !== undefined}
 	<div class="flex size-full flex-col items-center justify-center">
-		<div class="hidden min-h-24 w-full tablet:block">
-			<div class="fixed top-0 right-0 left-0 z-2 h-24">
-				{#if isAllowCookie === 'NO_SETTING'}
-					<AllowCookie />
+		<div class={cn('hidden w-full tablet:block', isShowCookie ? 'h-28' : 'h-14')}>
+			<div class={cn('fixed top-0 right-0 left-0 z-2')}>
+				{#if isShowCookie}
+					<AllowCookie class="h-12" />
 				{/if}
 				<WebHeader class="h-14" />
 			</div>
