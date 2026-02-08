@@ -1,12 +1,14 @@
 <script lang="ts">
 	import Logo from "$lib/business/Logo.svelte";
-
+	import type { PageProps } from "./$types";
+	let { data }: PageProps = $props();
 </script>
 
 <main class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden p-6">
 	<div class="m-auto flex size-full flex-col py-24 text-center">
 		<Logo class="drag mx-auto size-40" />
 
+		{JSON.stringify(data)}
 		<h1 class="mt-12 text-4xl font-bold">射手座</h1>
 
 		<p class="mt-6 px-12 text-center">

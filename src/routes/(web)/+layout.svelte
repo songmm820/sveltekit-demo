@@ -3,23 +3,25 @@
 	import type { LayoutProps } from './$types';
 	import { browser } from '$app/environment';
 	import { createThemeContext, type ThemeEnum } from '$lib/hooks/use-theme.svelte';
-	import WebHeader, { type WebRoute } from '$lib/layout/WebHeader.svelte';
+	import WebHeader from '$lib/layout/WebHeader.svelte';
 	import { beforeNavigate } from '$app/navigation';
 	import AllowCookie from '$lib/business/AllowCookie.svelte';
-	import { appShareConfig, getAllowCookie } from '$lib/stores/app-share-config.svelte';
+	import { appShareConfigStore, getAllowCookie } from '$lib/stores/app-share-config-store.svelte';
 	import { onMount } from 'svelte';
 	import { cn } from '$lib/utils/class';
 	import { page } from '$app/state';
+	import type { Pathname } from '$app/types';
+	import { setLoginUser } from '$lib/stores/login-user-store.svelte';
 
-	let { children }: LayoutProps = $props();
+	let { children, data }: LayoutProps = $props();
 
 	// 不显示header的路由
-	const NoHeaderRoutes: WebRoute[] = ['/login', '/register'];
+	const NoHeaderRoutes: Pathname[] = ['/login', '/register'];
 
 	// 是否显示允许cookie的提示
-	let isShowCookie = $derived.by(() => appShareConfig.allowCookie === 'NO_SETTING');
+	let isShowCookie = $derived.by(() => appShareConfigStore.allowCookie === 'NO_SETTING');
 	// 是否显示header
-	let isShowHeader = $derived.by(() => !NoHeaderRoutes.includes(page.url.pathname as WebRoute));
+	let isShowHeader = $derived.by(() => !NoHeaderRoutes.includes(page.url.pathname as Pathname));
 
 	if (browser) {
 		const theme = document.documentElement.dataset.theme as ThemeEnum;
@@ -32,6 +34,7 @@
 
 	onMount(() => {
 		getAllowCookie();
+		setLoginUser(data.user);
 	});
 </script>
 
@@ -58,7 +61,7 @@
 	<meta name="keywords" content="The SvelteKit Demo, TailwindCSS, Vite" />
 </svelte:head>
 
-{#if appShareConfig.allowCookie !== undefined}
+{#if appShareConfigStore.allowCookie !== undefined}
 	<div class="flex size-full flex-col items-center justify-center">
 		<div
 			class={cn('hidden w-full tablet:block', {

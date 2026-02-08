@@ -5,7 +5,7 @@
 -->
 
 <script lang="ts">
-	import { setAllowCookie } from '$lib/stores/app-share-config.svelte';
+	import { setAllowCookie } from '$lib/stores/app-share-config-store.svelte';
 	import { cn } from '$lib/utils/class';
 	import type { ClassValue } from 'svelte/elements';
 

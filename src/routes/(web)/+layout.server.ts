@@ -1,15 +1,23 @@
 import { db } from '$lib/server/db/config';
 import { UserSchema } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
-import type { PageServerLoad } from './$types';
+import type { LayoutServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import { setLoginUser } from '$lib/stores/login-user-store.svelte';
+
+// 登录用户数据
+type LoginUserData = {
+	id: string;
+	nickName: string;
+	email: string;
+};
 
 /**
  * 根据用户ID查询用户信息
  *
  * @param userId 用户id
  */
-async function queryLoginUserInfoByUserId(userId: string) {
+async function queryLoginUserInfoByUserId(userId: string): Promise<LoginUserData> {
 	// 基于用户ID查询数据
 	const [user] = await db
 		.select({
@@ -22,14 +30,13 @@ async function queryLoginUserInfoByUserId(userId: string) {
 	return user;
 }
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: LayoutServerLoad<{ user: LoginUserData }> = async ({ locals }) => {
 	// 直接使用服务端 locals 中的用户信息
 	const userId = locals.loginUser?.userId;
 	const user = await queryLoginUserInfoByUserId(String(userId)!);
 	if (!user) {
 		throw error(404, '当前用户不存在');
 	}
-	return {
-		user
-	};
+	setLoginUser(user);
+	return { user };
 };

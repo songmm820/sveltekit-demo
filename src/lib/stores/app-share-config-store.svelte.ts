@@ -8,7 +8,7 @@ export type AppShareConfig = {
 // 允许cookie的key
 const KeyAllowCookie: string = 'AllowCookie';
 
-export const appShareConfig: AppShareConfig = $state({});
+export const appShareConfigStore: AppShareConfig = $state({});
 
 /**
  * 获取是否允许使用cookie
@@ -18,7 +18,7 @@ export const appShareConfig: AppShareConfig = $state({});
 export function getAllowCookie() {
 	// 从cookie中获取是否允许使用cookie
 	const value = Cookies.get(KeyAllowCookie) as AppShareConfig['allowCookie'];
-	appShareConfig.allowCookie = value || 'NO_SETTING';
+	appShareConfigStore.allowCookie = value || 'NO_SETTING';
 	return value;
 }
 
@@ -29,7 +29,7 @@ export function getAllowCookie() {
  */
 export function setAllowCookie(allowCookie: boolean) {
 	if (allowCookie) {
-		appShareConfig.allowCookie = 'ALLOWED';
+		appShareConfigStore.allowCookie = 'ALLOWED';
 		// 保存到cookie
 		Cookies.set(KeyAllowCookie, allowCookie.toString(), {
 			httpOnly: false,

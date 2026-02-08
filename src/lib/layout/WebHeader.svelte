@@ -12,7 +12,8 @@
 	import logo from '$lib/assets/svg/logo.svg';
 	import { goto } from '$app/navigation';
 	import type { Pathname } from '$app/types';
-
+	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
+	import Avatar from '$lib/business/Avatar.svelte';
 
 	type NavItem = {
 		label: string;
@@ -40,9 +41,10 @@
 	];
 
 	let { class: className = '' }: WebHeaderProps = $props();
-
 	// 获取当前路由
 	const currentRoute = $derived.by(() => page.url.pathname);
+	// 判断是否登录
+	const isLogin: boolean = $derived.by(() => Boolean(loginUserStore.user?.id));
 
 	function onGotoWorkbench() {
 		goto(resolve('/login'));
@@ -70,13 +72,17 @@
 		</div>
 	</nav>
 
-	<div
-		role="button"
-		onkeypress={() => onGotoWorkbench()}
-		tabindex="0"
-		class="ml-7 flex h-full w-40 items-center justify-center bg-primary text-center text-white transition-all hover:brightness-90"
-		onclick={() => onGotoWorkbench()}
-	>
-		Login
-	</div>
+	{#if isLogin && loginUserStore.user?.nickName}
+		<Avatar rounded={true} name={loginUserStore.user?.nickName} />
+	{:else}
+		<div
+			role="button"
+			onkeypress={() => onGotoWorkbench()}
+			tabindex="0"
+			class="ml-7 flex h-full w-40 items-center justify-center bg-primary text-center text-white transition-all hover:brightness-90"
+			onclick={() => onGotoWorkbench()}
+		>
+			Login
+		</div>
+	{/if}
 </header>

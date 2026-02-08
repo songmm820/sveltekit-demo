@@ -61,3 +61,5 @@ export function logoutCookie() {
 	clearAccessToken();
 	clearRefreshToken();
 }
+
+
