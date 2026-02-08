@@ -71,7 +71,7 @@ button:focus-visible {
 
 	--breakpoint-phone: 375px;
 	--breakpoint-tablet: 768px;
-	--breakpoint-desktop: 1024px;
+	--breakpoint-desktop: 1280px;
 	--breakpoint-desktop-lg: 1440px;
 
 	--radius-sm: calc(var(--space) * 0.5);

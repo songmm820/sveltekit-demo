@@ -11,9 +11,12 @@
 	import { cn } from '$lib/utils/class';
 	import { page } from '$app/state';
 	import type { Pathname } from '$app/types';
+	import { useRequest } from 'alova/client';
+	import { currentLoginUserApi } from '$lib/request/http-api/user';
 	import { setLoginUser } from '$lib/stores/login-user-store.svelte';
+	import { isLoginStore } from '$lib/stores/user-auth';
 
-	let { children, data }: LayoutProps = $props();
+	let { children }: LayoutProps = $props();
 	// 不显示header的路由
 	const NoHeaderRoutes: Pathname[] = ['/login', '/register'];
 	// 是否显示允许cookie的提示
@@ -21,9 +24,21 @@
 	// 是否显示header
 	let isShowHeader = $derived.by(() => !NoHeaderRoutes.includes(page.url.pathname as Pathname));
 
+	const { loading, send } = useRequest(() => currentLoginUserApi(), {
+		immediate: false
+	});
+
 	if (browser) {
 		const theme = document.documentElement.dataset.theme as ThemeEnum;
 		createThemeContext(theme);
+	}
+
+	// 获取当前登录用户信息
+	async function onGetLoginUser() {
+		if (!isLoginStore()) return;
+		const { payload } = await send();
+		if (!payload) return;
+		setLoginUser(payload);
 	}
 
 	beforeNavigate((navigation) => {
@@ -32,9 +47,7 @@
 
 	onMount(() => {
 		getAllowCookie();
-		if (data?.user) {
-			setLoginUser(data?.user);
-		}
+		onGetLoginUser();
 	});
 </script>
 
@@ -61,7 +74,7 @@
 	<meta name="keywords" content="The SvelteKit Demo, TailwindCSS, Vite" />
 </svelte:head>
 
-{#if appShareConfigStore.allowCookie !== undefined}
+{#if appShareConfigStore.allowCookie !== undefined && !$loading}
 	<div class="flex size-full flex-col items-center justify-center">
 		<div
 			class={cn('hidden w-full tablet:block', {

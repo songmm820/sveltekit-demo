@@ -9,23 +9,35 @@
 	import { resolve } from '$app/paths';
 	import Label from '$lib/components/form/Label.svelte';
 	import { useRequest } from 'alova/client';
-	import { userLoginApi } from '$lib/request/http-api/user';
+	import { currentLoginUserApi, userLoginApi } from '$lib/request/http-api/user';
 	import { loginCookie } from '$lib/stores/user-auth';
 	import { page } from '$app/state';
 	import type { Pathname } from '$app/types';
+	import { setLoginUser } from '$lib/stores/login-user-store.svelte';
 
 	let loginFormData: SysUserLoginInput = $state({
 		email: 'mmsong@yeah.net',
 		password: '12345678'
 	});
 
-	const { loading, send } = useRequest(() => userLoginApi(loginFormData), {
+	const { loading, send: sendLogin } = useRequest(() => userLoginApi(loginFormData), {
 		immediate: false
 	});
 
+	const { send: sendCurrentLoginUser } = useRequest(() => currentLoginUserApi(), {
+		immediate: false
+	});
+
+	// 获取当前登录用户信息
+	async function onGetLoginUser() {
+		const { payload } = await sendCurrentLoginUser();
+		if (!payload) return;
+		setLoginUser(payload);
+	}
+
 	// 登录
 	async function onLogin() {
-		const { payload } = await send();
+		const { payload } = await sendLogin();
 		const accessToken = payload?.accessToken;
 		const refreshToken = payload?.refreshToken;
 		if (!accessToken || !refreshToken) return;
@@ -36,7 +48,8 @@
 		// 保存 accessToken 和 refreshToken 到 localStorage
 		loginCookie(accessToken, refreshToken);
 		// 登录成功后，跳转到首页或指定的 redirectUrl
-		const redirectUrl = (page.url.searchParams.get('redirect') as Pathname) || '/'
+		const redirectUrl = (page.url.searchParams.get('redirect') as Pathname) || '/';
+		await onGetLoginUser();
 		goto(resolve(redirectUrl));
 	}
 
@@ -61,9 +74,9 @@
 </script>
 
 <main
-	class="flex h-full w-full min-w-300 flex-col items-center justify-center gap-4 overflow-hidden p-6"
+	class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden p-6 desktop:min-w-300"
 >
-	<div class="flex w-140 flex-col items-center rounded-4x px-12 py-8">
+	<div class="rounded-4x flex w-full flex-col items-center py-8 desktop:w-140 desktop:px-12">
 		<Logo class="size-46" />
 		<div class="flex w-full flex-col gap-7">
 			<Label text="邮箱">

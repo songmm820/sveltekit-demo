@@ -11,7 +11,7 @@ const REFRESH_TOKEN_EXPIRES_IN: string = '30d';
 
 // Token 载荷类型
 export type JwtPayload = {
-	userId: string | number;
+	userId: string;
 	email: string;
 };
 
@@ -70,7 +70,7 @@ export async function verifyJwtToken(token: string): Promise<JwtPayload | null> 
 
 /**
  * 解析Token（不验证签名，仅解析载荷）
- * 
+ *
  * @param token 令牌
  * @returns 载荷/null
  */
@@ -86,22 +86,21 @@ export function decodeToken(token: string): JwtPayload | null {
 	}
 }
 
-
 /**
  * 获取Token过期时间（MySQL datetime格式，直接存入你的expiresAt字段）
- * 
+ *
  * @param token 令牌
  * @returns 格式化时间字符串/null
  */
 export function getTokenExpDatetime(token: string): string | null {
-  try {
-    const { exp } = decodeJwt(token);
-    if (!exp) return null;
-    // 转MySQL datetime：YYYY-MM-DD HH:mm:ss
-    return new Date(Number(exp) * 1000).toISOString().slice(0, 19).replace('T', ' ');
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('获取Token过期时间失败:', error);
-    return null;
-  }
+	try {
+		const { exp } = decodeJwt(token);
+		if (!exp) return null;
+		// 转MySQL datetime：YYYY-MM-DD HH:mm:ss
+		return new Date(Number(exp) * 1000).toISOString().slice(0, 19).replace('T', ' ');
+	} catch (error) {
+		// eslint-disable-next-line no-console
+		console.error('获取Token过期时间失败:', error);
+		return null;
+	}
 }

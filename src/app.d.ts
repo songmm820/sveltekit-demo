@@ -3,8 +3,6 @@
 
 import type { JwtPayload } from '$lib/server/common/token';
 
-// type JwtPayload = import('$lib/utils/jwt').JwtPayload;
-
 declare global {
 	namespace App {
 		// interface Error {}

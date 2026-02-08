@@ -21,3 +21,13 @@ export type RegisterResponse = {
 // 用户注册api
 export const userRegisterApi = (registerFormData: SysUserRegisterInput) =>
 	alovaInstance.Post<HttpApiResponse<RegisterResponse>>('/api/user/register', registerFormData);
+
+// 用户当前登录信息响应
+export type CurrentLoginUserResponse = {
+	id: string;
+	nickName: string;
+	email: string;
+};
+// 用户当前登录信息api
+export const currentLoginUserApi = () =>
+	alovaInstance.Get<HttpApiResponse<CurrentLoginUserResponse>>('/api/user/current');

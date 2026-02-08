@@ -1,6 +1,7 @@
 // 通用钩子
 import type { Reroute, Transport } from '@sveltejs/kit';
 
+
 /**
  * 该函数在 SvelteKit 路由转换之前调用。
  * 它可以用于动态路由，例如根据请求 URL 转换为不同的路由。
