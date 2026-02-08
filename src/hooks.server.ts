@@ -1,14 +1,23 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // 服务器端钩子
+import type { Pathname } from '$app/types';
+import { verifyJwtToken } from '$lib/server/common/token';
 import { createDb } from '$lib/server/db/config';
-import type {
-	Handle,
-	HandleFetch,
-	HandleServerError,
-	HandleValidationError,
-	ServerInit
+import { KeyAccessToken } from '$lib/stores/user-auth';
+import {
+	redirect,
+	type Handle,
+	type HandleFetch,
+	type HandleServerError,
+	type HandleValidationError,
+	type ServerInit
 } from '@sveltejs/kit';
+
+// 公共路由，无需登录即可访问
+const PublicRoutes: Pathname[] = ['/login'];
+// 公共api路由，无需登录即可访问
+const PublicApiRoutes: Pathname[] = ['/api/user/login', '/api/user/register'];
 
 /**
  * 该函数在 SvelteKit 服务器启动时调用一次。
@@ -26,10 +35,31 @@ export const init: ServerInit = async () => {
  * @see https://svelte.dev/docs/kit/hooks#Server-hooks-locals
  */
 export const handle: Handle = async ({ event, resolve }) => {
-	// 处理请求
-	const response = await resolve(event);
+	// 获取请求路径
+	const path = event.url.pathname as Pathname;
+	console.log('path', path);
+	// 如果是公共路由，无需登录即可访问
+	if (PublicRoutes.includes(path) || PublicApiRoutes.includes(path)) {
+		// 处理响应
+		return resolve(event);
+	}
+	// 从cookie中获取访问令牌
+	const accessToken = event.cookies.get(KeyAccessToken);
+	// 如果访问令牌不存在
+	if (!accessToken) {
+		// 重定向到登录页
+		throw redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
+	}
+	// 验证令牌是否合法
+	const jwtPayload = await verifyJwtToken(accessToken);
+	// 如果令牌不合法
+	if (!jwtPayload) {
+		// 重定向到登录页
+		throw redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
+	}
+	event.locals.loginUser = jwtPayload;
 	// 处理响应
-	return response;
+	return resolve(event);
 };
 
 /**

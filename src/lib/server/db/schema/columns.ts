@@ -1,4 +1,13 @@
-import { int, timestamp } from 'drizzle-orm/mysql-core';
+import { timestamp, varchar } from 'drizzle-orm/mysql-core';
+import { customAlphabet } from 'nanoid';
+
+/**
+ * 自定义ID生成器
+ */
+const createId = customAlphabet(
+	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+	12
+);
 
 // 时间戳列
 export const atColumn = {
@@ -11,4 +20,6 @@ export const atColumn = {
 };
 
 // Id 列
-export const idColumn = int('id').primaryKey().autoincrement();
+export const idColumn = varchar({ length: 256 })
+	.primaryKey()
+	.$defaultFn(() => createId());

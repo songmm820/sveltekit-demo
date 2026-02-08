@@ -11,12 +11,12 @@
 	import type { ClassValue } from 'svelte/elements';
 	import logo from '$lib/assets/svg/logo.svg';
 	import { goto } from '$app/navigation';
+	import type { Pathname } from '$app/types';
 
-	export type WebRoute = '/ui-comp' | '/' | '/about' | '/login' | '/register';
 
 	type NavItem = {
 		label: string;
-		href: WebRoute;
+		href: Pathname;
 	};
 
 	type WebHeaderProps = {

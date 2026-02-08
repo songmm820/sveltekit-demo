@@ -29,6 +29,7 @@
 			message: '注册成功',
 			status: 'success'
 		});
+		goto(resolve('/login'));
 	}
 
 	// 校验登录表单

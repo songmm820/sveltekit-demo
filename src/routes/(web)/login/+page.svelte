@@ -10,7 +10,9 @@
 	import Label from '$lib/components/form/Label.svelte';
 	import { useRequest } from 'alova/client';
 	import { userLoginApi } from '$lib/request/http-api/user';
-	import Cookies from 'js-cookie';
+	import { loginCookie } from '$lib/stores/user-auth';
+	import { page } from '$app/state';
+	import type { Pathname } from '$app/types';
 
 	let loginFormData: SysUserLoginInput = $state({
 		email: 'mmsong@yeah.net',
@@ -32,10 +34,10 @@
 			status: 'success'
 		});
 		// 保存 accessToken 和 refreshToken 到 localStorage
-		Cookies.set('accessToken', accessToken);
-		Cookies.set('refreshToken', refreshToken);
-		// 登录成功后，跳转到首页
-		goto(resolve('/'));
+		loginCookie(accessToken, refreshToken);
+		// 登录成功后，跳转到首页或指定的 redirectUrl
+		const redirectUrl = (page.url.searchParams.get('redirect') as Pathname) || '/'
+		goto(resolve(redirectUrl));
 	}
 
 	// 校验登录表单
