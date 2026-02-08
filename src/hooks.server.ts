@@ -15,7 +15,7 @@ import {
 } from '@sveltejs/kit';
 
 // 公共路由，无需登录即可访问
-const PublicRoutes: Pathname[] = ['/login'];
+const PublicRoutes: Pathname[] = ['/login','/register'];
 // 公共api路由，无需登录即可访问
 const PublicApiRoutes: Pathname[] = ['/api/user/login', '/api/user/register'];
 

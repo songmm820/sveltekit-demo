@@ -16,9 +16,10 @@
 		class?: ClassValue;
 		name: string;
 		rounded?: boolean;
+		onClick?: () => void;
 	};
 
-	let { class: className, name, rounded = true }: AvatarProps = $props();
+	let { class: className, name, rounded = true, onClick }: AvatarProps = $props();
 
 	const avatarVariants = cva('my-avatar h-10 w-10', {
 		variants: {
@@ -33,7 +34,13 @@
 	});
 </script>
 
-<div class={cn(avatarVariants({ rounded }), className)}>
+<div
+	class={cn(avatarVariants({ rounded }), className)}
+	role="button"
+	tabindex="0"
+	onkeypress={onClick}
+	onclick={onClick}
+>
 	<!-- 取用户姓名的第一个字符 -->
 	<div
 		class="inline-flex h-full w-full items-center justify-center rounded-[inherit] bg-primary text-center text-white"

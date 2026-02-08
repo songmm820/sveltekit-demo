@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { db } from '$lib/server/db/config';
 import { UserSchema } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import type { LayoutServerLoad } from './$types';
-import { error } from '@sveltejs/kit';
 import { setLoginUser } from '$lib/stores/login-user-store.svelte';
 
 // 登录用户数据
@@ -30,13 +30,10 @@ async function queryLoginUserInfoByUserId(userId: string): Promise<LoginUserData
 	return user;
 }
 
-export const load: LayoutServerLoad<{ user: LoginUserData }> = async ({ locals }) => {
-	// 直接使用服务端 locals 中的用户信息
+export const load: LayoutServerLoad<{ user: LoginUserData } | void> = async ({ route, locals }) => {
 	const userId = locals.loginUser?.userId;
 	const user = await queryLoginUserInfoByUserId(String(userId)!);
-	if (!user) {
-		throw error(404, '当前用户不存在');
-	}
+	if (!user) return;
 	setLoginUser(user);
 	return { user };
 };

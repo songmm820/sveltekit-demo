@@ -14,6 +14,8 @@
 	import type { Pathname } from '$app/types';
 	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
 	import Avatar from '$lib/business/Avatar.svelte';
+	import { logoutCookie } from '$lib/stores/user-auth';
+	import SvelteMessageBox from '$lib/components/message-box';
 
 	type NavItem = {
 		label: string;
@@ -27,15 +29,15 @@
 	// 导航列表
 	const NavList: NavItem[] = [
 		{
-			label: 'SvelteKit Demo',
+			label: '首页',
 			href: '/'
 		},
 		{
-			label: 'Ui Components',
+			label: '组件库',
 			href: '/ui-comp'
 		},
 		{
-			label: 'About',
+			label: '关于',
 			href: '/about'
 		}
 	];
@@ -46,7 +48,22 @@
 	// 判断是否登录
 	const isLogin: boolean = $derived.by(() => Boolean(loginUserStore.user?.id));
 
-	function onGotoWorkbench() {
+	// 退出登录
+	function onLogout() {
+		SvelteMessageBox.confirm({
+			title: '确认退出登录吗？',
+			message: '退出登录后，您需要重新登录才能继续使用云服务，是否继续？',
+			confirmText: '退出登录',
+			cancelText: '取消',
+			onConfirm: () => {
+				logoutCookie();
+				goto(resolve('/login'));
+			}
+		});
+	}
+
+	// 跳转工作台
+	function onGotoLogin() {
 		goto(resolve('/login'));
 	}
 </script>
@@ -73,14 +90,19 @@
 	</nav>
 
 	{#if isLogin && loginUserStore.user?.nickName}
-		<Avatar rounded={true} name={loginUserStore.user?.nickName} />
+		<Avatar
+			class="mr-4"
+			rounded={true}
+			name={loginUserStore.user?.nickName}
+			onClick={() => onLogout()}
+		/>
 	{:else}
 		<div
 			role="button"
-			onkeypress={() => onGotoWorkbench()}
+			onkeypress={() => onGotoLogin()}
 			tabindex="0"
 			class="ml-7 flex h-full w-40 items-center justify-center bg-primary text-center text-white transition-all hover:brightness-90"
-			onclick={() => onGotoWorkbench()}
+			onclick={() => onGotoLogin()}
 		>
 			Login
 		</div>

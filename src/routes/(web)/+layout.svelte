@@ -14,10 +14,8 @@
 	import { setLoginUser } from '$lib/stores/login-user-store.svelte';
 
 	let { children, data }: LayoutProps = $props();
-
 	// 不显示header的路由
 	const NoHeaderRoutes: Pathname[] = ['/login', '/register'];
-
 	// 是否显示允许cookie的提示
 	let isShowCookie = $derived.by(() => appShareConfigStore.allowCookie === 'NO_SETTING');
 	// 是否显示header
@@ -34,7 +32,9 @@
 
 	onMount(() => {
 		getAllowCookie();
-		setLoginUser(data.user);
+		if (data?.user) {
+			setLoginUser(data?.user);
+		}
 	});
 </script>
 
