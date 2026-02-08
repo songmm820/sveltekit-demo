@@ -67,7 +67,7 @@
 			class={cn('hidden w-full tablet:block', {
 				'h-26': isShowCookie && isShowHeader,
 				'h-12': isShowCookie && !isShowHeader,
-				'h-14': isShowHeader && !isShowCookie
+				'h-18': isShowHeader && !isShowCookie
 			})}
 		>
 			<div class={cn('fixed top-0 right-0 left-0 z-2')}>
@@ -75,7 +75,7 @@
 					<AllowCookie class="h-12" />
 				{/if}
 				{#if isShowHeader}
-					<WebHeader class="h-14" />
+					<WebHeader class="h-18" />
 				{/if}
 			</div>
 		</div>
