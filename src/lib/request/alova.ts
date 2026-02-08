@@ -5,15 +5,16 @@ import adapterFetch from 'alova/fetch';
 import SvelteHook from 'alova/svelte';
 import type { HttpApiResponse } from '$lib/request/http-response';
 
-
-
-
 // 创建 alova 实例
 const alovaInstance = createAlova({
 	requestAdapter: adapterFetch(),
 	// 请求超时时间，单位为毫秒，默认为0，表示永不超时
 	timeout: 10000,
 	statesHook: SvelteHook,
+	cacheFor: {
+		// 当设置为`Infinity`，表示数据永不过期，设置为0或负数时表示不缓存
+		expire: 0
+	},
 	responded: {
 		onError: (error) => {},
 		onSuccess: async (response) => {
@@ -24,7 +25,7 @@ const alovaInstance = createAlova({
 					status: 'error'
 				});
 			}
-			return json
+			return json;
 		},
 
 		onComplete: async (response) => {}
