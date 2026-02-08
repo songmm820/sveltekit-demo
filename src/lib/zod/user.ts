@@ -1,8 +1,8 @@
-import type { userSchema } from "$lib/server/db/schema";
+import type { UserSchema } from "$lib/server/db/schema";
 import z from "zod";
 
 // 表模型: sys_users
-export type SysUserSchema = typeof userSchema.$inferSelect;
+export type SysUserSchema = typeof UserSchema.$inferSelect;
 
 // Zod 验证器: 注册用户
 export const SysUserRegisterValidator = z.strictObject({

@@ -35,7 +35,7 @@
 			onkeypress={() => onAlowCookie()}
 			onclick={() => onAlowCookie()}
 		>
-			同意并关闭提示
+			我知道了，不再提示
 		</span>
 	</span>
 </div>

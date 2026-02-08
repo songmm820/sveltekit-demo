@@ -6,7 +6,7 @@ export type AppShareConfig = {
 };
 
 // 允许cookie的key
-const KEY_ALLOW_COOKIE: string = 'ALLOW_COOKIE';
+const KEY_ALLOW_COOKIE: string = 'AllowCookie';
 
 export const appShareConfig: AppShareConfig = $state({});
 

@@ -58,7 +58,7 @@
 		position: 'top' | 'bottom' | 'center',
 		message: string,
 		description?: string,
-		status?: 'success' | 'error' | 'info' | 'warning'
+		status?: 'success' | 'error'
 	) => {
 		SvelteMessageBox.toast({
 			position: position,

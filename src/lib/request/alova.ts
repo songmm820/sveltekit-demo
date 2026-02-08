@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import SvelteMessageBox from '$lib/components/message-box';
-import type { HttpApiError } from '$lib/server/common/http-response';
 import { createAlova } from 'alova';
 import adapterFetch from 'alova/fetch';
 import SvelteHook from 'alova/svelte';
+import type { HttpApiResponse } from '$lib/request/http-response';
+
+
+
 
 // 创建 alova 实例
 const alovaInstance = createAlova({
@@ -14,13 +17,14 @@ const alovaInstance = createAlova({
 	responded: {
 		onError: (error) => {},
 		onSuccess: async (response) => {
-			const json = (await response.json()) as HttpApiError;
+			const json = (await response.json()) as HttpApiResponse;
 			if (response.status !== 200) {
 				SvelteMessageBox.toast({
-					message: json.message || '请求失败'
+					message: json?.message || '请求失败',
+					status: 'error'
 				});
 			}
-			return json;
+			return json
 		},
 
 		onComplete: async (response) => {}

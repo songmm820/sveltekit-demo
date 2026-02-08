@@ -17,11 +17,12 @@
 	import { useZIndex } from '$lib/hooks/use-z-index.svelte';
 	import { translateY } from '$lib/utils/animation';
 	import { cva } from 'class-variance-authority';
+	import Icon from '$lib/components/Icon/Icon.svelte';
 
 	// 过渡动画时间，单位毫秒
 	const DEFAULT_DURATION: number = 200;
 
-	type ToastStatus = 'success' | 'error' | 'info' | 'warning';
+	type ToastStatus = 'success' | 'error';
 
 	export type ToastElProps = {
 		duration?: number; // 弹窗显示时间，单位毫秒
@@ -40,7 +41,7 @@
 
 	let {
 		open = $bindable(false),
-		status = 'info',
+		status = 'success',
 		position = 'top',
 		duration = 2000,
 		rounded = true,
@@ -101,6 +102,18 @@
 	});
 </script>
 
+{#snippet icon(status: ToastStatus)}
+	{#if status === 'success'}
+		<div class="rounded-full bg-success p-1">
+			<Icon size="12" name="right-line" color="var(--white)" />
+		</div>
+	{:else if status === 'error'}
+		<div class="rounded-full bg-danger p-1">
+			<Icon size="12" name="error-line" color="var(--white)" />
+		</div>
+	{/if}
+{/snippet}
+
 {#if open}
 	<div
 		transition:translateY|global={{
@@ -113,10 +126,9 @@
 		style:z-index={zIndex}
 		style:transform={`translateY(${offsetY}px)`}
 	>
-		<div class="text-center">
-			<!-- {@render Icon()} -->
-			<span class="icon-[ic--baseline-16mp]"></span>
-			{message}
+		<div class="flex items-center gap-2 text-center">
+			{@render icon(status)}
+			<span class="text-md text-(--text-sec)">{message}</span>
 		</div>
 
 		{#if description}
@@ -131,6 +143,6 @@
 	@reference '#app.css';
 
 	.my-toast {
-		@apply fixed min-w-40 bg-(--toast) px-5 py-3 text-center text-md shadow-sm transition-all;
+		@apply fixed min-w-40 bg-(--toast) px-5 py-3 text-center text-md shadow-md transition-all dark:border dark:border-(--border-sec);
 	}
 </style>

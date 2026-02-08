@@ -3,17 +3,23 @@
 	import type { LayoutProps } from './$types';
 	import { browser } from '$app/environment';
 	import { createThemeContext, type ThemeEnum } from '$lib/hooks/use-theme.svelte';
-	import WebHeader from '$lib/layout/WebHeader.svelte';
+	import WebHeader, { type WebRoute } from '$lib/layout/WebHeader.svelte';
 	import { beforeNavigate } from '$app/navigation';
 	import AllowCookie from '$lib/business/AllowCookie.svelte';
 	import { appShareConfig, getAllowCookie } from '$lib/stores/app-share-config.svelte';
 	import { onMount } from 'svelte';
 	import { cn } from '$lib/utils/class';
+	import { page } from '$app/state';
 
 	let { children }: LayoutProps = $props();
 
+	// 不显示header的路由
+	const NoHeaderRoutes: WebRoute[] = ['/login', '/register'];
+
 	// 是否显示允许cookie的提示
 	let isShowCookie = $derived.by(() => appShareConfig.allowCookie === 'NO_SETTING');
+	// 是否显示header
+	let isShowHeader = $derived.by(() => !NoHeaderRoutes.includes(page.url.pathname as WebRoute));
 
 	if (browser) {
 		const theme = document.documentElement.dataset.theme as ThemeEnum;
@@ -54,12 +60,20 @@
 
 {#if appShareConfig.allowCookie !== undefined}
 	<div class="flex size-full flex-col items-center justify-center">
-		<div class={cn('hidden w-full tablet:block', isShowCookie ? 'h-28' : 'h-14')}>
+		<div
+			class={cn('hidden w-full tablet:block', {
+				'h-26': isShowCookie && isShowHeader,
+				'h-12': isShowCookie && !isShowHeader,
+				'h-14': isShowHeader && !isShowCookie
+			})}
+		>
 			<div class={cn('fixed top-0 right-0 left-0 z-2')}>
 				{#if isShowCookie}
 					<AllowCookie class="h-12" />
 				{/if}
-				<WebHeader class="h-14" />
+				{#if isShowHeader}
+					<WebHeader class="h-14" />
+				{/if}
 			</div>
 		</div>
 		<div class="min-h-0 w-full flex-1">

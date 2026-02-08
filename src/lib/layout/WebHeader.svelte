@@ -12,7 +12,7 @@
 	import logo from '$lib/assets/svg/logo.svg';
 	import { goto } from '$app/navigation';
 
-	type WebRoute = '/ui-comp' | '/' | '/about';
+	export type WebRoute = '/ui-comp' | '/' | '/about' | '/login' | '/register';
 
 	type NavItem = {
 		label: string;

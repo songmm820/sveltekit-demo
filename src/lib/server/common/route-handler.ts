@@ -1,6 +1,6 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { ZodError } from 'zod';
-import { HttpApiError, HttpResponse } from '$lib/server/common/http-response';
+import { HttpApiError, HttpResponse } from '$lib/request/http-response';
 import { error as consoleError } from 'console';
 import { error as svaltekitError } from '@sveltejs/kit';
 
