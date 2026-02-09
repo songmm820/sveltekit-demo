@@ -2,10 +2,8 @@
 
 import { KeyAccessToken, KeyRefreshToken } from '$lib/stores/user-auth';
 import type { RequestEvent } from '@sveltejs/kit';
-import { db } from '$lib/server/db/config';
-import { RefreshTokenSchema } from '$lib/server/db/schema';
-import { and, eq } from 'drizzle-orm';
 import { generateAccessToken, generateRefreshToken } from '$lib/server/common/token';
+import { revokeRefreshTokenDb } from '$lib/server/db/action/auth';
 
 /**
  * accessToken 需要设置httpOnly为false，以便前端可以读取到accessToken，获取登录状态
@@ -51,17 +49,17 @@ export async function clearLoginCookies(cookies: RequestEvent['cookies']) {
 	});
 }
 
-// 删除刷新 token 从数据库
-async function deleteRefreshTokenFromDb(userId: string) {
-	await db.delete(RefreshTokenSchema).where(and(eq(RefreshTokenSchema.userId, userId)));
-}
-
 /**
  * 刷新令牌
+ *
+ * @param userId 用户ID
  */
-export async function refreshTokenService(userId: string) {
+export async function refreshTokenService(userId: string): Promise<{
+	accessToken: string;
+	refreshToken: string;
+}> {
 	// 删除旧的刷新 token
-	await deleteRefreshTokenFromDb(userId!);
+	await revokeRefreshTokenDb(userId!);
 	// 签发新的访问令牌
 	const [newAccessToken, newRefreshToken] = await Promise.all([
 		generateAccessToken({ userId: userId! }),

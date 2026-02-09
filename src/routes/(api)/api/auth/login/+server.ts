@@ -1,5 +1,5 @@
 import { createApiHandler } from '$lib/server/common/route-handler';
-import { HttpApiError, HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
+import { HttpApiError, HttpResponse } from '$lib/request/http-response';
 import { json } from '@sveltejs/kit';
 import { db } from '$lib/server/db/config';
 import { SysUserLoginValidator, type SysUserLoginInput } from '$lib/zod/user';
@@ -12,9 +12,10 @@ import {
 	getTokenExpDatetime,
 	type JwtPayload
 } from '$lib/server/common/token';
-import { RefreshTokenSchema } from '$lib/server/db/schema/auth';
-import { setLoginCookies } from '$lib/server/action/login-action';
+import { setLoginCookies } from '$lib/server/service/login-action';
 import type { LoginResponse } from '$lib/request/http-api/auth';
+import { saveRefreshTokenDb } from '$lib/server/db/action/auth';
+import { HttpResponseCodeEnum } from '$lib/request/http-code';
 
 /**
  * 用户邮箱密码登录
@@ -55,19 +56,9 @@ export const POST = createApiHandler(async (event) => {
 		throw new HttpApiError(HttpResponseCodeEnum.ServerError);
 	}
 	// 处理刷新令牌
-	await db.transaction(async (tx) => {
-		// 删除该用户旧的刷新令牌（避免多设备登录，可选）
-		await tx.delete(RefreshTokenSchema).where(eq(RefreshTokenSchema.userId, String(user.id)));
-		// 保存刷新令牌
-		await tx.insert(RefreshTokenSchema).values({
-			userId: String(user.id),
-			refreshToken,
-			expiresAt: expiresAt
-		});
-	});
-
+	await saveRefreshTokenDb(String(user.id), refreshToken, expiresAt);
+	// 登录成功，设置登录 Cookie
 	await setLoginCookies(event.cookies, { accessToken, refreshToken });
-
 	// 登录成功，生成 JWT 令牌
 	return json(
 		HttpResponse.success<LoginResponse>({

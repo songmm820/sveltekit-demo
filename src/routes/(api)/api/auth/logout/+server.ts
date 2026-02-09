@@ -1,7 +1,7 @@
 import { createApiHandler } from '$lib/server/common/route-handler';
 import { HttpResponse } from '$lib/request/http-response';
 import { json } from '@sveltejs/kit';
-import { clearLoginCookies } from '$lib/server/action/login-action';
+import { clearLoginCookies } from '$lib/server/service/login-action';
 import { db } from '$lib/server/db/config';
 import { RefreshTokenSchema } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';

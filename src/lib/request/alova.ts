@@ -3,8 +3,9 @@ import SvelteMessageBox from '$lib/components/message-box';
 import { createAlova } from 'alova';
 import adapterFetch from 'alova/fetch';
 import SvelteHook from 'alova/svelte';
-import { HttpResponseCodeEnum, type HttpApiResponse } from '$lib/request/http-response';
+import { type HttpApiResponse } from '$lib/request/http-response';
 import { refreshTokenApi } from './http-api/auth';
+import { HttpResponseCodeEnum } from './http-code';
 
 // 不展示土司提示的错误码
 const NoToastErrorCodes: HttpResponseCodeEnum[] = [HttpResponseCodeEnum.AccessTokenExpired];

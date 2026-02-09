@@ -1,12 +1,10 @@
 // 服务器端钩子
 import type { Pathname } from '$app/types';
-import { HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
-import { refreshTokenService } from '$lib/server/action/login-action';
 import { verifyJwtToken } from '$lib/server/common/token';
 import { createDb } from '$lib/server/db/config';
+import { refreshTokenService, setLoginCookies } from '$lib/server/service/login-action';
 import { KeyAccessToken, KeyRefreshToken } from '$lib/stores/user-auth';
 import {
-	json,
 	redirect,
 	type Handle,
 	type HandleFetch,
@@ -14,6 +12,7 @@ import {
 	type HandleValidationError,
 	type ServerInit
 } from '@sveltejs/kit';
+import { log } from 'node:console';
 
 // 公共路由，无需登录即可访问
 const PublicRoutes: Pathname[] = ['/login', '/register'];
@@ -36,6 +35,7 @@ export const init: ServerInit = async () => {
  * @see https://svelte.dev/docs/kit/hooks#Server-hooks-locals
  */
 export const handle: Handle = async ({ event, resolve }) => {
+	const { cookies } = event;
 	// 获取请求路径
 	const path = event.url.pathname as Pathname;
 	// 如果是公共路由，无需登录即可访问
@@ -43,44 +43,30 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// 处理响应
 		return resolve(event);
 	}
-	const accessToken = event.cookies.get(KeyAccessToken);
-	const refreshToken = event.cookies.get(KeyRefreshToken);
+	const accessToken = cookies.get(KeyAccessToken);
+	const refreshToken = cookies.get(KeyRefreshToken);
 	// 如果访问令牌不存在
 	if (!refreshToken || !accessToken) {
 		// 重定向到登录页
 		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
 	}
-	// 验证令牌是否合法
-
-	try {
-		const [accessTokenPayload] = await Promise.all([verifyJwtToken(accessToken)]);
-	} catch (error) {
-		console.error('verify jwt token error:', error);
+	// 验证 refresh token, 如果过期，重定向到登录页
+	const refreshTokenPayload = await verifyJwtToken(refreshToken);
+	if (!refreshTokenPayload) {
 		// 重定向到登录页
 		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
 	}
-
-	try {
-		const [refreshTokenPayload] = await Promise.all([verifyJwtToken(refreshToken)]);
-		
-	} catch (error) {
-		console.error('verify jwt token error:', error);
-		// 重定向到登录页
-		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
+	// 验证 access token，如果过期, 尝试使用 refresh token 刷新
+	const accessTokenPayload = await verifyJwtToken(accessToken);
+	if (!accessTokenPayload) {
+		// 刷新 access token
+		log(
+			`刷新 Access Roken, userId: ${refreshTokenPayload.userId}，时间: ${new Date().toLocaleString()}`
+		);
+		const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+			await refreshTokenService(refreshTokenPayload.userId);
+		await setLoginCookies(cookies, { accessToken: newAccessToken, refreshToken: newRefreshToken });
 	}
-
-	// 如果访问令牌过期
-	// if (accessTokenPayload === 'Expired') {
-	// 	// // 通知客户端调取刷新令牌重新获取访问令牌
-	// 	// return json(HttpResponse.errorByCode(HttpResponseCodeEnum.AccessTokenExpired));
-	// 	if (refreshTokenPayload !== 'Expired') {
-	// 		console.log('刷新令牌', event.locals);
-	// 		const userId = refreshTokenPayload.userId;
-	// 		await refreshTokenService(userId);
-	// 	} else {
-	// 		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
-	// 	}
-	// }
 
 	event.locals.loginUser = refreshTokenPayload;
 	const response = await resolve(event);
