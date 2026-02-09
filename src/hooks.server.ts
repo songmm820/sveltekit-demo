@@ -2,10 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // 服务器端钩子
 import type { Pathname } from '$app/types';
+import { HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
 import { verifyJwtToken } from '$lib/server/common/token';
 import { createDb } from '$lib/server/db/config';
 import { KeyAccessToken } from '$lib/stores/user-auth';
 import {
+	json,
 	redirect,
 	type Handle,
 	type HandleFetch,
@@ -13,9 +15,10 @@ import {
 	type HandleValidationError,
 	type ServerInit
 } from '@sveltejs/kit';
+import { error } from 'console';
 
 // 公共路由，无需登录即可访问
-const PublicRoutes: Pathname[] = ['/login','/register'];
+const PublicRoutes: Pathname[] = ['/login', '/register'];
 // 公共api路由，无需登录即可访问
 const PublicApiRoutes: Pathname[] = ['/api/user/login', '/api/user/register'];
 
@@ -37,7 +40,6 @@ export const init: ServerInit = async () => {
 export const handle: Handle = async ({ event, resolve }) => {
 	// 获取请求路径
 	const path = event.url.pathname as Pathname;
-	console.log('path', path);
 	// 如果是公共路由，无需登录即可访问
 	if (PublicRoutes.includes(path) || PublicApiRoutes.includes(path)) {
 		// 处理响应
@@ -48,18 +50,18 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// 如果访问令牌不存在
 	if (!accessToken) {
 		// 重定向到登录页
-		throw redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
+		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
 	}
 	// 验证令牌是否合法
 	const jwtPayload = await verifyJwtToken(accessToken);
 	// 如果令牌不合法
 	if (!jwtPayload) {
 		// 重定向到登录页
-		throw redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
+		return json(HttpResponse.errorByCode(HttpResponseCodeEnum.TokenExpired));
 	}
 	event.locals.loginUser = jwtPayload;
-	// 处理响应
-	return resolve(event);
+	const response = await resolve(event);
+	return response;
 };
 
 /**

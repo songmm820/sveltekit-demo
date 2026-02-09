@@ -1,5 +1,5 @@
 import { createApiHandler } from '$lib/server/common/route-handler';
-import { HttpApiError, HttpResponse } from '$lib/request/http-response';
+import { HttpApiError, HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
 import { json } from '@sveltejs/kit';
 import { db } from '$lib/server/db/config';
 import { SysUserLoginValidator, type SysUserLoginInput } from '$lib/zod/user';
@@ -33,12 +33,12 @@ export const POST = createApiHandler(async (event) => {
 		.limit(1);
 	// 检查用户是否存在
 	if (!user) {
-		throw new HttpApiError('邮箱不存在，请先注册');
+		throw new HttpApiError(HttpResponseCodeEnum.EmailNoRegister);
 	}
 	// 验证密码
 	const passwordValid = await comparePassword(body.password, user.hashedPassword);
 	if (!passwordValid) {
-		throw new HttpApiError('密码错误，请重新输入');
+		throw new HttpApiError(HttpResponseCodeEnum.PasswordError);
 	}
 	const payload: JwtPayload = {
 		userId: String(user.id),
@@ -52,7 +52,7 @@ export const POST = createApiHandler(async (event) => {
 	// 获取刷新令牌过期时间（
 	const expiresAt = getTokenExpDatetime(refreshToken);
 	if (!expiresAt) {
-		throw new HttpApiError('生成令牌失败，请重试');
+		throw new HttpApiError(HttpResponseCodeEnum.ServerError);
 	}
 	// 处理刷新令牌
 	await db.transaction(async (tx) => {

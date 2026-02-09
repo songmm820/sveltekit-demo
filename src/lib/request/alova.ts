@@ -3,7 +3,28 @@ import SvelteMessageBox from '$lib/components/message-box';
 import { createAlova } from 'alova';
 import adapterFetch from 'alova/fetch';
 import SvelteHook from 'alova/svelte';
-import type { HttpApiResponse } from '$lib/request/http-response';
+import { HttpResponseCodeEnum, type HttpApiResponse } from '$lib/request/http-response';
+import { logoutCookie } from '$lib/stores/user-auth';
+
+/**
+ * 处理 HTTP API 响应
+ * 
+ * @param response 响应
+ */
+function handleHttpApiError(response: HttpApiResponse) {
+	if (!response.success) {
+		SvelteMessageBox.toast({
+			message: response?.message || '请求失败',
+			status: 'error'
+		});
+	}
+	if (!response.code) return;
+	switch (response.code) {
+		case HttpResponseCodeEnum.TokenExpired:
+		case HttpResponseCodeEnum.NullToken:
+			logoutCookie();
+	}
+}
 
 // 创建 alova 实例
 const alovaInstance = createAlova({
@@ -19,12 +40,8 @@ const alovaInstance = createAlova({
 		onError: (error) => {},
 		onSuccess: async (response) => {
 			const json = (await response.json()) as HttpApiResponse;
-			if (response.status !== 200) {
-				SvelteMessageBox.toast({
-					message: json?.message || '请求失败',
-					status: 'error'
-				});
-			}
+
+			handleHttpApiError(json);
 			return json;
 		},
 

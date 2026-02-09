@@ -5,7 +5,7 @@ const JWT_SECRET: string = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
 // JWT 签名算法
 const encodedKey = new TextEncoder().encode(JWT_SECRET);
 // 访问令牌过期时间
-const ACCESS_TOKEN_EXPIRES_IN: string = '1h';
+const ACCESS_TOKEN_EXPIRES_IN: string = '1m';
 // 刷新令牌过期时间 30d
 const REFRESH_TOKEN_EXPIRES_IN: string = '30d';
 

@@ -16,6 +16,7 @@
 	import Avatar from '$lib/business/Avatar.svelte';
 	import { logoutCookie } from '$lib/stores/user-auth';
 	import SvelteMessageBox from '$lib/components/message-box';
+	import Hover from '$lib/components/interaction/Hover.svelte';
 
 	type NavItem = {
 		label: string;
@@ -71,7 +72,7 @@
 <header
 	class={cn(
 		'bg-(--background) text-(--text)',
-		'flex items-center border-b border-(--border-sec) pl-7 opacity-95 shadow-sm',
+		'flex items-center border-b border-(--border-sec) pl-7 pr-4 opacity-95 shadow-sm',
 		className
 	)}
 >
@@ -90,12 +91,9 @@
 	</nav>
 
 	{#if isLogin && loginUserStore.user?.nickName}
-		<Avatar
-			class="mr-4"
-			rounded={true}
-			name={loginUserStore.user?.nickName}
-			onClick={() => onLogout()}
-		/>
+		<Hover as="div" class="p-1" onClick={() => onLogout()}>
+			<Avatar rounded={true} name={loginUserStore.user?.nickName} />
+		</Hover>
 	{:else}
 		<div
 			role="button"

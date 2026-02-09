@@ -1,8 +1,7 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { ZodError } from 'zod';
-import { HttpApiError, HttpResponse } from '$lib/request/http-response';
+import { HttpApiError, HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
 import { error as consoleError } from 'console';
-import { error as svaltekitError } from '@sveltejs/kit';
 
 /**
  * 创建 API 路由处理函数，统一处理错误
@@ -24,13 +23,18 @@ export function createApiHandler(handler: RequestHandler) {
 						message: issue.message
 					};
 				});
-				svaltekitError(500, `参数校验错误: ${JSON.stringify(errors)}`);
+				return json(
+					HttpResponse.error(
+						`参数校验错误: ${JSON.stringify(errors)}`,
+						HttpResponseCodeEnum.ParamError
+					)
+				);
 			}
 			// Api 业务异常
 			if (error instanceof HttpApiError) {
-				svaltekitError(500, error.message);
+				return json(HttpResponse.error(error.message, error.code));
 			}
-			return json(HttpResponse.error(`服务器内部错误: ${error}`), { status: 500 });
+			return json(HttpResponse.error(`服务器内部错误: ${error}`, HttpResponseCodeEnum.ServerError));
 		}
 	};
 	return routeHandler;
