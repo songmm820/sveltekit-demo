@@ -89,7 +89,7 @@
 			{#each NavList as item (item.href)}
 				<a
 					href={resolve(item.href)}
-					class={cn('text-lg font-medium', item.href === currentRoute && 'text-primary')}
+					class={cn('text-lg font-medium', resolve(item.href) === currentRoute && 'text-primary')}
 				>
 					{item.label}
 				</a>
