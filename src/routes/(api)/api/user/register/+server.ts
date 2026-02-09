@@ -1,5 +1,5 @@
 import { createApiHandler } from '$lib/server/common/route-handler';
-import { HttpApiError, HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
+import { HttpApiError, HttpResponse } from '$lib/request/http-response';
 import { json } from '@sveltejs/kit';
 import { db } from '$lib/server/db/config';
 import { SysUserRegisterValidator, type SysUserRegisterInput } from '$lib/zod/user';
@@ -7,6 +7,7 @@ import { UserSchema } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { hashPassword } from '$lib/server/common/password';
 import type { RegisterResponse } from '$lib/request/http-api/user';
+import { HttpResponseCodeEnum } from '$lib/request/http-code';
 
 /**
  * 注册用户

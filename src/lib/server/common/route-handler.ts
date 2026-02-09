@@ -1,7 +1,8 @@
 import { json, type RequestHandler } from '@sveltejs/kit';
 import { ZodError } from 'zod';
-import { HttpApiError, HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
+import { HttpApiError, HttpResponse } from '$lib/request/http-response';
 import { error as consoleError } from 'console';
+import { HttpResponseCodeEnum } from '$lib/request/http-code';
 
 /**
  * 创建 API 路由处理函数，统一处理错误
