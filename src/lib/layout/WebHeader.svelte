@@ -50,24 +50,25 @@
 	// 判断是否登录
 	const isLogin: boolean = $derived.by(() => Boolean(loginUserStore.user?.id));
 
-	const { send } = useRequest(() => logoutUserApi(), {
-		immediate: false
-	});
+	// const { send } = useRequest(() => logoutUserApi(), {
+	// 	immediate: false
+	// });
 
 	// 退出登录
 	function onLogout() {
-		SvelteMessageBox.confirm({
-			title: '确认退出登录吗？',
-			message: '退出登录后，您需要重新登录才能继续使用云服务，是否继续？',
-			confirmText: '退出登录',
-			cancelText: '取消',
-			onConfirm: async () => {
-				const res = await send();
-				if (res.payload) {
-					goto(resolve('/login'));
-				}
-			}
-		});
+		// SvelteMessageBox.confirm({
+		// 	title: '确认退出登录吗？',
+		// 	message: '退出登录后，您需要重新登录才能继续使用云服务，是否继续？',
+		// 	confirmText: '退出登录',
+		// 	cancelText: '取消',
+		// 	onConfirm: async () => {
+		// 		const res = await send();
+		// 		if (res.payload) {
+		// 			goto(resolve('/login'));
+		// 		}
+		// 	}
+		// });
+		goto(resolve('/setting'));
 	}
 
 	// 跳转工作台
@@ -79,13 +80,13 @@
 <header
 	class={cn(
 		'bg-(--background) text-(--text)',
-		'flex items-center border-b border-(--border-sec) pr-4 pl-7 opacity-95 shadow-sm',
+		'flex items-center border-b border-(--border-sec) pr-4 pl-7 ',
 		className
 	)}
 >
-	<img src={logo} alt="logo" class="mr-5 size-10" />
+	<img src={logo} alt="logo" class="mr-9 size-10" />
 	<nav class="flex size-full flex-1 items-center justify-between">
-		<div class="flex items-center gap-6">
+		<div class="flex items-center gap-8">
 			{#each NavList as item (item.href)}
 				<a
 					href={resolve(item.href)}

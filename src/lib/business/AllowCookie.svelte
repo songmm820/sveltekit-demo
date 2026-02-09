@@ -20,7 +20,7 @@
 
 <div
 	class={cn(
-		'flex w-full items-center justify-center bg-(--background-sec) px-6 text-center',
+		'flex w-full items-center justify-center bg-(--background) px-6 text-center',
 		className
 	)}
 >
