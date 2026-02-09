@@ -4,25 +4,28 @@ import { createAlova } from 'alova';
 import adapterFetch from 'alova/fetch';
 import SvelteHook from 'alova/svelte';
 import { HttpResponseCodeEnum, type HttpApiResponse } from '$lib/request/http-response';
-import { logoutCookie } from '$lib/stores/user-auth';
+import { refreshTokenApi } from './http-api/auth';
+
+// 不展示土司提示的错误码
+const NoToastErrorCodes: HttpResponseCodeEnum[] = [HttpResponseCodeEnum.AccessTokenExpired];
 
 /**
  * 处理 HTTP API 响应
- * 
+ *
  * @param response 响应
  */
-function handleHttpApiError(response: HttpApiResponse) {
+async function handleHttpApiError(response: HttpApiResponse) {
+	if (!response.code) return;
 	if (!response.success) {
+		if (NoToastErrorCodes.includes(response.code)) return;
 		SvelteMessageBox.toast({
 			message: response?.message || '请求失败',
 			status: 'error'
 		});
 	}
-	if (!response.code) return;
 	switch (response.code) {
-		case HttpResponseCodeEnum.TokenExpired:
-		case HttpResponseCodeEnum.NullToken:
-			logoutCookie();
+		case HttpResponseCodeEnum.AccessTokenExpired:
+			await refreshTokenApi();
 	}
 }
 
@@ -41,7 +44,7 @@ const alovaInstance = createAlova({
 		onSuccess: async (response) => {
 			const json = (await response.json()) as HttpApiResponse;
 
-			handleHttpApiError(json);
+			await handleHttpApiError(json);
 			return json;
 		},
 

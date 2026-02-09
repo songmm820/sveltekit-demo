@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // 服务器端钩子
 import type { Pathname } from '$app/types';
 import { HttpResponse, HttpResponseCodeEnum } from '$lib/request/http-response';
+import { refreshTokenService } from '$lib/server/action/login-action';
 import { verifyJwtToken } from '$lib/server/common/token';
 import { createDb } from '$lib/server/db/config';
-import { KeyAccessToken } from '$lib/stores/user-auth';
+import { KeyAccessToken, KeyRefreshToken } from '$lib/stores/user-auth';
 import {
 	json,
 	redirect,
@@ -15,12 +14,11 @@ import {
 	type HandleValidationError,
 	type ServerInit
 } from '@sveltejs/kit';
-import { error } from 'console';
 
 // 公共路由，无需登录即可访问
 const PublicRoutes: Pathname[] = ['/login', '/register'];
 // 公共api路由，无需登录即可访问
-const PublicApiRoutes: Pathname[] = ['/api/user/login', '/api/user/register'];
+const PublicApiRoutes: Pathname[] = ['/api/auth/login', '/api/user/register'];
 
 /**
  * 该函数在 SvelteKit 服务器启动时调用一次。
@@ -45,21 +43,46 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// 处理响应
 		return resolve(event);
 	}
-	// 从cookie中获取访问令牌
 	const accessToken = event.cookies.get(KeyAccessToken);
+	const refreshToken = event.cookies.get(KeyRefreshToken);
 	// 如果访问令牌不存在
-	if (!accessToken) {
+	if (!refreshToken || !accessToken) {
 		// 重定向到登录页
 		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
 	}
 	// 验证令牌是否合法
-	const jwtPayload = await verifyJwtToken(accessToken);
-	// 如果令牌不合法
-	if (!jwtPayload) {
+
+	try {
+		const [accessTokenPayload] = await Promise.all([verifyJwtToken(accessToken)]);
+	} catch (error) {
+		console.error('verify jwt token error:', error);
 		// 重定向到登录页
-		return json(HttpResponse.errorByCode(HttpResponseCodeEnum.TokenExpired));
+		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
 	}
-	event.locals.loginUser = jwtPayload;
+
+	try {
+		const [refreshTokenPayload] = await Promise.all([verifyJwtToken(refreshToken)]);
+		
+	} catch (error) {
+		console.error('verify jwt token error:', error);
+		// 重定向到登录页
+		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
+	}
+
+	// 如果访问令牌过期
+	// if (accessTokenPayload === 'Expired') {
+	// 	// // 通知客户端调取刷新令牌重新获取访问令牌
+	// 	// return json(HttpResponse.errorByCode(HttpResponseCodeEnum.AccessTokenExpired));
+	// 	if (refreshTokenPayload !== 'Expired') {
+	// 		console.log('刷新令牌', event.locals);
+	// 		const userId = refreshTokenPayload.userId;
+	// 		await refreshTokenService(userId);
+	// 	} else {
+	// 		redirect(302, `/login?redirect=${encodeURIComponent(path)}`);
+	// 	}
+	// }
+
+	event.locals.loginUser = refreshTokenPayload;
 	const response = await resolve(event);
 	return response;
 };
@@ -94,6 +117,7 @@ export const handleValidationError: HandleValidationError = async ({ issues }) =
  * 例如，你可能想返回一个自定义错误消息，或者添加额外的元数据。
  * @see https://svelte.dev/docs/kit/hooks#Shared-hooks-handleError
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const handleError: HandleServerError = async ({ error, event, status, message }) => {
 	// 处理错误
 };

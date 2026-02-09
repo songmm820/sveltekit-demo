@@ -5,7 +5,6 @@ import { db } from '$lib/server/db/config';
 import { SysUserLoginValidator, type SysUserLoginInput } from '$lib/zod/user';
 import { UserSchema } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
-import type { LoginResponse } from '$lib/request/http-api/user';
 import { comparePassword } from '$lib/server/common/password';
 import {
 	generateAccessToken,
@@ -14,6 +13,8 @@ import {
 	type JwtPayload
 } from '$lib/server/common/token';
 import { RefreshTokenSchema } from '$lib/server/db/schema/auth';
+import { setLoginCookies } from '$lib/server/action/login-action';
+import type { LoginResponse } from '$lib/request/http-api/auth';
 
 /**
  * 用户邮箱密码登录
@@ -41,8 +42,7 @@ export const POST = createApiHandler(async (event) => {
 		throw new HttpApiError(HttpResponseCodeEnum.PasswordError);
 	}
 	const payload: JwtPayload = {
-		userId: String(user.id),
-		email: user.email
+		userId: String(user.id)
 	};
 	// 签发双令牌
 	const [accessToken, refreshToken] = await Promise.all([
@@ -58,13 +58,15 @@ export const POST = createApiHandler(async (event) => {
 	await db.transaction(async (tx) => {
 		// 删除该用户旧的刷新令牌（避免多设备登录，可选）
 		await tx.delete(RefreshTokenSchema).where(eq(RefreshTokenSchema.userId, String(user.id)));
-		// 插入新的刷新令牌
+		// 保存刷新令牌
 		await tx.insert(RefreshTokenSchema).values({
 			userId: String(user.id),
 			refreshToken,
 			expiresAt: expiresAt
 		});
 	});
+
+	await setLoginCookies(event.cookies, { accessToken, refreshToken });
 
 	// 登录成功，生成 JWT 令牌
 	return json(

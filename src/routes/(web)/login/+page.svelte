@@ -9,11 +9,11 @@
 	import { resolve } from '$app/paths';
 	import Label from '$lib/components/form/Label.svelte';
 	import { useRequest } from 'alova/client';
-	import { currentLoginUserApi, userLoginApi } from '$lib/request/http-api/user';
-	import { loginCookie } from '$lib/stores/user-auth';
+	import { currentLoginUserApi } from '$lib/request/http-api/user';
 	import { page } from '$app/state';
-	import type { Pathname } from '$app/types';
 	import { setLoginUser } from '$lib/stores/login-user-store.svelte';
+	import { userLoginApi } from '$lib/request/http-api/auth';
+	import type { RouteId } from '$app/types';
 
 	let loginFormData: SysUserLoginInput = $state({
 		email: 'mmsong@yeah.net',
@@ -45,12 +45,10 @@
 			message: '登录成功',
 			status: 'success'
 		});
-		// 保存 accessToken 和 refreshToken 到 localStorage
-		loginCookie(accessToken, refreshToken);
 		// 登录成功后，跳转到首页或指定的 redirectUrl
-		const redirectUrl = (page.url.searchParams.get('redirect') as Pathname) || '/';
+		const redirectUrl = page.url.searchParams.get('redirect') as RouteId;
 		await onGetLoginUser();
-		goto(resolve(redirectUrl));
+		goto(resolve(redirectUrl || '/(web)'));
 	}
 
 	// 校验登录表单

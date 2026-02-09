@@ -5,14 +5,13 @@ const JWT_SECRET: string = 'a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
 // JWT 签名算法
 const encodedKey = new TextEncoder().encode(JWT_SECRET);
 // 访问令牌过期时间
-const ACCESS_TOKEN_EXPIRES_IN: string = '1m';
+const ACCESS_TOKEN_EXPIRES_IN: string = '10s';
 // 刷新令牌过期时间 30d
 const REFRESH_TOKEN_EXPIRES_IN: string = '30d';
 
 // Token 载荷类型
 export type JwtPayload = {
 	userId: string;
-	email: string;
 };
 
 /**
@@ -55,16 +54,14 @@ export async function generateAccessToken(payload: JwtPayload): Promise<string> 
  *
  * @params token 令牌
  */
-export async function verifyJwtToken(token: string): Promise<JwtPayload | null> {
+export async function verifyJwtToken(token: string): Promise<JwtPayload> {
 	try {
 		const { payload } = await jwtVerify(token, encodedKey, {
 			algorithms: ['HS256']
 		});
 		return payload as JwtPayload;
 	} catch (error) {
-		// eslint-disable-next-line no-console
-		console.error('verify jwt token error:', error);
-		return null;
+		throw new Error('TOKEN_EXPIRED', { cause: error });
 	}
 }
 
@@ -78,7 +75,7 @@ export function decodeToken(token: string): JwtPayload | null {
 	try {
 		const payload = decodeJwt(token) as JwtPayload;
 		// 简单校验核心字段
-		return payload.userId && payload.email ? payload : null;
+		return payload.userId ? payload : null;
 	} catch (error) {
 		// eslint-disable-next-line no-console
 		console.error('decode jwt token error:', error);

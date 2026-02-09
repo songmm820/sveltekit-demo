@@ -9,12 +9,13 @@ export type HttpApiResponse<T = any> = {
 
 export const HttpResponseCodeEnum = {
 	ServerError: 10000,
-	TokenExpired: 10001,
 	NullToken: 10002,
 	PasswordError: 10003,
 	EmailHasRegistered: 10004,
 	EmailNoRegister: 10005,
-	ParamError: 20001
+	AccessTokenExpired: 10006,
+	/* 2 */
+	ParamError: 20001,
 } as const;
 
 export type HttpResponseCodeEnum = (typeof HttpResponseCodeEnum)[keyof typeof HttpResponseCodeEnum];
@@ -23,13 +24,13 @@ export const HttpResponseCodeMap: Record<
 	HttpResponseCodeEnum,
 	{ code: HttpResponseCodeEnum; message: string }
 > = {
+	[HttpResponseCodeEnum.AccessTokenExpired]: {
+		code: HttpResponseCodeEnum.AccessTokenExpired,
+		message: '访问令牌过期'
+	},
 	[HttpResponseCodeEnum.ServerError]: {
 		code: HttpResponseCodeEnum.ServerError,
 		message: '服务发生了错误'
-	},
-	[HttpResponseCodeEnum.TokenExpired]: {
-		code: HttpResponseCodeEnum.TokenExpired,
-		message: '授权认证过期'
 	},
 	[HttpResponseCodeEnum.NullToken]: {
 		code: HttpResponseCodeEnum.NullToken,

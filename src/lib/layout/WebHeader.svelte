@@ -11,16 +11,17 @@
 	import type { ClassValue } from 'svelte/elements';
 	import logo from '$lib/assets/svg/logo.svg';
 	import { goto } from '$app/navigation';
-	import type { Pathname } from '$app/types';
 	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
 	import Avatar from '$lib/business/Avatar.svelte';
-	import { logoutCookie } from '$lib/stores/user-auth';
 	import SvelteMessageBox from '$lib/components/message-box';
 	import Hover from '$lib/components/interaction/Hover.svelte';
+	import { useRequest } from 'alova/client';
+	import { logoutUserApi } from '$lib/request/http-api/auth';
+	import type { RouteId } from '$app/types';
 
 	type NavItem = {
 		label: string;
-		href: Pathname;
+		href: RouteId;
 	};
 
 	type WebHeaderProps = {
@@ -31,15 +32,15 @@
 	const NavList: NavItem[] = [
 		{
 			label: '首页',
-			href: '/'
+			href: '/(web)'
 		},
 		{
 			label: '组件库',
-			href: '/ui-comp'
+			href: '/(web)/ui-comp'
 		},
 		{
 			label: '关于',
-			href: '/about'
+			href: '/(web)/about'
 		}
 	];
 
@@ -49,6 +50,10 @@
 	// 判断是否登录
 	const isLogin: boolean = $derived.by(() => Boolean(loginUserStore.user?.id));
 
+	const { send } = useRequest(() => logoutUserApi(), {
+		immediate: false
+	});
+
 	// 退出登录
 	function onLogout() {
 		SvelteMessageBox.confirm({
@@ -56,9 +61,11 @@
 			message: '退出登录后，您需要重新登录才能继续使用云服务，是否继续？',
 			confirmText: '退出登录',
 			cancelText: '取消',
-			onConfirm: () => {
-				logoutCookie();
-				goto(resolve('/login'));
+			onConfirm: async () => {
+				const res = await send();
+				if (res.payload) {
+					goto(resolve('/login'));
+				}
 			}
 		});
 	}
@@ -72,7 +79,7 @@
 <header
 	class={cn(
 		'bg-(--background) text-(--text)',
-		'flex items-center border-b border-(--border-sec) pl-7 pr-4 opacity-95 shadow-sm',
+		'flex items-center border-b border-(--border-sec) pr-4 pl-7 opacity-95 shadow-sm',
 		className
 	)}
 >
