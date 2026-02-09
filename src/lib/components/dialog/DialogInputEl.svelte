@@ -6,6 +6,8 @@
      - title?: string 弹窗标题
 	 - message?: string 弹窗内容
      - placeholder?: string 输入框占位符
+	 - maxLength?: number 输入框最大长度
+	 - clear?: boolean 是否显示清除按钮
 	 - onCancel?: () => void 点击取消按钮时触发的回调函数
 	 - onConfirm?: () => void 点击确认按钮时触发的回调函数\
 	 - onClose: () => void 关闭弹窗时触发的回调函数
@@ -24,6 +26,8 @@
 		title?: string;
 		message?: string;
 		placeholder?: string;
+		maxLength?: number;
+		clear?: boolean;
 		onCancel?: () => Promise<void>;
 		onConfirm?: (value: string) => Promise<void>;
 		onClose: () => void;
@@ -37,6 +41,8 @@
 		title,
 		message,
 		placeholder,
+		clear = true,
+		maxLength,
 		onCancel,
 		onConfirm,
 		onClose
@@ -104,7 +110,7 @@
 		>
 			<div class="flex h-full w-full flex-col">
 				<div class="my-dialog-title">
-					<div class="text-var(--text) text-left text-lg font-bold">
+					<div class="text-var(--text) text-center text-xl font-bold">
 						{title}
 					</div>
 				</div>
@@ -114,6 +120,8 @@
 						bind:this={inputRef}
 						bind:value={inputValue}
 						{placeholder}
+						{maxLength}
+						{clear}
 						autocomplete="off"
 						autofocus
 					/>
@@ -124,11 +132,11 @@
 					</div>
 				{/if}
 				<!-- 弹窗底部区域 -->
-				<div class="my-dialog-footer flex justify-center gap-4">
-					<Button class="w-1/2" variant="plain" onclick={handleCancel}>取消</Button>
-					<Button class="w-1/2" loading={buttonLoading} variant="primary" onclick={handleConfirm}>
+				<div class="my-dialog-footer flex flex-col justify-center gap-4">
+					<Button class="w-full" loading={buttonLoading} variant="primary" onclick={handleConfirm}>
 						确定
 					</Button>
+					<Button class="w-full" variant="plain" onclick={handleCancel}>取消</Button>
 				</div>
 			</div>
 		</div>

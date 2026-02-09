@@ -6,6 +6,8 @@
 	 - id: string 输入框的id
 	 - rounded: boolean 是否圆角
 	 - block: boolean 是否块级元素
+	 - clear: boolean 是否显示清除按钮
+	 - maxLength: number 最大输入长度
 	 - prefix: Snippet 前缀元素
 	 - suffix: Snippet 后缀元素
 	 - onInput: (value: string) => void 输入框值变化时触发的回调函数
@@ -17,10 +19,11 @@
 	import { cva } from 'class-variance-authority';
 	import type { Snippet } from 'svelte';
 	import type { ClassValue, FormEventHandler, HTMLInputAttributes } from 'svelte/elements';
+	import Icon from '$lib/components/Icon/Icon.svelte';
 
 	type OmitHTMLInputAttributes = Omit<
 		HTMLInputAttributes,
-		'value' | 'onchange' | 'prefix' | 'suffix' | 'class'
+		'value' | 'onchange' | 'prefix' | 'suffix' | 'class' | 'maxlength'
 	>;
 
 	export type InputProps = OmitHTMLInputAttributes & {
@@ -28,6 +31,8 @@
 		rounded?: boolean;
 		block?: boolean;
 		class?: ClassValue;
+		clear?: boolean;
+		maxLength?: number;
 		prefix?: Snippet;
 		suffix?: Snippet;
 		onInput?: (value: string) => void;
@@ -41,6 +46,8 @@
 		id = _id,
 		rounded = true,
 		class: className = '',
+		clear = true,
+		maxLength,
 		block,
 		prefix,
 		suffix,
@@ -48,6 +55,8 @@
 		onFormat,
 		...other
 	}: InputProps = $props();
+
+	const showClear = $derived.by(() => clear && value.length > 0);
 
 	const inputVariants = cva('my-input-container', {
 		variants: {
@@ -58,6 +67,10 @@
 			block: {
 				true: 'w-full',
 				false: 'w-80'
+			},
+			clear: {
+				true: 'pr-3 pl-6',
+				false: 'px-6'
 			}
 		},
 		defaultVariants: {
@@ -92,7 +105,7 @@
 	}
 </script>
 
-<div class={cn(inputVariants({ rounded, block }), 'h-12', className)}>
+<div class={cn(inputVariants({ rounded, block, clear: showClear }), 'h-12', className)}>
 	{#if prefix}
 		<div class="px-2">{@render prefix()}</div>
 	{/if}
@@ -101,9 +114,20 @@
 		{id}
 		class="my-input"
 		bind:value={() => value, (v) => (value = onFormatValue(v))}
+		maxlength={maxLength}
 		{...other}
 		oninput={handleInput}
 	/>
+	{#if Number(maxLength) > 0 && value.length > 0}
+		<span class="px-2 text-sm text-(--text-sec)">{value.length} / {maxLength}</span>
+	{/if}
+	{#if showClear}
+		<Icon
+			class="cursor-pointer text-(--text-sec) transition-all hover:brightness-90"
+			name="close"
+		/>
+	{/if}
+
 	{#if suffix}
 		<div class="px-2">{@render suffix()}</div>
 	{/if}
@@ -113,10 +137,10 @@
 	@reference '#app.css';
 	.my-input-container {
 		@apply inline-flex items-center border-2 border-transparent 
-		bg-(--background-sec) px-6
-		py-1 transition-all 
-		placeholder:text-(--text) placeholder:opacity-50
-		caret-primary
+		bg-(--background-sec)
+		py-1 caret-primary 
+		transition-all placeholder:text-(--text)
+		placeholder:opacity-50
         focus-within:border-primary focus-within:bg-(--background);
 	}
 

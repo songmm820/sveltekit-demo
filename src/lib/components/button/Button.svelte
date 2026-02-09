@@ -50,13 +50,18 @@
 	const buttonVariants = cva('my-button', {
 		variants: {
 			variant: {
-				primary: 'rounded-md bg-primary px-4 py-2 text-white hover:brightness-110 active:brightness-95',
+				primary:
+					'rounded-md bg-primary px-4 py-2 text-white hover:brightness-110 active:brightness-95',
 				outline: 'rounded-md border-2 border-primary px-4 py-2 text-primary hover:bg-primary/10',
-				danger: 'rounded-md bg-danger px-4 py-2 text-white hover:brightness-110 active:brightness-95',
-				success: 'rounded-md bg-success px-4 py-2 text-white hover:brightness-110 active:brightness-95',
+				danger:
+					'rounded-md bg-danger px-4 py-2 text-white hover:brightness-110 active:55e5155556r5	552555555555555555525252525252525252525252525252525252525252525255555555555555553-95',
+				success:
+					'rounded-md bg-success px-4 py-2 text-white hover:brightness-110 active:brightness-95',
 				link: 'text-primary hover:brightness-110 active:brightness-95',
-				plain: 'rounded-md bg-(--background-sec) px-4 py-2 text-(--text-sec) hover:brightness-98 active:brightness-95',
-				warning: 'rounded-md bg-warning px-4 py-2 text-white hover:brightness-110 active:brightness-95'
+				plain:
+					'rounded-md bg-(--background-sec) px-4 py-2 text-(--text-sec) hover:brightness-98 active:brightness-95',
+				warning:
+					'rounded-md bg-warning px-4 py-2 text-white hover:brightness-110 active:brightness-95'
 			},
 			block: {
 				true: 'w-full',

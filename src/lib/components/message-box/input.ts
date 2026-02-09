@@ -17,6 +17,8 @@ export type InputOptions = {
 	title?: string;
 	placeholder?: string;
 	message?: string;
+	maxLength?: number;
+	clear?: boolean;
 	onConfirm?: (value: string) => void | Promise<void>;
 	onCancel?: () => void | Promise<void>;
 };
@@ -30,7 +32,15 @@ export type InputOptions = {
  * @returns 弹窗实例
  */
 function input(options: InputOptions) {
-	const { title = '温馨提示', message, placeholder, onConfirm, onCancel } = options;
+	const {
+		title = '温馨提示',
+		message,
+		placeholder,
+		maxLength,
+		clear = true,
+		onConfirm,
+		onCancel
+	} = options;
 	// 如果弹窗实例已存在，先销毁
 	destroyInput();
 
@@ -40,6 +50,8 @@ function input(options: InputOptions) {
 			open: true,
 			duration: DEFAULT_DURATION,
 			placeholder,
+			maxLength,
+			clear,
 			message,
 			title,
 			onCancel: async () => {
