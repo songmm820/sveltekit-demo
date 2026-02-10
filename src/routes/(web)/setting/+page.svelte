@@ -54,8 +54,8 @@
 <main class="flex size-full flex-col items-center gap-4 overflow-hidden p-6">
 	{#if loginUserData}
 		<div class="size-full p-3 desktop:p-0">
-			<div class="flex size-full gap-3">
-				<div class="flex w-full flex-col gap-2">
+			<div class="flex size-full gap-3 justify-center">
+				<div class="flex w-full desktop:w-300 flex-col gap-2">
 					<div class="text-xl font-bold desktop:text-3xl">欢迎您，{loginUserData?.nickName}</div>
 					<nav class="mt-9 flex gap-8">
 						{#each SettingTabs as tab (tab.key)}
