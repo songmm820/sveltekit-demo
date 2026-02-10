@@ -81,7 +81,7 @@
 					</nav>
 					<!-- Tab -->
 					<div class="mt-8 flex flex-1 overflow-hidden border border-primary py-4">
-						{#await import(`./1${selectedTab.key}.svelte`) then { default: Component }}
+						{#await import(`./${selectedTab.key}.svelte`) then { default: Component }}
 							<Component />
 						{:catch error}
 							<div class="flex size-full items-center justify-center">Error: {error.message}</div>
