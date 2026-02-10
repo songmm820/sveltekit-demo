@@ -3,11 +3,12 @@
 	import { cn } from '$lib/utils/class';
 	import { page } from '$app/state';
 	import type { Component } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import ProfileTabItem from './Profile.svelte';
 	import NotificationTabItem from './Notification.svelte';
 	import SecurityTabItem from './Security.svelte';
-	import { goto } from '$app/navigation';
-	import { resolve } from '$app/paths';
+	import { SvelteURLSearchParams } from 'svelte/reactivity';
 
 	const loginUserData = $derived.by(() => loginUserStore.user);
 
@@ -37,7 +38,7 @@
 	];
 
 	// 取出路由上的 key 参数
-	const tabKey = page.url.searchParams.get('key');
+	const tabKey = $derived.by(() => page.url.searchParams.get('key'));
 	// 选中的导航栏
 	let selectedTab: SettingTab = $state(
 		SettingTabs.find((tab) => tab.key === tabKey) || SettingTabs[0]
@@ -45,18 +46,19 @@
 
 	/**
 	 * 选择导航栏
-	 * 
+	 *
 	 * @param key 导航栏 key
 	 */
-	function onSelectTab(key: string) {
+	async function onSelectTab(key: string) {
 		selectedTab = SettingTabs.find((tab) => tab.key === key) || selectedTab;
-		// 跳转到对应的 tab 组件
-		goto(resolve(`/setting?key=${selectedTab.key}`), {});
+		const query = new SvelteURLSearchParams();
+		query.set('key', selectedTab.key);
+		const url = `/(web)/setting?key=${selectedTab.key}` as '/setting';
+		await goto(resolve(url));
 	}
 </script>
 
 <main class="flex size-full flex-col items-center gap-4 overflow-hidden p-6">
-	{JSON.stringify(tabKey)}
 	{#if loginUserData}
 		<div class="size-full p-3 desktop:p-0">
 			<div class="flex size-full gap-3">
@@ -79,15 +81,11 @@
 					</nav>
 					<!-- Tab -->
 					<div class="mt-8 flex flex-1 overflow-hidden border border-primary py-4">
-						<!-- <svelte:component
-							this={selectedTab.component}
-						/> -->
-						{#snippet Component()}
-							{@const Component = selectedTab.component}
+						{#await import(`./1${selectedTab.key}.svelte`) then { default: Component }}
 							<Component />
-						{/snippet}
-						{@render Component()}
-						<!-- <svelte:component this={selectedTab.component} /> -->
+						{:catch error}
+							<div class="flex size-full items-center justify-center">Error: {error.message}</div>
+						{/await}
 					</div>
 				</div>
 			</div>
