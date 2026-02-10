@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
+	import Empty from '$lib/business/Empty.svelte';
 
 	const loginUserData = $derived.by(() => loginUserStore.user);
 
@@ -32,9 +33,10 @@
 	// 取出路由上的 key 参数
 	const tabKey = $derived.by(() => page.url.searchParams.get('key'));
 	// 选中的导航栏
-	let selectedTab: SettingTab = $state(
-		SettingTabs.find((tab) => tab.key === tabKey) || SettingTabs[0]
-	);
+	const selectedKey: SettingTab['key'] = $derived.by(() => {
+		if (!tabKey) return SettingTabs[0].key;
+		return tabKey;
+	});
 
 	/**
 	 * 选择导航栏
@@ -42,10 +44,9 @@
 	 * @param key 导航栏 key
 	 */
 	async function onSelectTab(key: string) {
-		selectedTab = SettingTabs.find((tab) => tab.key === key) || selectedTab;
 		const query = new SvelteURLSearchParams();
-		query.set('key', selectedTab.key);
-		const url = `/(web)/setting?key=${selectedTab.key}` as '/setting';
+		query.set('key', key);
+		const url = `/(web)/setting?key=${key}` as '/setting';
 		await goto(resolve(url));
 	}
 </script>
@@ -60,7 +61,7 @@
 						{#each SettingTabs as tab (tab.key)}
 							<div
 								class={cn('cursor-pointer text-lg text-(--text-sec)', {
-									'setting-nav-selected-tab': tab.key === selectedTab.key
+									'setting-nav-selected-tab': tab.key === selectedKey
 								})}
 								role="button"
 								tabindex="0"
@@ -72,11 +73,13 @@
 						{/each}
 					</nav>
 					<!-- Tab -->
-					<div class="mt-8 flex flex-1 overflow-hidden border border-primary py-4">
-						{#await import(`./components/${selectedTab.key}.svelte`) then { default: Component }}
+					<div class="mt-8 flex flex-1 overflow-hidden py-4">
+						{#await import(`./components/${selectedKey}.svelte`) then { default: Component }}
 							<Component />
 						{:catch error}
-							<div class="flex size-full items-center justify-center">Error: {error.message}</div>
+							<div class="size-full flex items-center justify-center">
+								<Empty size="40%" text={error.message} />
+							</div>
 						{/await}
 					</div>
 				</div>
