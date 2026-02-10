@@ -13,10 +13,7 @@
 	import { goto } from '$app/navigation';
 	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
 	import Avatar from '$lib/business/Avatar.svelte';
-	import SvelteMessageBox from '$lib/components/message-box';
 	import Hover from '$lib/components/interaction/Hover.svelte';
-	import { useRequest } from 'alova/client';
-	import { logoutUserApi } from '$lib/request/http-api/auth';
 	import type { RouteId } from '$app/types';
 
 	type NavItem = {

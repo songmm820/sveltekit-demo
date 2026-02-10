@@ -2,12 +2,8 @@
 	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
 	import { cn } from '$lib/utils/class';
 	import { page } from '$app/state';
-	import type { Component } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import ProfileTabItem from './Profile.svelte';
-	import NotificationTabItem from './Notification.svelte';
-	import SecurityTabItem from './Security.svelte';
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
 
 	const loginUserData = $derived.by(() => loginUserStore.user);
@@ -15,25 +11,21 @@
 	type SettingTab = {
 		key: string;
 		label: string;
-		component: Component;
 	};
 
 	// 设置导航栏
 	const SettingTabs: SettingTab[] = [
 		{
 			key: 'Profile',
-			label: '个人信息',
-			component: ProfileTabItem
+			label: '个人信息'
 		},
 		{
 			key: 'Notification',
-			label: '通知设置',
-			component: NotificationTabItem
+			label: '通知设置'
 		},
 		{
 			key: 'Security',
-			label: '安全设置',
-			component: SecurityTabItem
+			label: '安全设置'
 		}
 	];
 
@@ -81,7 +73,7 @@
 					</nav>
 					<!-- Tab -->
 					<div class="mt-8 flex flex-1 overflow-hidden border border-primary py-4">
-						{#await import(`./${selectedTab.key}.svelte`) then { default: Component }}
+						{#await import(`./components/${selectedTab.key}.svelte`) then { default: Component }}
 							<Component />
 						{:catch error}
 							<div class="flex size-full items-center justify-center">Error: {error.message}</div>
