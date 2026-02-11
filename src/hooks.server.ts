@@ -1,7 +1,7 @@
 // 服务器端钩子
 import type { Pathname } from '$app/types';
 import { verifyJwtToken } from '$lib/server/common/token';
-import { createDb } from '$lib/server/db/config';
+import '$lib/server/db/config';
 import { refreshTokenService, setLoginCookies } from '$lib/server/service/login-action';
 import { KeyAccessToken, KeyRefreshToken } from '$lib/stores/user-auth';
 import {
@@ -24,10 +24,7 @@ const PublicApiRoutes: Pathname[] = ['/api/auth/login', '/api/user/register'];
  * 它可以用于初始化应用程序，例如连接数据库、设置缓存或加载配置。
  * @see https://svelte.dev/docs/kit/hooks#Shared-hooks-init
  */
-export const init: ServerInit = async () => {
-	// 初始化数据库
-	createDb();
-};
+export const init: ServerInit = async () => {};
 
 /**
  * 该函数每次 SvelteKit 服务器接收到请求——无论是在应用运行时，还是在运行期间发生预渲染——并确定回应。

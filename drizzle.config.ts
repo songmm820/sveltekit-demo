@@ -15,7 +15,7 @@ export default defineConfig({
 	dbCredentials: {
 		host: process.env.TIDB_HOST!,
 		user: process.env.TIDB_NAME!,
-		port: Number(process.env.TIDB_POST)!,
+		port: Number(process.env.TIDB_PORT)!,
 		password: process.env.TIDB_PASSWORD!,
 		database: process.env.TIDB_DATABASE!,
 		ssl: {

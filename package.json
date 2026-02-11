@@ -57,7 +57,6 @@
 		"vite": "^7.2.6"
 	},
 	"dependencies": {
-		"@tidbcloud/serverless": "^0.2.0",
 		"alova": "^3.5.0",
 		"bcryptjs": "^3.0.3",
 		"class-variance-authority": "^0.7.1",

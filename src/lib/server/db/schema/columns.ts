@@ -14,7 +14,7 @@ export const atColumn = {
 	// 创建时间
 	createdAt: timestamp().defaultNow().notNull(),
 	// 修改时间
-	updatedAt: timestamp(),
+	updatedAt: timestamp().$onUpdate(() => new Date()),
 	// 删除时间
 	deletedAt: timestamp()
 };
