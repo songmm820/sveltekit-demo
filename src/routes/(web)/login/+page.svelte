@@ -74,7 +74,7 @@
 <main
 	class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden p-6 desktop:min-w-300"
 >
-	<div class="rounded-4x flex w-full flex-col items-center py-8 desktop:w-140 desktop:px-12">
+	<div class="rounded-4x flex w-full flex-col items-center py-8 desktop:w-140 tablet:px-12">
 		<Logo class="size-46" />
 		<div class="flex w-full flex-col gap-7">
 			<Label text="邮箱">

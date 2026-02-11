@@ -3,6 +3,7 @@
  - DialogInput 弹窗El元素
  - 自定义属性
 	 - open: boolean 弹窗是否打开
+	 - value?: string 输入框的值
      - title?: string 弹窗标题
 	 - message?: string 弹窗内容
      - placeholder?: string 输入框占位符
@@ -23,6 +24,7 @@
 
 	export type DialogInputElProps = {
 		open: boolean;
+		value?: string;
 		title?: string;
 		message?: string;
 		placeholder?: string;
@@ -38,6 +40,7 @@
 
 	let {
 		open = $bindable(false),
+		value: inputValue = $bindable(''),
 		title,
 		message,
 		placeholder,
@@ -49,7 +52,6 @@
 	}: DialogInputElProps = $props();
 
 	let buttonLoading: boolean = $state(false);
-	let inputValue: string = $state('');
 	let inputRef: Input | null = $state(null);
 
 	// 关闭弹窗
@@ -105,7 +107,7 @@
 		<div
 			in:dialogZoom|global={{ duration }}
 			out:dialogZoom|global={{ duration }}
-			class="my-dialog-alert-container w-94"
+			class="my-dialog-alert-container tablet:w-94 w-[90%]"
 			style:z-index={zIndex}
 		>
 			<div class="flex h-full w-full flex-col">
@@ -127,7 +129,7 @@
 					/>
 				</div>
 				{#if message}
-					<div class="mb-4 text-left text-md text-(--text-sec)">
+					<div class="mb-6 text-left text-md text-(--text-sec)">
 						{message}
 					</div>
 				{/if}

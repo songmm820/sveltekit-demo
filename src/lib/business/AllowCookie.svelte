@@ -24,7 +24,7 @@
 		className
 	)}
 >
-	<span class="text-sm desktop:text-md text-(--text-sec)">
+	<span class="text-sm tablet:text-md text-(--text-sec)">
 		<span>
 			本网站使用 cookie，用于在您的设备中储存信息。这些 cookie
 			可以使网站正常运行，以及帮助我们改进用户体验。使用本网站，即表示您接受放置这些 cookie。

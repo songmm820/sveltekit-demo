@@ -15,9 +15,16 @@
 		size?: number | string;
 		color?: string;
 		name: string;
+		onClick?: () => void;
 	};
 
-	let { class: className = '', size = '1em', name, color = 'currentColor' }: IconProps = $props();
+	let {
+		class: className = '',
+		size = '1em',
+		name,
+		color = 'currentColor',
+		onClick
+	}: IconProps = $props();
 
 	function getSize() {
 		if (typeof size === 'number') {
@@ -33,6 +40,10 @@
 	width={getSize()}
 	height={getSize()}
 	fill={color}
+	role={onClick ? 'button' : null}
+	aria-label={name}
+	onkeypress={() => onClick?.()}
+	onclick={() => onClick?.()}
 >
 	<use href={`#${name}`} />
 </svg>

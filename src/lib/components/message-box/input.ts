@@ -1,5 +1,6 @@
 import { mount, unmount } from 'svelte';
 import DialogInputEl from '$lib/components/dialog/DialogInputEl.svelte';
+import type { InputProps } from '$lib/components/input/Input.svelte';
 
 const DEFAULT_DURATION = 200;
 
@@ -13,12 +14,11 @@ function destroyInput() {
 	}
 }
 
-export type InputOptions = {
-	title?: string;
-	placeholder?: string;
+export type InputOptions = Pick<
+	InputProps,
+	'value' | 'title' | 'placeholder' | 'maxLength' | 'clear'
+> & {
 	message?: string;
-	maxLength?: number;
-	clear?: boolean;
 	onConfirm?: (value: string) => void | Promise<void>;
 	onCancel?: () => void | Promise<void>;
 };
@@ -33,6 +33,7 @@ export type InputOptions = {
  */
 function input(options: InputOptions) {
 	const {
+		value = '',
 		title = '温馨提示',
 		message,
 		placeholder,
@@ -49,11 +50,12 @@ function input(options: InputOptions) {
 		props: {
 			open: true,
 			duration: DEFAULT_DURATION,
-			placeholder,
+			placeholder: placeholder || '',
+			value,
 			maxLength,
 			clear,
 			message,
-			title,
+			title: title || '',
 			onCancel: async () => {
 				await Promise.resolve(onCancel?.()); // 支持异步操作
 			},

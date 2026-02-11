@@ -13,7 +13,6 @@
 	import { goto } from '$app/navigation';
 	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
 	import Avatar from '$lib/business/Avatar.svelte';
-	import Hover from '$lib/components/interaction/Hover.svelte';
 	import type { RouteId } from '$app/types';
 
 	type NavItem = {
@@ -47,24 +46,8 @@
 	// 判断是否登录
 	const isLogin: boolean = $derived.by(() => Boolean(loginUserStore.user?.id));
 
-	// const { send } = useRequest(() => logoutUserApi(), {
-	// 	immediate: false
-	// });
-
-	// 退出登录
-	function onLogout() {
-		// SvelteMessageBox.confirm({
-		// 	title: '确认退出登录吗？',
-		// 	message: '退出登录后，您需要重新登录才能继续使用云服务，是否继续？',
-		// 	confirmText: '退出登录',
-		// 	cancelText: '取消',
-		// 	onConfirm: async () => {
-		// 		const res = await send();
-		// 		if (res.payload) {
-		// 			goto(resolve('/login'));
-		// 		}
-		// 	}
-		// });
+	// 跳转设置页面
+	function onGotoSetting() {
 		goto(resolve('/setting'));
 	}
 
@@ -74,13 +57,7 @@
 	}
 </script>
 
-<header
-	class={cn(
-		'bg-(--background) text-(--text)',
-		'flex items-center border-b border-(--border-sec) pr-4 pl-7 ',
-		className
-	)}
->
+<header class={cn('flex items-center border-b border-(--border-sec) pr-4 pl-7 ', className)}>
 	<img src={logo} alt="logo" class="mr-9 size-10" />
 	<nav class="flex size-full flex-1 items-center justify-between">
 		<div class="flex items-center gap-8">
@@ -96,9 +73,12 @@
 	</nav>
 
 	{#if isLogin && loginUserStore.user?.nickName}
-		<Hover as="div" class="p-1" onClick={() => onLogout()}>
-			<Avatar rounded={true} name={loginUserStore.user?.nickName} />
-		</Hover>
+		<Avatar
+			class="cursor-pointer"
+			rounded={true}
+			name={loginUserStore.user?.nickName}
+			onClick={() => onGotoSetting()}
+		/>
 	{:else}
 		<div
 			role="button"

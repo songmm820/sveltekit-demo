@@ -53,7 +53,7 @@
 </script>
 
 <main class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden p-6">
-	<div class="flex w-full desktop:w-140 flex-col items-center">
+	<div class="flex w-full desktop:w-140 tablet:px-12 flex-col items-center">
 		<Logo class="size-46" />
 		<div class="flex w-full flex-col gap-7">
 			<Label text="昵称">

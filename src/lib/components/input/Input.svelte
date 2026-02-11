@@ -46,8 +46,10 @@
 		id = _id,
 		rounded = true,
 		class: className = '',
-		clear = true,
+		clear = false,
 		maxLength,
+		readonly = false,
+		disabled = false,
 		block,
 		prefix,
 		suffix,
@@ -66,11 +68,19 @@
 			},
 			block: {
 				true: 'w-full',
-				false: 'w-80'
+				false: 'tablet:w-80 w-full'
 			},
 			clear: {
 				true: 'pr-3 pl-6',
 				false: 'px-6'
+			},
+			readonly: {
+				true: 'cursor-default',
+				false: ''
+			},
+			disabled: {
+				true: 'cursor-not-allowed',
+				false: ''
 			}
 		},
 		defaultVariants: {
@@ -102,29 +112,43 @@
 
 	export function onClear() {
 		value = '';
+		// 触发输入框值变化事件
+		inputEl.focus();
 	}
 </script>
 
-<div class={cn(inputVariants({ rounded, block, clear: showClear }), 'h-12', className)}>
+<div
+	class={cn(
+		inputVariants({ rounded, block, clear: showClear, readonly, disabled }),
+		'h-12',
+		className
+	)}
+>
 	{#if prefix}
 		<div class="px-2">{@render prefix()}</div>
 	{/if}
 	<input
 		bind:this={inputEl}
 		{id}
-		class="my-input"
+		class="my-input min-w-0"
 		bind:value={() => value, (v) => (value = onFormatValue(v))}
 		maxlength={maxLength}
+		{readonly}
+		{disabled}
 		{...other}
 		oninput={handleInput}
 	/>
 	{#if Number(maxLength) > 0 && value.length > 0}
-		<span class="px-2 text-sm text-(--text-sec)">{value.length} / {maxLength}</span>
+		<span class="px-2 text-md whitespace-nowrap text-(--text-sec)">
+			{value.length} / {maxLength}
+		</span>
 	{/if}
 	{#if showClear}
 		<Icon
-			class="cursor-pointer text-(--text-sec) transition-all hover:brightness-90"
+			class="shrink-0 cursor-pointer text-(--text-sec) transition-all hover:brightness-90"
 			name="close"
+			size="16"
+			onClick={() => onClear()}
 		/>
 	{/if}
 
@@ -145,6 +169,7 @@
 	}
 
 	.my-input {
-		@apply h-full flex-1 border-none bg-transparent text-base text-(--text) outline-none;
+		@apply h-full flex-1 cursor-[inherit] border-none bg-transparent text-base text-(--text) 
+		outline-none;
 	}
 </style>
