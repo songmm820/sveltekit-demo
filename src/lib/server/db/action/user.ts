@@ -42,7 +42,8 @@ export async function queryUserByIdDb(userId: string) {
 		.select({
 			id: UserSchema.id,
 			email: UserSchema.email,
-			nickName: UserSchema.nickName
+			nickName: UserSchema.nickName,
+			remark: UserSchema.remark
 		})
 		.from(UserSchema)
 		.where(eq(UserSchema.id, userId))
@@ -56,15 +57,15 @@ export async function queryUserByIdDb(userId: string) {
  * @param user 用户信息
  */
 export async function insertUserDb(input: SysUserRegisterInput) {
-	const { lastInsertId, rowsAffected } = await db.insert(UserSchema).values({
-		nickName: input.nickName,
-		email: input.email,
-		hashedPassword: input.password
-	});
-	return {
-		lastInsertId,
-		rowsAffected
-	};
+	const [result] = await db
+		.insert(UserSchema)
+		.values({
+			nickName: input.nickName,
+			email: input.email,
+			hashedPassword: input.password
+		})
+		.$returningId();
+	return result.id;
 }
 
 /**
@@ -77,12 +78,14 @@ export async function updateUserByIdDb(
 	userId: string,
 	input: SysUserUpdateInput
 ): Promise<boolean> {
-	const { rowsAffected } = await db
+	const [result] = await db
 		.update(UserSchema)
 		.set({
 			nickName: input.nickName,
-			email: input.email
+			email: input.email,
+			remark: input.remark
 		})
-		.where(eq(UserSchema.id, userId));
-	return Number(rowsAffected) > 0;
+		.where(eq(UserSchema.id, userId))
+		.$dynamic();
+	return result.affectedRows > 0;
 }

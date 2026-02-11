@@ -23,7 +23,7 @@
 
 	type OmitHTMLInputAttributes = Omit<
 		HTMLInputAttributes,
-		'value' | 'onchange' | 'prefix' | 'suffix' | 'class' | 'maxlength'
+		'value' | 'onchange' | 'class' | 'maxlength'
 	>;
 
 	export type InputProps = OmitHTMLInputAttributes & {
@@ -68,7 +68,7 @@
 			},
 			block: {
 				true: 'w-full',
-				false: 'tablet:w-80 w-full'
+				false: 'w-full tablet:w-80'
 			},
 			clear: {
 				true: 'pr-3 pl-6',

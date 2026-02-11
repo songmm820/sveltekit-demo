@@ -1,9 +1,10 @@
 // 登录用户数据
 
-type LoginUserData = {
+export type LoginUserData = {
 	id: string;
 	nickName: string;
 	email: string;
+	remark?: string;
 };
 
 export const loginUserStore: {

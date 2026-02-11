@@ -23,6 +23,7 @@ export type SysUserLoginInput = z.infer<typeof SysUserLoginValidator>;
 // Zod 验证器: 修改用户信息
 export const SysUserUpdateValidator = z.strictObject({
 	nickName: z.string().min(2, '昵称至少需要2个字符').max(256, '昵称不能超过256个字符').optional(),
-	email: z.email('请输入有效的邮箱地址').optional()
+	email: z.email('请输入有效的邮箱地址').optional(),
+	remark: z.string().max(256, '个人介绍不能超过256个字符').optional(),
 });
 export type SysUserUpdateInput = z.infer<typeof SysUserUpdateValidator>;

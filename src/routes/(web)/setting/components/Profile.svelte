@@ -5,12 +5,13 @@
 	import { logoutUserApi } from '$lib/request/http-api/auth';
 	import { useRequest } from 'alova/client';
 	import { resolve } from '$app/paths';
-	import { goto } from '$app/navigation';
 	import Avatar from '$lib/business/Avatar.svelte';
-	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
+	import { loginUserStore, type LoginUserData } from '$lib/stores/login-user-store.svelte';
 	import Input from '$lib/components/input/Input.svelte';
 	import { updateUserApi } from '$lib/request/http-api/user';
 	import { onGetCurrentLoginUser } from '$lib/stores/user-auth';
+	import { goto } from '$app/navigation';
+	import Textarea from '$lib/components/input/Textarea.svelte';
 
 	const { send } = useRequest(logoutUserApi, {
 		immediate: false
@@ -19,6 +20,9 @@
 	const { send: updateUserSend } = useRequest(updateUserApi, {
 		immediate: false
 	});
+
+	// 登录用户数据
+	let myUserInfo: LoginUserData | null = $state(null);
 
 	/**
 	 * 更新用户名
@@ -54,6 +58,25 @@
 		});
 	}
 
+	/**
+	 * 更新个人介绍
+	 *
+	 * @param remark 个人介绍
+	 */
+	async function onUpdateRemark(remark: string) {
+		if (remark === loginUserStore?.user?.remark) return;
+		const { payload } = await updateUserSend({
+			remark
+		});
+		if (payload) {
+			SvelteMessageBox.toast({
+				message: '个人介绍修改成功',
+				status: 'success'
+			});
+			await onGetCurrentLoginUser();
+		}
+	}
+
 	// 退出登录
 	function onLogout() {
 		SvelteMessageBox.confirm({
@@ -69,6 +92,13 @@
 			}
 		});
 	}
+
+	$effect(() => {
+		const user = loginUserStore.user;
+		if (user) {
+			myUserInfo = { ...user };
+		}
+	});
 </script>
 
 <!-- 分割线 -->
@@ -76,13 +106,13 @@
 	<div class="my-4 h-px bg-(--border)"></div>
 {/snippet}
 
-{#if loginUserStore.user}
+{#if myUserInfo}
 	<div class="flex size-full flex-col gap-2">
 		<div
 			class="setting-title flex w-full flex-col items-center justify-between gap-2 tablet:flex-row tablet:gap-0"
 		>
 			<div class="mr-0 aspect-square w-12 tablet:mr-6">
-				<Avatar class="size-full" name={loginUserStore.user.nickName} />
+				<Avatar class="size-full" name={myUserInfo.nickName} />
 			</div>
 			<div class="flex-1 text-center tablet:text-left">
 				<div class="text-2xl font-bold">个人信息</div>
@@ -103,9 +133,9 @@
 				<div class="item-babel">用户昵称</div>
 				<div class="item-value">
 					<Input
-						value={loginUserStore.user.nickName}
+						value={myUserInfo?.nickName}
 						readonly
-						onfocus={() => onUpdateNickName(loginUserStore.user?.nickName ?? '')}
+						onfocus={() => onUpdateNickName(myUserInfo?.nickName ?? '')}
 					/>
 				</div>
 			</div>
@@ -115,9 +145,22 @@
 				<div class="item-babel">邮箱</div>
 				<div class="item-value">
 					<Input
-						value={loginUserStore.user.email}
+						value={myUserInfo?.email}
 						readonly
-						onfocus={() => onUpdateNickName(loginUserStore.user?.nickName ?? '')}
+						onfocus={() => onUpdateNickName(myUserInfo?.email ?? '')}
+					/>
+				</div>
+			</div>
+
+			<!-- 个人介绍 -->
+			<div class="setting-profile-item">
+				<div class="item-babel">个人介绍</div>
+				<div class="item-value">
+					<Textarea
+						bind:value={myUserInfo.remark}
+						maxLength={256}
+						rows={5}
+						onblur={() => onUpdateRemark(myUserInfo?.remark ?? '')}
 					/>
 				</div>
 			</div>

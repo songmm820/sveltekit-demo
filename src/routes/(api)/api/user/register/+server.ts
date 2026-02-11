@@ -20,17 +20,17 @@ export const POST = createApiHandler(async (event) => {
 	}
 	const hashedPassword = await hashPassword(body.password);
 	// 开始注册
-	const { lastInsertId, rowsAffected } = await insertUserDb({
+	const newId = await insertUserDb({
 		nickName: body.nickName,
 		email: body.email,
-		password: hashedPassword
+		password: hashedPassword,
 	});
-	if (rowsAffected === 0) {
+	if (!newId) {
 		throw new HttpApiError('用户注册失败');
 	}
 	return json(
 		HttpResponse.success<RegisterResponse>({
-			userId: String(lastInsertId)
+			userId: String(newId)
 		})
 	);
 });

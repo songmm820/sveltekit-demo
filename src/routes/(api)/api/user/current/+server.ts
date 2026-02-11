@@ -8,6 +8,7 @@ type LoginUserData = {
 	id: string;
 	nickName: string;
 	email: string;
+	remark?: string;
 };
 
 /**
@@ -26,7 +27,8 @@ export const GET = createApiHandler(async (event) => {
 		HttpResponse.success<LoginUserData>({
 			id: user.id,
 			nickName: user.nickName,
-			email: user.email
+			email: user.email,
+			remark: user.remark ?? ''
 		})
 	);
 });

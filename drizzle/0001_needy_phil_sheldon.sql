@@ -1,0 +1,1 @@
+ALTER TABLE `sys_users` ADD `remark` varchar(256);

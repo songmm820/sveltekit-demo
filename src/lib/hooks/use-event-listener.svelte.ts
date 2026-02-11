@@ -1,3 +1,5 @@
+import { onMount } from "svelte";
+
 type Target = HTMLElement | Window | Document | null;
 
 type EventListenerOptions = AddEventListenerOptions & {
@@ -12,7 +14,6 @@ type EventListenerOptions = AddEventListenerOptions & {
  * @param eventName 事件名称
  * @param listener  事件回调
  * @param options 监听选项
- * @returns 取消监听函数
  */
 export default function useEventListener<K extends keyof HTMLElementEventMap>(
 	ref: Target | (() => Target),
@@ -27,7 +28,7 @@ export default function useEventListener<K extends keyof HTMLElementEventMap>(
 		immediate: false
 	};
 
-	$effect(() => {
+	onMount(() => {
 		const _el = typeof ref === 'function' ? ref() : ref;
 		if (!_el) return;
 		_el.addEventListener(eventName, listener as EventListener, options);

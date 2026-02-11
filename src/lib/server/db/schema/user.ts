@@ -7,5 +7,6 @@ export const UserSchema = table('sys_users', {
 	nickName: varchar({ length: 256 }).notNull(),
 	email: varchar({ length: 256 }).notNull().unique('idx_users_email'),
 	hashedPassword: varchar({ length: 256 }).notNull(),
+	remark: varchar({ length: 256 }),
 	...atColumn
 });

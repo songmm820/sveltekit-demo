@@ -8,8 +8,6 @@
 	import Image from '$lib/components/image/Image.svelte';
 	import logo from '$lib/assets/svg/logo.svg';
 	import FloatElement from '$lib/components/float-element/FloatElement.svelte';
-	import useEventListener from '$lib/hooks/use-event-listener.svelte';
-	import { browser } from '$app/environment';
 	import Button from '$lib/components/button/Button.svelte';
 	import Drawer, { type DrawerProps } from '$lib/components/drawer/Drawer.svelte';
 
@@ -70,23 +68,6 @@
 
 	let floatElementOpen: boolean = $state(false);
 
-	if (browser) {
-		useEventListener(
-			document,
-			'scroll',
-			() => {
-				const scrollTop = document.documentElement.scrollTop;
-				if (scrollTop > 200) {
-					floatElementOpen = true;
-				} else {
-					floatElementOpen = false;
-				}
-			},
-			{
-				immediate: true
-			}
-		);
-	}
 
 	function handleOpenDrawer(direction: DrawerProps['direction'], target?: HTMLElement) {
 		drawerDirection = direction;

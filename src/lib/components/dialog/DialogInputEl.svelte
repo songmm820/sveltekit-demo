@@ -124,6 +124,7 @@
 						{placeholder}
 						{maxLength}
 						{clear}
+						spellcheck={false}
 						autocomplete="off"
 						autofocus
 					/>

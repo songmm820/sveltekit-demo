@@ -52,8 +52,8 @@
 	}
 
 	// 跳转工作台
-	function onGotoLogin() {
-		goto(resolve('/login'));
+	async function onGotoLogin() {
+		await goto(resolve('/login'));
 	}
 </script>
 
