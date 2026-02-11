@@ -4,7 +4,6 @@
 	import Button from '$lib/components/button/Button.svelte';
 	import Input from '$lib/components/input/Input.svelte';
 	import SvelteMessageBox from '$lib/components/message-box';
-	import { getZodErrorMessage } from '$lib/zod';
 	import { SysUserLoginValidator, type SysUserLoginInput } from '$lib/zod/user';
 	import { resolve } from '$app/paths';
 	import Label from '$lib/components/form/Label.svelte';
@@ -14,17 +13,18 @@
 	import { setLoginUser } from '$lib/stores/login-user-store.svelte';
 	import { userLoginApi } from '$lib/request/http-api/auth';
 	import type { RouteId } from '$app/types';
+	import { getZodErrorMessage } from '$lib/utils/zod';
 
 	let loginFormData: SysUserLoginInput = $state({
 		email: 'mmsong@yeah.net',
 		password: '12345678'
 	});
 
-	const { loading, send: sendLogin } = useRequest(() => userLoginApi(loginFormData), {
+	const { loading, send: sendLogin } = useRequest(userLoginApi, {
 		immediate: false
 	});
 
-	const { send: sendCurrentLoginUser } = useRequest(() => currentLoginUserApi(), {
+	const { send: sendCurrentLoginUser } = useRequest(currentLoginUserApi, {
 		immediate: false
 	});
 
@@ -37,7 +37,7 @@
 
 	// 登录
 	async function onLogin() {
-		const { payload } = await sendLogin();
+		const { payload } = await sendLogin(loginFormData);
 		const accessToken = payload?.accessToken;
 		const refreshToken = payload?.refreshToken;
 		if (!accessToken || !refreshToken) return;

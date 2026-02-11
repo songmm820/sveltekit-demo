@@ -1,10 +1,6 @@
 import { createApiHandler } from '$lib/server/common/route-handler';
 import { HttpApiError, HttpResponse } from '$lib/request/http-response';
 import { json } from '@sveltejs/kit';
-import { db } from '$lib/server/db/config';
-import { SysUserLoginValidator, type SysUserLoginInput } from '$lib/zod/user';
-import { UserSchema } from '$lib/server/db/schema';
-import { and, eq } from 'drizzle-orm';
 import { comparePassword } from '$lib/server/common/password';
 import {
 	generateAccessToken,
@@ -16,6 +12,8 @@ import { setLoginCookies } from '$lib/server/service/login-action';
 import type { LoginResponse } from '$lib/request/http-api/auth';
 import { saveRefreshTokenDb } from '$lib/server/db/action/auth';
 import { HttpResponseCodeEnum } from '$lib/request/http-code';
+import { SysUserLoginValidator, type SysUserLoginInput } from '$lib/zod/user';
+import { queryUserByEmailDb } from '$lib/server/db/action/user';
 
 /**
  * 用户邮箱密码登录
@@ -24,15 +22,7 @@ export const POST = createApiHandler(async (event) => {
 	const body = (await event.request.json()) as SysUserLoginInput;
 	SysUserLoginValidator.parse(body);
 	// 开始登录
-	const [user] = await db
-		.select({
-			id: UserSchema.id,
-			email: UserSchema.email,
-			hashedPassword: UserSchema.hashedPassword
-		})
-		.from(UserSchema)
-		.where(and(eq(UserSchema.email, body.email)))
-		.limit(1);
+	const user = await queryUserByEmailDb(body.email);
 	// 检查用户是否存在
 	if (!user) {
 		throw new HttpApiError(HttpResponseCodeEnum.EmailNoRegister);

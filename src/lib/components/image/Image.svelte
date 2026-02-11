@@ -41,9 +41,7 @@
 	function handleClickImage() {
 		onClick?.();
 		if (!preview) return;
-		console.log('click image', imagePreviewDialogEl);
 		if (!imagePreviewDialogEl) {
-			console.log('open image preview dialog');
 			imagePreviewDialogEl = mount(ImagePreviewDialogEl, {
 				target: document.body,
 				props: {
@@ -55,9 +53,7 @@
 					}
 				}
 			});
-			console.log('click image', imagePreviewDialogEl);
 		} else {
-			console.log('close image preview dialog');
 			unmount(imagePreviewDialogEl);
 			// imagePreviewDialogEl = null;
 		}

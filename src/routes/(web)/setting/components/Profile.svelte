@@ -9,8 +9,14 @@
 	import Avatar from '$lib/business/Avatar.svelte';
 	import { loginUserStore } from '$lib/stores/login-user-store.svelte';
 	import Input from '$lib/components/input/Input.svelte';
+	import { updateUserApi } from '$lib/request/http-api/user';
+	import { onGetCurrentLoginUser } from '$lib/stores/user-auth';
 
-	const { send } = useRequest(() => logoutUserApi(), {
+	const { send } = useRequest(logoutUserApi, {
+		immediate: false
+	});
+
+	const { send: updateUserSend } = useRequest(updateUserApi, {
 		immediate: false
 	});
 
@@ -26,13 +32,23 @@
 			message: '注意：改名有风险，手滑需谨慎！7 天冷却期可不是闹着玩的，想好了再点确认~',
 			value: currentNickName,
 			maxLength: 26,
-			onConfirm: (value: string) => {
+			onConfirm: async (value: string) => {
 				if (!value.trim()) {
 					SvelteMessageBox.toast({
 						message: '用户昵称不能为空',
 						status: 'error'
 					});
 					return Promise.reject('用户昵称不能为空');
+				}
+				const { payload } = await updateUserSend({
+					nickName: value
+				});
+				if (payload) {
+					SvelteMessageBox.toast({
+						message: '用户昵称更新成功',
+						status: 'success'
+					});
+					await onGetCurrentLoginUser();
 				}
 			}
 		});
@@ -81,7 +97,8 @@
 		</div>
 		{@render Divider()}
 
-		{#if loginUserStore.user.nickName}
+		<div class="flex size-full flex-col gap-3">
+			<!-- 用户昵称 -->
 			<div class="setting-profile-item">
 				<div class="item-babel">用户昵称</div>
 				<div class="item-value">
@@ -92,7 +109,19 @@
 					/>
 				</div>
 			</div>
-		{/if}
+
+			<!-- 邮箱 -->
+			<div class="setting-profile-item">
+				<div class="item-babel">邮箱</div>
+				<div class="item-value">
+					<Input
+						value={loginUserStore.user.email}
+						readonly
+						onfocus={() => onUpdateNickName(loginUserStore.user?.nickName ?? '')}
+					/>
+				</div>
+			</div>
+		</div>
 	</div>
 {/if}
 
@@ -100,9 +129,9 @@
 	@reference '#app.css';
 
 	.setting-profile-item {
-		@apply flex h-12 w-full flex-col gap-4 
-		tablet:flex-row tablet:items-center tablet:justify-between 
-		desktop:gap-120;
+		@apply flex w-full flex-col gap-4 tablet:flex-row 
+		tablet:justify-between
+		tablet:py-3;
 	}
 	.item-babel {
 		@apply font-bold text-(--text) tablet:text-2xl;

@@ -126,7 +126,7 @@
 		style:z-index={zIndex}
 		style:transform={`translateY(${offsetY}px)`}
 	>
-		<div class="flex items-center gap-2">
+		<div class="flex items-center justify-center gap-2">
 			{@render icon(status)}
 			<span class="text-md text-(--text-sec)">{message}</span>
 		</div>
@@ -143,6 +143,6 @@
 	@reference '#app.css';
 
 	.my-toast {
-		@apply fixed min-w-40 bg-(--toast) px-5 py-3 text-md shadow-md transition-all dark:border dark:border-(--border-sec);
+		@apply fixed min-w-30 bg-(--toast) px-5 py-3 text-md shadow-md transition-all dark:border dark:border-(--border-sec);
 	}
 </style>

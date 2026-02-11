@@ -1,9 +1,7 @@
 import { HttpApiError, HttpResponse } from '$lib/request/http-response';
 import { createApiHandler } from '$lib/server/common/route-handler';
-import { db } from '$lib/server/db/config';
-import { UserSchema } from '$lib/server/db/schema';
+import { queryUserByEmailDb } from '$lib/server/db/action/user';
 import { json } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
 
 /**
  * 检查邮箱是否已注册
@@ -16,7 +14,7 @@ export const GET = createApiHandler(async (event) => {
 		throw new HttpApiError('邮箱不能为空');
 	}
 	const searchEmail = email.trim().toLowerCase();
-	const user = await db?.select().from(UserSchema).where(eq(UserSchema.email, searchEmail)).limit(1);
-	const isExist = user && user.length > 0;
-	return json(HttpResponse.success(isExist) );
+	const user = await queryUserByEmailDb(searchEmail);
+	const isExist = Boolean(user);
+	return json(HttpResponse.success(isExist));
 });

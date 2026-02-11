@@ -17,8 +17,8 @@ export const init: ClientInit = async () => {
  * 它可以用于记录错误、通知用户或执行其他自定义操作。
  * @see https://svelte.dev/docs/kit/hooks#Shared-hooks-handleError
  */
-export const handleError: HandleClientError = ({ error }) => {
+export const handleError: HandleClientError = (e) => {
 	// 处理客户端错误
-	console.error('客户端错误:', error);
+	console.error('客户端错误:', JSON.stringify(e));
 	// 可以添加日志记录、通知用户等
 };

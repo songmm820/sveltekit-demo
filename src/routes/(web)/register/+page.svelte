@@ -4,12 +4,12 @@
 	import Button from '$lib/components/button/Button.svelte';
 	import Input from '$lib/components/input/Input.svelte';
 	import SvelteMessageBox from '$lib/components/message-box';
-	import { getZodErrorMessage } from '$lib/zod';
 	import { SysUserRegisterValidator, type SysUserRegisterInput } from '$lib/zod/user';
 	import { resolve } from '$app/paths';
 	import Label from '$lib/components/form/Label.svelte';
 	import { useRequest } from 'alova/client';
 	import { userRegisterApi } from '$lib/request/http-api/user';
+	import { getZodErrorMessage } from '$lib/utils/zod';
 
 	let registerFormData: SysUserRegisterInput = $state({
 		nickName: 'SongMingMing',
@@ -17,13 +17,13 @@
 		password: '12345678'
 	});
 
-	const { loading, send } = useRequest(() => userRegisterApi(registerFormData), {
+	const { loading, send } = useRequest(userRegisterApi, {
 		immediate: false
 	});
 
 	// 注册
 	async function onRegister() {
-		const { payload } = await send();
+		const { payload } = await send(registerFormData);
 		if (!payload?.userId) return;
 		SvelteMessageBox.toast({
 			message: '注册成功',
@@ -53,7 +53,7 @@
 </script>
 
 <main class="flex h-full w-full flex-col items-center justify-center gap-4 overflow-hidden p-6">
-	<div class="flex w-full desktop:w-140 tablet:px-12 flex-col items-center">
+	<div class="flex w-full flex-col items-center tablet:px-12 desktop:w-140">
 		<Logo class="size-46" />
 		<div class="flex w-full flex-col gap-7">
 			<Label text="昵称">

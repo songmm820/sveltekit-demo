@@ -57,7 +57,13 @@
 	}
 </script>
 
-<header class={cn('flex items-center border-b border-(--border-sec) pr-4 pl-7 ', className)}>
+<header
+	class={cn(
+		'bg-(--background) text-(--text)',
+		'flex items-center border-b border-(--border-sec) pr-4 pl-7 ',
+		className
+	)}
+>
 	<img src={logo} alt="logo" class="mr-9 size-10" />
 	<nav class="flex size-full flex-1 items-center justify-between">
 		<div class="flex items-center gap-8">
